@@ -1,0 +1,41 @@
+<div class="w-100 h-100">
+  <div class="data-section w-100 d-flex flex-row">
+    <div class="profile-data">
+      <ng-container *ngIf="!edit; else editTemplate">
+        <h5>Name: <span class="ml-2">{{ userData.userName }}</span></h5>
+        <h5>AvatarURL: <span class="ml-2">{{ userData.photoURL }}</span></h5>
+      </ng-container>
+      <ng-template #editTemplate>
+        <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+          <mat-form-field class="w-100 ">
+            <h5> Name:
+              <input matInput ngModel name="name" type="text" [value]="userData.userName" class="ml-3 mr-3 mt-3 text-primary">
+            </h5>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <h5> AvatarURL:
+              <input matInput type="text" ngModel name="photoURL" [value]="userData.photoURL" class="ml-3 mr-3 mt-3 text-primary">
+            </h5>
+          </mat-form-field>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button class="btn btn-danger ml-5" (click)="editPersonalDataToggle()">Cancel</button>
+        </form>
+      </ng-template>
+    </div>
+    <div class="avatar ml-auto">
+      <img src=`${userData.photoURL}` alt="avatar" *ngIf="userData.photoURL; else avatarPic">
+      <ng-template #avatarPic>
+        <img src="../../../assets/150631-OUD927-864.jpg" alt="avatar" id="siteAvatar">
+      </ng-template>
+    </div>
+  </div>
+  <div class="mt-5">
+    <h4>ToP 10 BoardGame</h4>
+    <app-user-top-list></app-user-top-list>
+  </div>
+  <div class="text-center mt-5" *ngIf="!edit">
+    <button class="btn btn-primary">Update My Top 10</button>
+    <button class="btn btn-primary ml-3" (click)="editPersonalDataToggle()">Change Display Data</button>
+  </div>
+</div>
+<a href="https://www.freepik.com/free-photos-vectors/people">People vector created by freepik - www.freepik.com</a>

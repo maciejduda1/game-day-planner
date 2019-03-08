@@ -1,0 +1,14 @@
+<mat-toolbar class="">
+  <ul class="nav w-100">
+    <li class="nav-item"> <a class="nav-link" (click)="goMain()">Gameday Calendar</a></li>
+    <li class="nav-item"> <a class="nav-link">Top 10 list</a></li>
+    <li class="nav-item"> <a class="nav-link">Gameplay Ratio</a></li>
+    <ng-container *ngIf="!this.loginState">
+      <li class="nav-item ml-md-auto"> <a (click)="goAuthenticate()" class="nav-link">Login / Register</a></li>
+    </ng-container>
+    <ng-container *ngIf="this.loginState">
+      <li class="nav-item mr-5"><a class="nav-link" (click)="goProfile()">Profile</a></li>
+      <li class="nav-item ml-md-auto"> <a (click)="logoutUser()" class="nav-link">LogOut</a></li>
+    </ng-container>
+  </ul>
+</mat-toolbar>

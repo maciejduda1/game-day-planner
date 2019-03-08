@@ -1,0 +1,50 @@
+// font-family: 'Permanent Marker', cursive;
+// font-family: 'Alfa Slab One', cursive;
+// font-family: 'Concert One', cursive;
+#site-frame {
+  margin: 0 auto;
+  max-width: 1200px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.router-outlet {
+  background-color: #292929;
+  color: white;
+  margin-top: 20px;
+  flex: 2;
+}
+
+.header {
+  width: 100%;
+  // background: linear-gradient(#2f3031, #0a0a0a);
+  background-image: url('../../images/clouds-mountain.jpg');
+  background-size: cover;
+  background-position: left;
+  background-repeat: no-repeat;
+  filter: grayscale(100%);
+  &:after {
+    content: '';
+    background-image: url('../../images/lovecraft-transparent.png'), url('../../images/cthulhu-right.jpg');
+    background-size: contain, contain;
+    background-position: left, right;
+    background-repeat: no-repeat, no-repeat;
+    opacity: 0.3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  .page-title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .page-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 3rem;
+    }
+  }
+}

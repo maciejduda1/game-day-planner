@@ -1,0 +1,34 @@
+<ng-container *ngIf="gameEvent">
+  <h4>Event Name: {{gameEvent.name}}</h4>
+  <p>Date: {{gameEvent.date }}</p>
+  <h6>Proponowane gry:</h6>
+  <ul *ngFor="let item of gameEvent.games">
+    <li *ngIf="item">{{item}}</li>
+  </ul>
+  <hr>
+  <div class="text-right">
+    <button class="ml-auto" mat-button (click)="toggleComment()">Add Comment</button>
+    <ng-container *ngIf="commentMode">
+      <form (ngSubmit)="addComment(form, gameEvent)" #form="ngForm" novalidate class="d-flex flex-column">
+        <textarea ngModel name="comment" id="" cols="30" rows="10" class="flex-2"></textarea>
+        <div class="text-center">
+          <button mat-button type="submit" class="mr-3">Add Comment</button>
+          <button mat-button type="button" (click)="toggleComment()">Cancel</button>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</ng-container>
+
+<hr>
+
+<ng-container *ngIf="!!commentsArray">
+  <ng-container *ngFor="let item of commentsArray">
+    <div class="w-100 border">
+      <p>Author {{item.creatorId}}</p>
+      <p>{{item.comment}}</p>
+    </div>
+  </ng-container>
+</ng-container>
+
+

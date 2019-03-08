@@ -1,0 +1,19 @@
+<form class="w-100 text-center" (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+  <mat-form-field>
+    <input ngModel matInput placeholder="Email" email name="email">
+  </mat-form-field>
+  <br>
+  <mat-form-field >
+    <input ngModel matInput placeholder="Password" name="password">
+  </mat-form-field>
+  <div class="text-center">
+    <button mat-raised-button type="submit">Login</button>
+  </div>
+</form>
+
+<p class="text-center mt-3">
+  No account ? Click below to register
+</p>
+<div class="w-100 text-center">
+  <button mat-raised-button (click)="goRegister()" class="btn-info">Register</button>
+</div>
