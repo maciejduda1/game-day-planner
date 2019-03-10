@@ -23,12 +23,20 @@
 <hr>
 
 <ng-container *ngIf="!!commentsArray">
-  <ng-container *ngFor="let item of commentsArray">
-    <div class="w-100 border">
-      <p>Author {{item.creatorId}}</p>
-      <p>{{item.comment}}</p>
+  <div class="comments-container pl-3 pr-3">
+    <div *ngFor="let item of commentsArray" class="comments-container border d-flex m-1">
+      <div class="m-3">
+        <p class="text-center w-100 comment-author">{{item.creatorName}}</p>
+        <div class="avatar">
+          <img src=`${item.creatorAvatar}` alt="avatar" *ngIf="item.creatorAvatar; else avatarPic">
+          <ng-template #avatarPic>
+            <img src="../../../assets/150631-OUD927-864.jpg" alt="avatar" id="siteAvatar">
+          </ng-template>
+        </div>
+      </div>
+      <p class="text-center mt-5 ml-auto mr-auto">{{item.comment}}</p>
     </div>
-  </ng-container>
+  </div>
 </ng-container>
 
 

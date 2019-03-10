@@ -86,7 +86,7 @@ export class AddComment implements Action {
 }
 export class AddCommentSuccess implements Action {
   readonly type = ADD_COMMENT_SUCCESS;
-  constructor(public payload: any) {}
+  // constructor(public payload: any) {}
 }
 export class AddCommentFail implements Action {
   readonly type = ADD_COMMENT_FAIL;

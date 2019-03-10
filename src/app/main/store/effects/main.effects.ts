@@ -72,7 +72,7 @@ export class MainEffects {
       switchMap( (action: mainActions.AddComment) => {
         return this.getMainService.addCommentToDatabase(action.payload)
           .then(
-            (res) => new mainActions.AddCommentSuccess(res)
+            (res) => new mainActions.AddCommentSuccess()
           )
           .catch(
             error => of(new mainActions.AddCommentFail(error))

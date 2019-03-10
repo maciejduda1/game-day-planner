@@ -50,7 +50,8 @@ export class EventModalComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(this.editMode);
+
+    console.log('tuuu ', this.editMode);
 
     const gameEvent: GameEvent = {
       date: form.value.date ? form.value.date.format('DD-MM-YY') : this.data.date,
@@ -59,9 +60,9 @@ export class EventModalComponent implements OnInit {
       creatorUid: this.user.uid,
       games: [(form.value.game1 || this.data.games[0]), (form.value.game2 || this.data.games[1]), (form.value.game3 || this.data.games[2])]
     };
-    if (this.editMode) {
+    if (!this.editMode) {
       this.mainStore.dispatch( new fromMainStore.AddEvent(gameEvent));
-    } else if (!this.editMode) {
+    } else if (this.editMode) {
       this.editMode = !this.editMode;
       const editForm = { ...gameEvent, eventId: this.data.eventId };
       this.mainStore.dispatch( new fromMainStore.EditEvent(editForm));

@@ -1,3 +1,4 @@
+import { User } from './../../models/user.model';
 import { UserComment } from 'src/app/models/comment.model';
 import { MainService } from './../services/main.service';
 import { GameEvent } from 'src/app/models/game-event.model';
@@ -6,7 +7,10 @@ import { Store } from '@ngrx/store';
 
 import * as fromMainStore from '../store';
 import * as fromRoot from '../../store';
+import * as fromAuthStore from '../../authentication/store';
+
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comments-section',
@@ -18,6 +22,8 @@ gameEvent: GameEvent;
 commentsList: object;
 commentsArray: UserComment[];
 eventList: object;
+user$: Observable<User>;
+user: User;
 // eventSelected: GameEvent;
 eventId: string;
 commentMode = false;
@@ -27,7 +33,9 @@ selectedEvent: number;
   constructor(
     private mainStore: Store<fromMainStore.MainState>,
     private mainService: MainService,
-    private rootStore: Store<fromRoot.State>) { }
+    private rootStore: Store<fromRoot.State>,
+    private authStore: Store<fromAuthStore.AuthState>
+    ) { }
 
   ngOnInit() {
     this.rootStore.select( fromRoot.getRouterState).subscribe(
@@ -48,6 +56,11 @@ selectedEvent: number;
       }
     );
 
+    this.user$ = this.authStore.select(fromAuthStore.getUserRole);
+    this.user$.subscribe(
+      userData => this.user = userData
+    );
+
     this.mainStore.select( fromMainStore.getSelectedGameDayData).subscribe(
       (gameData: GameEvent) => {
        this.gameEvent = gameData;
@@ -66,7 +79,9 @@ selectedEvent: number;
     const commentObject: UserComment = {
       comment: comment.value.comment,
       eventId: event.eventId,
-      creatorId: event.creatorUid
+      creatorId: event.creatorUid,
+      creatorName: event.creator,
+      creatorAvatar: this.user.photoURL
     };
     this.toggleComment();
     this.mainStore.dispatch( new fromMainStore.AddComment(commentObject));

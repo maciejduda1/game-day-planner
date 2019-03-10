@@ -1,0 +1,39 @@
+.comments-container {
+  width: auto;
+  p {
+    max-width: 70%;
+    text-align: center;
+  }
+  p.comment-author {
+    max-width: 100%;
+  }
+  div {
+    &:nth-child(even) {
+      flex-direction: row;
+    }
+    &:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border: 1px solid antiquewhite;
+  overflow: hidden;
+
+  img#siteAvatar {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    right: 50px;
+    top: -30px;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: scale-down;
+  }
+}

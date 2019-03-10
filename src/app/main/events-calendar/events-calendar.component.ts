@@ -55,6 +55,10 @@ export class EventsCalendarComponent implements OnInit {
 
   }
 
+  elemHoveredCatch(d): void {
+    console.log('odbieram to: ', d);
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(EventModalComponent, {
       width: '250px',
@@ -113,5 +117,4 @@ export class EventsCalendarComponent implements OnInit {
     this.calendarFrameObject = calendarFrame;
     console.log('frame ', calendarFrame);
   }
-
 }

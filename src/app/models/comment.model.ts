@@ -3,4 +3,6 @@ export class UserComment {
   id?: string;
   creatorId: string;
   eventId: string;
+  creatorName: string;
+  creatorAvatar: string;
 }

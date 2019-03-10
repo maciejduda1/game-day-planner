@@ -1,22 +1,51 @@
-<form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
-  <mat-form-field>
-    <input ngModel matInput type="text" name="name" placeholder="Event Name">
-  </mat-form-field>
-  <mat-form-field>
-      <input matInput ngModel [matDatepicker]="picker" name="date" placeholder="Choose a date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <h5>Proposed Games: </h5>
-  <mat-form-field>
-    <input ngModel  matInput type="text" name="game1" placeholder="Title 1">
-  </mat-form-field>
-  <mat-form-field>
-    <input ngModel  matInput type="text" name="game2" placeholder="Title 2">
-  </mat-form-field>
-  <mat-form-field>
-    <input ngModel  matInput type="text" name="game3" placeholder="Title 3">
-  </mat-form-field>
-  <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
-  <button class="btn btn-primary" type="submit"> Submit </button>
-</form>
+<ng-container *ngIf="!editMode; else editTemp">
+  NEW
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+    <mat-form-field>
+      <input ngModel matInput type="text" name="name" placeholder="Event Name">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput ngModel [matDatepicker]="picker" name="date" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <h5>Proposed Games: </h5>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game1" placeholder="Title 1">
+    </mat-form-field>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game2" placeholder="Title 2">
+    </mat-form-field>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game3" placeholder="Title 3">
+    </mat-form-field>
+    <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
+    <button class="btn btn-primary" type="submit"> Submit </button>
+  </form>
+</ng-container>
+<ng-template #editTemp>
+  EDIT
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+    <mat-form-field>
+      <input ngModel matInput type="text" name="name" [placeholder]="data.name" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput ngModel [matDatepicker]="picker" name="date" [placeholder]="data.date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <h5>Proposed Games: </h5>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game1" [placeholder]="data?.games[0] || ''">
+    </mat-form-field>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game2" [placeholder]="data?.games[1] || ''">
+    </mat-form-field>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game3" [placeholder]="data?.games[2] || ''">
+    </mat-form-field>
+    <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
+    <button class="btn btn-primary" type="submit"> Submit </button>
+  </form>
+</ng-template>
+

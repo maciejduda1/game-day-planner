@@ -1,33 +1,23 @@
 <h2 class="w-100 text-center">Gameplay gameDays</h2>
-<div class="w-100" *ngFor="let gameDay of eventsList; let i = index">
-  <mat-accordion class="w-100" (click)="goEvent(gameDay)">
-    <mat-expansion-panel class="mb-3" [id]="i" #expPan>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{gameDay.date}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{gameDay.name}} Added by {{gameDay.creator}}
-          <button  class="ml-auto" mat-button (click)="editEvent(gameDay)">Edit</button>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <h6>Proponowane gry:</h6>
-      <ul *ngFor="let item of gameDay.games">
-        <li *ngIf="item">{{item}}</li>
-      </ul>
-      <hr>
-      <div class="text-right">
-        <button class="ml-auto" mat-button (click)="toggleComment(i)">Add Comment</button>
-        <ng-container *ngIf="commentMode && eventSelectedforComment === i">
-          <form (ngSubmit)="addComment(form, gameDay)" #form="ngForm" novalidate class="d-flex flex-column">
-            <textarea ngModel name="comment" id="" cols="30" rows="10" class="flex-2"></textarea>
-            <div class="text-center">
-              <button mat-button type="submit" class="mr-3">Add Comment</button>
-              <button mat-button type="button" (click)="toggleComment(-1)">Cancel</button>
-            </div>
-          </form>
-        </ng-container>
+<div class="text-center" *ngFor="let gameDay of eventsList; let i = index">
+  <mat-card class="text-center">
+    <mat-card-header
+    class="justify-content-center"
+    (mouseenter) = "onHoverEnter($event)"
+    (mouseleave)="onHoverLeave($event)"
+    id="{{gameDay.date}}">
+      <mat-card-title>
+        <span class="text-primary mr-3 p-2 border-right">{{gameDay.date}} </span> <span class="mr-3 p-2 border-right"> {{gameDay.name}} </span>
+      </mat-card-title>
+      <mat-card-subtitle>
+        Added by {{gameDay.creator}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <div class="text-center w-100 border-top">
+        <button mat-button (click)="goEvent(gameDay)">View Event</button>
+        <button class="ml-auto" mat-button (click)="editEvent(gameDay)">Edit</button>
       </div>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </mat-card-actions>
+  </mat-card>
 </div>
