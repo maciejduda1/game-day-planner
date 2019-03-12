@@ -5,6 +5,7 @@ import { AuthenticationModule } from './../authentication/authentication.module'
 import { MainRoutingModule } from './main.routing.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {MatMenuModule} from '@angular/material/menu';
 // import { MenuComponent } from './menu/menu.component';
 import { NgModule } from '@angular/core';
 
@@ -73,6 +74,7 @@ import { CommentsSectionComponent } from './comments-section/comments-section.co
     MatDatepickerModule,
     MatMomentDateModule,
     MatExpansionModule,
+    MatMenuModule,
     // MatToolbarModule,
 
     MatCardModule,

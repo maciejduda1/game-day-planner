@@ -1,10 +1,12 @@
 <ng-container *ngIf="gameEvent">
-  <h4>Event Name: {{gameEvent.name}}</h4>
-  <p>Date: {{gameEvent.date }}</p>
-  <h6>Proponowane gry:</h6>
-  <ul *ngFor="let item of gameEvent.games">
-    <li *ngIf="item">{{item}}</li>
-  </ul>
+  <div class="event-info text-center">
+    <h4>Event Name: {{gameEvent.name}}</h4>
+    <p>Date: {{gameEvent.date }}</p>
+    <h6>Proponowane gry:</h6>
+    <ul *ngFor="let item of gameEvent.games">
+      <li *ngIf="item">{{item}}</li>
+    </ul>
+  </div>
   <hr>
   <div class="text-right">
     <button class="ml-auto" mat-button (click)="toggleComment()">Add Comment</button>
@@ -24,8 +26,8 @@
 
 <ng-container *ngIf="!!commentsArray">
   <div class="comments-container pl-3 pr-3">
-    <div *ngFor="let item of commentsArray" class="comments-container border d-flex m-1">
-      <div class="m-3">
+    <div *ngFor="let item of commentsArray" class="comments-container bg-light text-primary d-flex m-1">
+      <div class="p-3 ">
         <p class="text-center w-100 comment-author">{{item.creatorName}}</p>
         <div class="avatar">
           <img src=`${item.creatorAvatar}` alt="avatar" *ngIf="item.creatorAvatar; else avatarPic">

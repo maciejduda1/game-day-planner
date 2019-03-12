@@ -66,6 +66,21 @@ export class MainEffects {
     );
 
   @Effect()
+  deleteEvent$ = this.actions$
+    .ofType( mainActions.DELETE_EVENT)
+    .pipe(
+      switchMap( (action: mainActions.DeleteEvent) => {
+        return this.getMainService.deleteEventInDatabase(action.payload)
+          .then(
+            (res) => new mainActions.DeleteEventSuccess()
+          )
+          .catch(
+            error => of(new mainActions.DeleteEventFail())
+          );
+      })
+    );
+
+  @Effect()
   addComment$ = this.actions$
     .ofType( mainActions.ADD_COMMENT)
     .pipe(

@@ -61,8 +61,7 @@ export class EventsCalendarComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      width: '250px',
-      data: {}
+      width: '250px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

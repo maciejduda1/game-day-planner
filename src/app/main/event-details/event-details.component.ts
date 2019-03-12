@@ -65,15 +65,9 @@ export class EventDetailsComponent implements OnInit {
     );
   }
 
-  // addComment(comment: NgForm, event: GameEvent) {
-  //   // console.log('data add comments: ', event);
-  //   const commentObject: UserComment = {
-  //     comment: comment.value.comment,
-  //     eventId: event.eventId,
-  //     creatorId: event.creatorUid
-  //   };
-  //   this.mainStore.dispatch( new fromMainStore.AddComment(commentObject));
-  // }
+  deleteEvent(event: GameEvent) {
+    this.mainStore.dispatch( new fromMainStore.DeleteEvent(event));
+  }
 
   goEvent(event: GameEvent) {
     this.routerStore.dispatch( new fromRouterStore.Go({path: ['main', 'event', event.eventId]}));

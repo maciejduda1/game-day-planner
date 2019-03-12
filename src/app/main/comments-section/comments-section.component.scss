@@ -17,9 +17,18 @@
   }
 }
 
+.event-info {
+  max-width: 800px;
+  margin: 5px auto;
+  ul {
+    list-style-type: none;
+  }
+}
+
 .avatar {
   width: 100px;
   height: 100px;
+  border-radius: 25deg;
   border: 1px solid antiquewhite;
   overflow: hidden;
 

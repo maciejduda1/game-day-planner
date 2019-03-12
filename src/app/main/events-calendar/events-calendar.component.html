@@ -5,7 +5,7 @@
       <h5 class="m-0">{{dateRef.format('MM-Y')}}</h5>
       <button (click)="createCalendar(1)" class="btn btn-outline-primary rounded-circle ml-3"> + </button>
     </div>
-    <table class="table-sm ml-auto mr-auto">
+    <table class="table-sm ml-auto mr-auto border-bottom">
       <thead>
         <tr >
           <th *ngFor="let day of daysTable" scope="col">{{ day }}</th>
@@ -15,8 +15,8 @@
         <tr *ngFor="let item of calendar.rows; let i = index">
           <ng-container *ngFor="let day of daysTable; let d = index">
             <ng-container *ngIf="i == 0 && calendar.firstDayofMonth <= d + 1 || (i != 0 && i*7 + d + 1 - calendar.firstDayofMonth + 1 <= calendar.daysInMonth); else blank ">
-              <td [class]="calendarFrameObject[i*7 + d + 1]?.event ? 'bg-warning' : 'bg-dark'" (elemHovered) = "elemHoveredCatch($event)">
-                {{ calendarFrameObject[i*7 + d + 1]?.day }}</td>
+              <td [class]="calendarFrameObject[i*7 + d + 1]?.event ? 'bg-warning rounded-circle' : ''" (elemHovered) = "elemHoveredCatch($event)">
+               <span>{{ calendarFrameObject[i*7 + d + 1]?.day }}</span> </td>
             </ng-container>
             <ng-template #blank>
               <td></td>
@@ -25,8 +25,8 @@
         </tr>
       </tbody>
     </table>
-    <div class="buttons-section">
-      <button class="btn-lg btn-primary" (click)="openDialog()">Add Event</button>
+    <div class="buttons-section mt-1">
+      <button mat-button (click)="openDialog()">Add New Event</button>
     </div>
   </div>
 </div>

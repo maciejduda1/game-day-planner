@@ -21,7 +21,7 @@ import { reducers, effects, CustomSerializer, } from './store';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 
 // const environment = {
 //   development: true,
@@ -50,6 +50,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
+    { provide: FirestoreSettingsToken, useValue: {} },
     AngularFireAuth,
   ],
   bootstrap: [AppComponent]

@@ -40,6 +40,12 @@ public events$: Observable<DocumentChangeAction<GameEvent>[]>;
     return updateDoc.update(eventD);
   }
 
+  deleteEventInDatabase(eventD: GameEvent) {
+    console.log('edycja ', eventD);
+    const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
+    return updateDoc.delete();
+  }
+
   addCommentToDatabase(commentD: UserComment) {
     return this.afs.doc<GameEvent>(`events/${commentD.eventId}`).collection('comments').add(commentD);
   }
