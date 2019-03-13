@@ -43,7 +43,7 @@ export function reducers(state = initialState, action: fromMainActions.MainActio
         ...state, events: eventsEntities
       };
     case ( fromMainActions.GET_COMMENTS_SUCCESS):
-    console.log('działam - comments ');
+    // console.log('działam - comments ');
     const allEvents = state.events;
     const eventWithComments = {...allEvents, [action.payload]: {...allEvents[action.payload], comments: action.response}};
 

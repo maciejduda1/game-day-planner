@@ -24,7 +24,7 @@ export class MainEffects {
           .pipe(
             map(
               res => {
-                console.log('res ', res);
+                // console.log('res ', res);
                 return new mainActions.FindGameSuccess(res);
               }
             ),

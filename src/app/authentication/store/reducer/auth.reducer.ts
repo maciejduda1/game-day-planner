@@ -15,15 +15,13 @@ export function reducers(state = initialState, action: fromAuthActions.AuthActio
   switch (action.type) {
     case (fromAuthActions.REGISTER_SUCCESS):
     case (fromAuthActions.LOGIN_SUCCESS):
-    console.log('reducer ', action.payload);
+    // console.log('reducer ', action.payload);
       return {
-        ...state, user: action.payload
+        ...state, user: action.payload, signedIn: true
       };
 
-    // case (fromAuthActions.LOGOUT_SUCCESS):
-    //   return {
-    //     ...state, signedIn: false
-    //   };
+    case (fromAuthActions.LOGOUT_SUCCESS):
+      return initialState;
 
     default:
       return state;

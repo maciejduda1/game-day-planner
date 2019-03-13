@@ -1,5 +1,9 @@
 .comments-container {
-  width: auto;
+  width: 80%;
+  color: white;
+  @media screen and (max-width: 992px) {
+    width: 100%
+  }
   p {
     max-width: 70%;
     text-align: center;
@@ -10,16 +14,30 @@
   div {
     &:nth-child(even) {
       flex-direction: row;
+      div {
+        border-right: 1px white solid;
+      }
     }
     &:nth-child(odd) {
       flex-direction: row-reverse;
+      div {
+        border-left: 1px white solid;
+      }
     }
+  }
+  .comment {
+    background-color: #212121;
+    opacity: 0.8;
   }
 }
 
 .event-info {
   max-width: 800px;
   margin: 5px auto;
+  background: #212121;
+  opacity: 0.8;
+  color: white;
+  border-radius: 50%;
   ul {
     list-style-type: none;
   }

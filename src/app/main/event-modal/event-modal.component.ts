@@ -32,9 +32,9 @@ export class EventModalComponent implements OnInit {
 
   ngOnInit() {
     // console.log('data modal ', this.data);
-    console.log('data modal ', this.editMode);
+    // console.log('data modal ', this.editMode);
     if (this.data) {
-      console.log('data modal111 ', this.editMode);
+      // console.log('data modal111 ', this.editMode);
       this.editMode = !this.editMode;
     }
     this.gamesProposed = ['1'];
@@ -53,7 +53,7 @@ export class EventModalComponent implements OnInit {
 
   onSubmit(form: NgForm) {
 
-    console.log('tuuu ', this.editMode);
+    // console.log('tuuu ', this.editMode);
 
     const gameEvent: GameEvent = {
       date: form.value.date ? form.value.date.format('DD-MM-YY') : this.data.date,
@@ -69,7 +69,7 @@ export class EventModalComponent implements OnInit {
         ] : [ form.value.game1, form.value.game2, form.value.game3]
     };
     if (!this.editMode) {
-      console.log('tuuu ', this.editMode);
+      // console.log('tuuu ', this.editMode);
       this.mainStore.dispatch( new fromMainStore.AddEvent(gameEvent));
     } else if (this.editMode) {
       this.editMode = !this.editMode;

@@ -1,3 +1,4 @@
+import { DocumentChangeAction } from '@angular/fire/firestore';
 import { User } from './../../models/user.model';
 import { UserComment } from 'src/app/models/comment.model';
 import { MainService } from './../services/main.service';
@@ -38,6 +39,7 @@ selectedEvent: number;
     ) { }
 
   ngOnInit() {
+
     this.rootStore.select( fromRoot.getRouterState).subscribe(
       router => this.eventId = router.state.params.gameDayId
     );
@@ -63,16 +65,25 @@ selectedEvent: number;
 
     this.mainStore.select( fromMainStore.getSelectedGameDayData).subscribe(
       (gameData: GameEvent) => {
-       this.gameEvent = gameData;
-       if (gameData && gameData.comments !== undefined) {
-        console.log('test commentów ', !!gameData.comments, '  ', gameData.comments );
-        this.commentsArray = Object.keys(gameData.comments).map( key => gameData.comments[key]);
-        console.log('test commentów 2222222 ', this.commentsArray);
-       }
+        this.gameEvent = gameData;
+        if (gameData && gameData.comments !== undefined) {
+         // console.log('test commentów ', !!gameData.comments, '  ', gameData.comments );
+         this.commentsArray = Object.keys(gameData.comments).map( key => gameData.comments[key]);
+         // console.log('test commentów 2222222 ', this.commentsArray);
+        } else {
+          this.mainService.events$.subscribe(
+            ( events: DocumentChangeAction<GameEvent>[]) =>  {
+               // console.log('event ', events);
+               const eventDataChange = events.map( (event: DocumentChangeAction<GameEvent>) => {
+                 return {...event.payload.doc.data(), eventId: event.payload.doc.id};
+               });
+               this.mainStore.dispatch( new fromMainStore.GetEventsSuccess(eventDataChange));
+             }
+           );
+        }
       }
     );
   }
-
 
   addComment(comment: NgForm, event: GameEvent) {
     // console.log('data add comments: ', event);
@@ -89,22 +100,6 @@ selectedEvent: number;
 
   toggleComment() {
     this.commentMode = !this.commentMode;
-    // if (eventNumber >= 0) {
-    //   // console.log('1: ', this.eventSelectedforComment, ' 2: ', eventNumber);
-    //   if (eventNumber === this.eventSelectedforComment) {
-    //     this.commentMode = false;
-    //     this.eventSelectedforComment = -1;
-    //   } else {
-    //     this.commentMode = true;
-    //     this.eventSelectedforComment = eventNumber;
-    //   }
-    // } else if (eventNumber < 0 ) {
-    //   // console.log('1: ', this.eventSelectedforComment, ' 2: ', eventNumber);
-    //   this.eventSelectedforComment = -1;
-    //   this.commentMode = !this.commentMode;
-    // }
-    // console.log('test: ', eventNumber, this.commentMode, this.eventSelectedforComment);
   }
-
 
 }

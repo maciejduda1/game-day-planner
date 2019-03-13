@@ -1,26 +1,29 @@
-<form class="w-100 text-center" (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
-  <mat-form-field >
-    <input matInput ngModel placeholder="Email/Login" name="email" email required>
-  </mat-form-field>
-  <br>
-  <mat-form-field >
-    <input matInput ngModel placeholder="Username" name="name" required>
-  </mat-form-field>
-  <br>
-  <mat-form-field >
-    <input matInput ngModel placeholder="Password" name="password" required>
-  </mat-form-field>
-  <br>
-  <mat-form-field >
-    <input matInput ngModel placeholder="Confirm Password" name="rePassword" required>
-  </mat-form-field>
-  <br>
-  <mat-form-field >
-    <input matInput ngModel placeholder="Avatar URL" name="avatarUrl">
-  </mat-form-field>
-  <br>
-  <div class="text-center">
-    <button mat-raised-button type="submit">Submit</button>
-    <button mat-raised-button class="btn-danger ml-5" (click)="goLogin()">Cancel</button>
-  </div>
-</form>
+<div class="register p-3">
+  <form class="w-100 text-center" (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+    <mat-form-field >
+      <input matInput ngModel placeholder="Email/Login" name="email" email required>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput ngModel placeholder="Username" name="name" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput ngModel placeholder="Password" name="password" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput ngModel placeholder="Confirm Password" name="rePassword" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput ngModel placeholder="Avatar URL" name="avatarUrl">
+    </mat-form-field>
+    <br>
+    <div class="text-center">
+      <button mat-raised-button type="submit">Submit</button>
+      <button mat-raised-button class="btn-danger ml-5" (click)="goLogin()">Cancel</button>
+    </div>
+  </form>
+</div>
+

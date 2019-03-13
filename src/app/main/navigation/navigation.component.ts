@@ -30,7 +30,7 @@ loginState: any;
 
   logoutUser() {
     this.authStore.dispatch( new fromAuthStore.Logout);
-    console.log('nav działa');
+    // console.log('nav działa');
   }
 
   goMain() {

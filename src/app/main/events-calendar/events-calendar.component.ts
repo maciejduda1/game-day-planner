@@ -5,9 +5,10 @@ import { MatDialog } from '@angular/material';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 
 import * as fromMainStore from '../store';
+import * as fromAuthStore from '../../authentication/store';
+
 import { Observable } from 'rxjs';
 import { GameEvent } from 'src/app/models/game-event.model';
-
 
 interface CalendarObjectCreator {
   daysInMonth: number;
@@ -30,16 +31,22 @@ export class EventsCalendarComponent implements OnInit {
   eventsObject: object;
   calendarFrameObject: object;
 
+  user: boolean;
+
   constructor(
     public dialog: MatDialog,
-    private mainStore: Store<fromMainStore.MainState>
+    private mainStore: Store<fromMainStore.MainState>,
+    private authStore: Store<fromAuthStore.AuthState>
     ) { }
 
   ngOnInit() {
+
+    this.authStore.select( fromAuthStore.getUserRole).subscribe( data => !!data.uid ? this.user = true : this.user = false);
+
     this.eventsArray$ = this.mainStore.select( fromMainStore.getEventsList );
     this.eventsArray$.subscribe(
       events => {
-        let test = {}
+        let test = {};
         events.map(
         (element: GameEvent) => {
           test = {
@@ -48,7 +55,7 @@ export class EventsCalendarComponent implements OnInit {
           };
         });
       this.eventsObject = test;
-      console.log(this.eventsObject);
+      // console.log(this.eventsObject);
       this.calendar = this.createCalendar();
     }
     );
@@ -56,7 +63,7 @@ export class EventsCalendarComponent implements OnInit {
   }
 
   elemHoveredCatch(d): void {
-    console.log('odbieram to: ', d);
+    // console.log('odbieram to: ', d);
   }
 
   openDialog(): void {
@@ -114,6 +121,6 @@ export class EventsCalendarComponent implements OnInit {
       }
     }
     this.calendarFrameObject = calendarFrame;
-    console.log('frame ', calendarFrame);
+    // console.log('frame ', calendarFrame);
   }
 }

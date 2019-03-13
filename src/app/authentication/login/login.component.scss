@@ -7,3 +7,14 @@ form {
   margin-top: 5%;
   margin-bottom: 5%;
 }
+
+.login {
+  background-color: #212121;
+  opacity: 0.8;
+  max-width: 50%;
+  margin: 0 auto;
+  border-radius: 1%;
+  @media screen and (max-width: 991px) {
+    max-width: 100%;
+  }
+}

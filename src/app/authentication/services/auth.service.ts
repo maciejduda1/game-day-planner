@@ -27,7 +27,6 @@ export class AuthService {
   }
 
   logoutUser() {
-    console.log('auth sevice');
     return this.angFireAuth.auth.signOut();
   }
 
@@ -36,7 +35,7 @@ export class AuthService {
   }
 
   getUserDatabaseData(uid: string) {
-    this.userDocument = this.angFireStore.doc<User>(`users/${uid}`);
+    this.userDocument = this.angFireStore.doc<User | null>(`users/${uid}`);
     return this.userDocument.valueChanges();
   }
 

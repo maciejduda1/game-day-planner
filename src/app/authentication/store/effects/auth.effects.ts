@@ -56,7 +56,6 @@ export class AuthEffects {
             .loginUser(action.payload.email, action.payload.password)
             .then(
               res => {
-                console.log('user: ', this.angFirebase.auth.currentUser);
                 const user = this.angFirebase.auth.currentUser;
                 const userDatabaseData = this.getAuthService.getUserDatabaseData(user.uid);
                 const newUser: User = {
@@ -69,7 +68,7 @@ export class AuthEffects {
               }
             )
             .catch(
-              error => console.error(error)
+              error => console.error('e1: ', error)
             );
         })
       );
@@ -82,7 +81,9 @@ export class AuthEffects {
         return this.getAuthService
         .logoutUser()
         .then(
-          () => new authActions.LogoutSuccess
+          () =>
+          new authActions.LogoutSuccess()
+          // window.location.reload()
         )
         .catch(
           error => console.log('errror! ', error)

@@ -13,6 +13,7 @@ import * as fromRouterStore from '../../store';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { UserComment } from 'src/app/models/comment.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-event-details',
@@ -33,19 +34,26 @@ export class EventDetailsComponent implements OnInit {
   commentMode = false;
   eventSelectedforComment = -1;
   selectedEvent: number;
+  userId: string;
 
   @Output() elemHovered: EventEmitter<any> = new EventEmitter<any>();
   onHoverEnter(e): void {
-    console.log(e.target.id);
+    // console.log(e.target.id);
     this.elemHovered.emit([`The button was entered!`, e.target.id]);
   }
 
   onHoverLeave(e): void {
-    console.log(e.target.id);
+    // console.log(e.target.id);
     this.elemHovered.emit([`The button was left!`, e.target.id]);
   }
 
   ngOnInit() {
+    this.authStore.select( fromAuthStore.getUserRole).subscribe(
+      (data: User) => {
+        this.userId = data.uid;
+      }
+    );
+
     this.mainService.events$.subscribe(
      ( events: DocumentChangeAction<GameEvent>[]) =>  {
         // console.log('event ', events);
