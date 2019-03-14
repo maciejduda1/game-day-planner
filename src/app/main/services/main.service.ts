@@ -3,7 +3,7 @@ import { GameEvent } from './../../models/game-event.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentSnapshot, DocumentChangeAction } from '@angular/fire/firestore';
-import { auth } from 'firebase/app';
+import { auth, firestore } from 'firebase/app';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -47,7 +47,8 @@ public events$: Observable<DocumentChangeAction<GameEvent>[]>;
   }
 
   addCommentToDatabase(commentD: UserComment) {
-    return this.afs.doc<GameEvent>(`events/${commentD.eventId}`).collection('comments').add(commentD);
+    const creationDate = firestore.FieldValue.serverTimestamp();
+    return this.afs.doc<GameEvent>(`events/${commentD.eventId}`).collection('comments').add({...commentD, creationDate });
   }
 
   getEventComments(eventId: string) {

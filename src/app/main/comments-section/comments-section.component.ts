@@ -68,8 +68,16 @@ selectedEvent: number;
         this.gameEvent = gameData;
         if (gameData && gameData.comments !== undefined) {
          // console.log('test commentów ', !!gameData.comments, '  ', gameData.comments );
-         this.commentsArray = Object.keys(gameData.comments).map( key => gameData.comments[key]);
-         // console.log('test commentów 2222222 ', this.commentsArray);
+         this.commentsArray = Object.keys(gameData.comments)
+          .map( key => gameData.comments[key])
+          .sort( (a, b) => {
+            if (!!a.creationDate && !!b.creationDate) {
+              return a.creationDate.seconds - b.creationDate.seconds;
+            } else {
+              return -1000000;
+            }
+          });
+         console.log('test commentów 2222222 ', this.commentsArray);
         } else {
           this.mainService.events$.subscribe(
             ( events: DocumentChangeAction<GameEvent>[]) =>  {

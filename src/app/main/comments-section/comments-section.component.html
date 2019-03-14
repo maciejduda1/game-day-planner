@@ -11,11 +11,11 @@
   <div class="text-right">
     <button class="ml-auto" mat-button (click)="toggleComment()" *ngIf="user && user.uid">Add Comment</button>
     <ng-container *ngIf="commentMode">
-      <form (ngSubmit)="addComment(form, gameEvent)" #form="ngForm" novalidate class="d-flex flex-column">
+      <form (ngSubmit)="addComment(form, gameEvent)" #form="ngForm" novalidate class="d-flex flex-column comments-container text-center mx-auto">
         <textarea ngModel name="comment" id="" cols="30" rows="10" class="flex-2"></textarea>
         <div class="text-center">
-          <button mat-button type="submit" class="mr-3">Add Comment</button>
-          <button mat-button type="button" (click)="toggleComment()">Cancel</button>
+          <button mat-button type="submit" class="mr-3 bg-dark">Add Comment</button>
+          <button mat-button type="button" (click)="toggleComment()" class="bg-dark">Cancel</button>
         </div>
       </form>
     </ng-container>

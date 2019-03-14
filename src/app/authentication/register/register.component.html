@@ -1,20 +1,37 @@
 <div class="register p-3">
   <form class="w-100 text-center" (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
-    <mat-form-field >
-      <input matInput ngModel placeholder="Email/Login" name="email" email required>
+    <mat-form-field>
+      <input matInput [(ngModel)]="model.email" placeholder="Email/Login" name="email" email required #Email="ngModel">
+      <mat-error *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+        <p *ngIf="!!Email.errors.email">Email must be a valid email address.</p>
+        <p *ngIf="!!Email.errors.required">Email is required.</p>
+      </mat-error>
+
     </mat-form-field>
     <br>
     <mat-form-field >
-      <input matInput ngModel placeholder="Username" name="name" required>
+      <input matInput [(ngModel)]="model.username" placeholder="Username" name="name" required #Username="ngModel" minlength="5">
+      <mat-error *ngIf="Username.invalid && (Username.dirty || Username.touched)">
+        <p *ngIf="!!Username.errors.required">Username is required.</p>
+        <p *ngIf="!!Username.errors.minlength">Username must be min 5 chars long.</p>
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field >
-      <input matInput ngModel placeholder="Password" name="password" required>
+      <input matInput [(ngModel)]="model.password" placeholder="Password" name="password" required #Password="ngModel" minlength="4">
+      <mat-error *ngIf="Password.invalid && (Password.dirty || Password.touched)">
+        <p *ngIf="!!Password.errors.required">Password is required.</p>
+        <p *ngIf="!!Password.errors.minlength">Password must be min 4 chars long.</p>
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field >
-      <input matInput ngModel placeholder="Confirm Password" name="rePassword" required>
+      <input matInput [(ngModel)]="model.rePassword" placeholder="Confirm Password" name="rePassword" required #rePassword="ngModel">
+      <mat-error *ngIf="rePassword.invalid && (rePassword.dirty || rePassword.touched)">
+        <p *ngIf="!!rePassword.errors.required">Retyping Password is required.</p>
+      </mat-error>
     </mat-form-field>
+    <p *ngIf="wrongPassword" class="text-danger">Passwords don't match</p>
     <br>
     <mat-form-field >
       <input matInput ngModel placeholder="Avatar URL" name="avatarUrl">
@@ -25,5 +42,7 @@
       <button mat-raised-button class="btn-danger ml-5" (click)="goLogin()">Cancel</button>
     </div>
   </form>
+  <p *ngIf="serverError" class="text-danger text-center">{{serverError}}</p>
+  <p class="text-center text-info">* - field is required</p>
 </div>
 

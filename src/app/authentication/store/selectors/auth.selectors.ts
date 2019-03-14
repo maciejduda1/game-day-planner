@@ -13,6 +13,11 @@ export const getUserRole = createSelector(
   fromAuthReducer.getUserRole
 );
 
+export const getServerError = createSelector(
+  getAuthModuleState,
+  fromAuthReducer.getServerError
+);
+
 export const getLoginState = createSelector(
   getAuthModuleState,
   fromAuthReducer.getLoginState

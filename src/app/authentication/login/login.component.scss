@@ -17,4 +17,8 @@ form {
   @media screen and (max-width: 991px) {
     max-width: 100%;
   }
+  mat-form-field {
+    min-width: 50%;
+    margin-top: 0.5rem;
+  }
 }

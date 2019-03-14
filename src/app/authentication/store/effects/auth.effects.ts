@@ -1,12 +1,13 @@
 import { User } from './../../../models/user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { switchMap, map } from 'rxjs/operators';
 
 import * as authActions from '../actions/auth.actions';
 import * as routActions from '../../../store/actions/router.actions';
 import { AuthService } from './../../services/auth.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
@@ -42,7 +43,7 @@ export class AuthEffects {
             }
           )
           .catch(
-            error => new authActions.RegisterFail(error)
+            error => new authActions.RegisterFail(error.message)
           );
       })
     );
@@ -68,7 +69,7 @@ export class AuthEffects {
               }
             )
             .catch(
-              error => console.error('e1: ', error)
+              error => new authActions.LoginFail(error.message)
             );
         })
       );

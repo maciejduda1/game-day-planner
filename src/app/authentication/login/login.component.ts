@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 
 import * as fromRouterStore from '../../store';
 import * as fromAuthStore from '../store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,20 @@ import * as fromAuthStore from '../store';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  model: any = {};
+  passwordError = false;
+  emailError = false;
+
+  serverError$: Observable<string>;
+  serverError: string;
 
   constructor(private routerStore: Store<fromRouterStore.State>, private authStore: Store<fromAuthStore.AuthState>) { }
 
   ngOnInit() {
-
+    this.serverError$ = this.authStore.select( fromAuthStore.getServerError);
+    this.serverError$.subscribe(
+      value => this.serverError = value
+    );
   }
 
   goRegister() {
@@ -23,10 +33,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.routerStore.dispatch( new fromAuthStore.Login({
-      email: form.value.email,
-      password: form.value.password
-    }));
+    console.log(form.value.email.trim(), '  ' , form.value.password.trim() );
+    if ((form.value.email.trim().length >= 4) && (form.value.password.trim().length >= 4)) {
+      console.log('to');
+      this.emailError = false;
+      this.passwordError = false;
+      this.routerStore.dispatch( new fromAuthStore.Login({
+        email: form.value.email,
+        password: form.value.password
+      }));
+    } else if (form.value.email.trim().length < 3)  {
+      console.log('to1');
+      this.emailError = true;
+    } else if (form.value.password.trim().length < 4) {
+      this.passwordError = true;
+      console.log('to2');
+    }
+    console.log('to');
   }
 
 }

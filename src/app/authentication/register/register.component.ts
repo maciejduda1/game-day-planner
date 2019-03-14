@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromRouterStore from '../../store';
 import * as fromAuthStore from '../store';
-import { from } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -14,18 +14,34 @@ import { from } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
   model: any = {};
+  wrongPassword = false;
+  serverError$: Observable<string>;
+  serverError: string;
   constructor(private routerStore: Store<fromRouterStore.State>, private authStore: Store<fromAuthStore.AuthState>) { }
 
   ngOnInit() {
+    this.wrongPassword = false;
+
+    this.serverError$ = this.authStore.select( fromAuthStore.getServerError);
+    this.serverError$.subscribe(
+      value => this.serverError = value
+    );
   }
 
   onSubmit(form: NgForm) {
-    this.authStore.dispatch( new fromAuthStore.Register({
-      name: form.value.name,
-      email: form.value.email,
-      password: form.value.password,
-      avatarUrl: form.value.avatarUrl || '',
-    }));
+    console.log('form valid: ', form.valid);
+    if (form.value.password !== form.value.rePassword) {
+      this.wrongPassword = true;
+      console.log('złe hasło', this.wrongPassword);
+    } else if (form.valid && form.value.password === form.value.rePassword ) {
+      this.wrongPassword = false;
+      this.authStore.dispatch( new fromAuthStore.Register({
+        name: form.value.name,
+        email: form.value.email,
+        password: form.value.password,
+        avatarUrl: form.value.avatarUrl || '',
+      }));
+    }
   }
 
   goLogin() {
