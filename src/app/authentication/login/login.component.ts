@@ -33,9 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value.email.trim(), '  ' , form.value.password.trim() );
     if ((form.value.email.trim().length >= 4) && (form.value.password.trim().length >= 4)) {
-      console.log('to');
       this.emailError = false;
       this.passwordError = false;
       this.routerStore.dispatch( new fromAuthStore.Login({
@@ -43,13 +41,10 @@ export class LoginComponent implements OnInit {
         password: form.value.password
       }));
     } else if (form.value.email.trim().length < 3)  {
-      console.log('to1');
       this.emailError = true;
     } else if (form.value.password.trim().length < 4) {
       this.passwordError = true;
-      console.log('to2');
     }
-    console.log('to');
   }
 
 }

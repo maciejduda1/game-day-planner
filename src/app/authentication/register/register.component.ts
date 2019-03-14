@@ -33,7 +33,14 @@ export class RegisterComponent implements OnInit {
     if (form.value.password !== form.value.rePassword) {
       this.wrongPassword = true;
       console.log('złe hasło', this.wrongPassword);
-    } else if (form.valid && form.value.password === form.value.rePassword ) {
+    } else if (
+      form.valid &&
+      form.value.password === form.value.rePassword &&
+      (form.value.email.trim().length >= 4) &&
+      (form.value.password.trim().length >= 4) &&
+      (form.value.name.trim().length >= 5) &&
+      form.value.secret === 'MaczokPower'
+      ) {
       this.wrongPassword = false;
       this.authStore.dispatch( new fromAuthStore.Register({
         name: form.value.name,

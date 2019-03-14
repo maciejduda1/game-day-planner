@@ -34,6 +34,13 @@
     <p *ngIf="wrongPassword" class="text-danger">Passwords don't match</p>
     <br>
     <mat-form-field >
+      <input matInput [(ngModel)]="model.secret" placeholder="Secret ClubMember Code" name="secret" required #Secret="ngModel">
+      <mat-error *ngIf="Secret.invalid && (Secret.dirty || Secret.touched)">
+        <p *ngIf="!!Secret.errors.required">Secret Code is required.</p>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
       <input matInput ngModel placeholder="Avatar URL" name="avatarUrl">
     </mat-form-field>
     <br>
