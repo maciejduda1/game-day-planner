@@ -38,12 +38,10 @@ export class EventDetailsComponent implements OnInit {
 
   @Output() elemHovered: EventEmitter<any> = new EventEmitter<any>();
   onHoverEnter(e): void {
-    // console.log(e.target.id);
     this.elemHovered.emit([`The button was entered!`, e.target.id]);
   }
 
   onHoverLeave(e): void {
-    // console.log(e.target.id);
     this.elemHovered.emit([`The button was left!`, e.target.id]);
   }
 
@@ -56,25 +54,27 @@ export class EventDetailsComponent implements OnInit {
 
     this.mainService.events$.subscribe(
      ( events: DocumentChangeAction<GameEvent>[]) =>  {
-        // console.log('event ', events);
-        const eventDataChange = events.map( (event: DocumentChangeAction<GameEvent>) => {
-          return {...event.payload.doc.data(), eventId: event.payload.doc.id};
-        });
-        this.mainStore.dispatch( new fromMainStore.GetEventsSuccess(eventDataChange));
-        this.eventsList = eventDataChange;
+        if (events) {
+          const eventDataChange = events.map( (event: DocumentChangeAction<GameEvent>) => {
+            return {...event.payload.doc.data(), eventId: event.payload.doc.id};
+          });
+          this.mainStore.dispatch( new fromMainStore.GetEventsSuccess(eventDataChange));
+          this.eventsList = eventDataChange;
+        }
       }
     );
     this.eventsList$ = this.mainStore.select( fromMainStore.getEventsList);
     this.eventsList$.subscribe(
       events => {
         this.eventsList = events;
-        // console.log('nowe dane z store: ', events);
       }
     );
   }
 
   deleteEvent(event: GameEvent) {
-    this.mainStore.dispatch( new fromMainStore.DeleteEvent(event));
+    if ( confirm('Czy chcesz usunąć wydarzenie ' + event.name + '?')) {
+      this.mainStore.dispatch( new fromMainStore.DeleteEvent(event));
+    }
   }
 
   goEvent(event: GameEvent) {
@@ -83,7 +83,6 @@ export class EventDetailsComponent implements OnInit {
 
   toggleComment(eventNumber: number) {
     if (eventNumber >= 0) {
-      // console.log('1: ', this.eventSelectedforComment, ' 2: ', eventNumber);
       if (eventNumber === this.eventSelectedforComment) {
         this.commentMode = false;
         this.eventSelectedforComment = -1;
@@ -92,17 +91,14 @@ export class EventDetailsComponent implements OnInit {
         this.eventSelectedforComment = eventNumber;
       }
     } else if (eventNumber < 0 ) {
-      // console.log('1: ', this.eventSelectedforComment, ' 2: ', eventNumber);
       this.eventSelectedforComment = -1;
       this.commentMode = !this.commentMode;
     }
-    // console.log('test: ', eventNumber, this.commentMode, this.eventSelectedforComment);
   }
 
   editEvent(event: GameEvent) {
-    // console.log('modal', event);
     const dialogRef = this.dialog.open(EventModalComponent, {
-      width: '250px',
+      minWidth: '50%',
       data: event,
     });
 

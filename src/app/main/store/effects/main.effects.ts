@@ -24,7 +24,6 @@ export class MainEffects {
           .pipe(
             map(
               res => {
-                // console.log('res ', res);
                 return new mainActions.FindGameSuccess(res);
               }
             ),
@@ -45,7 +44,7 @@ export class MainEffects {
               () => new mainActions.AddEventSuccess(action.payload)
             )
           .catch(
-            error => of(new mainActions.AddEventFail(error))
+            error => of(new mainActions.AddEventFail(error.message))
           );
       })
     );
@@ -60,7 +59,7 @@ export class MainEffects {
             (res) => new mainActions.AddEventSuccess(action.payload)
           )
           .catch(
-            error => of(new mainActions.AddEventFail(error))
+            error => of(new mainActions.AddEventFail(error.message))
           );
       })
     );

@@ -12,7 +12,7 @@
     <p>Dalsze prace będą planowane na bieżąco.</p>
   </mat-card-content>
 </mat-card>
-<h2 class="w-100 text-center">Gameplay gameDays</h2>
+<h2 class="w-100 text-center" *ngIf="eventsList">Gameplay gameDays</h2>
 <div class="text-center" *ngFor="let gameDay of eventsList; let i = index">
   <mat-card class="text-center">
     <mat-card-header

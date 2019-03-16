@@ -19,16 +19,23 @@ export const getGameDaysObject = createSelector(
   fromMainReducers.getEvents
 );
 
+export const getSendError = createSelector(
+  getMainModuleState,
+  fromMainReducers.getError
+);
+
 export const getEventsList = createSelector(
   getMainModuleState,
   fromMainReducers.getEvents,
-  (gameDays) => Object.keys(gameDays.events).map(
-    id => {
-      // gameDays.events && gameDays[id] ? gameDays[id] :
-      // console.log('data storowa22 :', gameDays);
-      return gameDays.events && gameDays.events[id];
+  (gameDays) => {
+    if (gameDays && gameDays.events) {
+      return Object.keys(gameDays.events).map(
+        id => {
+          return gameDays.events && gameDays.events[id];
+        }
+      );
     }
-  )
+  }
 );
 
 export const getSelectedGameDayData = createSelector(

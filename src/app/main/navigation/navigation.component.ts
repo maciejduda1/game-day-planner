@@ -19,9 +19,7 @@ loginState: any;
   constructor(private routerStore: Store<fromRouterStore.State>, private authStore: Store<fromAuthStore.AuthState>) { }
 
   ngOnInit() {
-    // this.loginState$ = this.authStore.select(fromAuthStore.getLoginState);
-    // this.loginState$.subscribe( value => this.loginState = value);
-    // console.log('user: ', this.loginState);
+
   }
 
   goAuthenticate() {
@@ -30,7 +28,6 @@ loginState: any;
 
   logoutUser() {
     this.authStore.dispatch( new fromAuthStore.Logout);
-    // console.log('nav działa');
   }
 
   goMain() {

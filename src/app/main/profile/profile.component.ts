@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
       displayName: form.value.name,
       photoURL: form.value.photoURL
     };
-    // console.log(formData);
+
   }
 
   editPersonalDataToggle() {

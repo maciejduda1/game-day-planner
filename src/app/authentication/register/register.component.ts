@@ -29,10 +29,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log('form valid: ', form.valid);
     if (form.value.password !== form.value.rePassword) {
       this.wrongPassword = true;
-      console.log('złe hasło', this.wrongPassword);
     } else if (
       form.valid &&
       form.value.password === form.value.rePassword &&

@@ -30,18 +30,18 @@ public events$: Observable<DocumentChangeAction<GameEvent>[]>;
   }
 
   addEventToDatabase(eventD: GameEvent) {
-    // console.log('ap ', eventD);
+
     return this.eventsCollection.add(eventD);
   }
 
   editEventInDatabase(eventD: GameEvent) {
-    // console.log('edycja ', eventD);
+
     const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
     return updateDoc.update(eventD);
   }
 
   deleteEventInDatabase(eventD: GameEvent) {
-    // console.log('edycja ', eventD);
+
     const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
     return updateDoc.delete();
   }

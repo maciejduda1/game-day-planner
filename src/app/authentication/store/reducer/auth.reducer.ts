@@ -17,7 +17,6 @@ export function reducers(state = initialState, action: fromAuthActions.AuthActio
   switch (action.type) {
     case (fromAuthActions.REGISTER_SUCCESS):
     case (fromAuthActions.LOGIN_SUCCESS):
-    // console.log('reducer ', action.payload);
       return {
         ...state, user: action.payload, signedIn: true, serverError: ''
       };

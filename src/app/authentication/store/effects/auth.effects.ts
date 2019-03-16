@@ -78,7 +78,6 @@ export class AuthEffects {
     .ofType(authActions.LOGOUT)
     .pipe(
       switchMap((action: authActions.Logout) => {
-        console.log('to się zgłasza');
         return this.getAuthService
         .logoutUser()
         .then(

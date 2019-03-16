@@ -23,25 +23,7 @@ export class MainComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.uid$ = this.angFirebase.authState;
-    // .pipe(
-    //   switchMap( authUser => {
-    //     if (!authUser) {
-    //       this.uid = null;
-    //       return null;
-    //     }
-    //     this.uid = authUser.uid;
-    //     return this.authService.getUserDatabaseData(authUser.uid).pipe(
-    //       map (
-    //         userData => {
-    //           if (userData) {
-    //             console.log(' User Data: ', userData);
-    //             return this.authStore.dispatch( new fromAuthStore.LoginSuccess(userData));
-    //           }
-    //         }
-    //       )
-    //     );
-    //   })
-    // );
+
     this.uid$.subscribe(
       authState => {
         if (!authState) {
@@ -53,7 +35,6 @@ export class MainComponent implements OnInit, OnChanges {
           userDatabaseData$.subscribe(
             userData => {
               if (userData) {
-                console.log(' User Data: ', userData);
                 return this.authStore.dispatch( new fromAuthStore.LoginSuccess(userData));
               }
             }
@@ -65,7 +46,6 @@ export class MainComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('unsub');
     this.uidSub.unsubscribe();
   }
 

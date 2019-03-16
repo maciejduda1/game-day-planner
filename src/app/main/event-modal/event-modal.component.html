@@ -1,51 +1,70 @@
 <ng-container *ngIf="!editMode; else editTemp">
-  NEW
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+  NEW EVENT
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate class="d-flex flex-column justify-content-center align-items-center" >
     <mat-form-field>
-      <input ngModel matInput type="text" name="name" placeholder="Event Name">
+      <input ngModel matInput type="text" name="name" placeholder="Nazwa Eventu" maxlength="25" required>
     </mat-form-field>
     <mat-form-field>
-        <input matInput ngModel [matDatepicker]="picker" name="date" placeholder="Choose a date">
+        <input
+        matInput
+        ngModel
+        [matDatepicker]="picker"
+        name="date"
+        placeholder="Wybierz datę"
+        [min]="minDate"
+        readonly
+        >
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
     </mat-form-field>
-    <h5>Proposed Games: </h5>
+    <h5>Proponowane Gry (Do 3 tytułów): </h5>
     <mat-form-field>
-      <input ngModel  matInput type="text" name="game1" placeholder="Title 1">
-    </mat-form-field>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game2" placeholder="Title 2">
+      <input ngModel  matInput type="text" name="game1" placeholder="Propozycja Gry:" maxlength="20">
     </mat-form-field>
     <mat-form-field>
-      <input ngModel  matInput type="text" name="game3" placeholder="Title 3">
+      <input ngModel  matInput type="text" name="game2" placeholder="Propozycja Gry:" maxlength="20">
     </mat-form-field>
-    <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
-    <button class="btn btn-primary" type="submit"> Submit </button>
+    <mat-form-field>
+      <input ngModel  matInput type="text" name="game3" placeholder="Propozycja Gry:" maxlength="20">
+    </mat-form-field>
+    <div class="d-flex">
+      <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
+      <button class="btn btn-primary" type="submit"> Submit </button>
+    </div>
   </form>
+  <ng-container *ngIf="dataSendingError">
+    <p class="text-danger">{{dataSendingError}}</p>
+  </ng-container>
+
 </ng-container>
 <ng-template #editTemp>
-  EDIT
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+  EDIT EVENT
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate class="d-flex flex-column justify-content-center align-items-center">
     <mat-form-field>
-      <input ngModel matInput type="text" name="name" [placeholder]="data.name" >
+      <input ngModel matInput type="text" name="name" [placeholder]="data.name" maxlength="25">
     </mat-form-field>
     <mat-form-field>
-        <input matInput ngModel [matDatepicker]="picker" name="date" [placeholder]="data.date">
+        <input matInput ngModel [matDatepicker]="picker" name="date" [placeholder]="data.date" readonly>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <h5>Proposed Games: </h5>
     <mat-form-field>
-      <input ngModel  matInput type="text" name="game1" [placeholder]="data?.games[0] || ''">
+      <input ngModel  matInput type="text" name="game1" [placeholder]="data?.games[0] || 'Propozycja Gry:'" maxlength="20">
     </mat-form-field>
     <mat-form-field>
-      <input ngModel  matInput type="text" name="game2" [placeholder]="data?.games[1] || ''">
+      <input ngModel  matInput type="text" name="game2" [placeholder]="data?.games[1] || 'Propozycja Gry:'" maxlength="20">
     </mat-form-field>
     <mat-form-field>
-      <input ngModel  matInput type="text" name="game3" [placeholder]="data?.games[2] || ''">
+      <input ngModel  matInput type="text" name="game3" [placeholder]="data?.games[2] || 'Propozycja Gry:'" maxlength="20">
     </mat-form-field>
-    <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
-    <button class="btn btn-primary" type="submit"> Submit </button>
+    <div class="d-flex ">
+      <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
+      <button class="btn btn-primary" type="submit"> Submit </button>
+    </div>
   </form>
+  <ng-container *ngIf="dataSendingError">
+    <p class="text-danger">{{dataSendingError}}</p>
+  </ng-container>
 </ng-template>
 

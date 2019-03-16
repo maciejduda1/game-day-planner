@@ -53,7 +53,6 @@ selectedEvent: number;
             const id = comment.payload.doc.id;
             allCommentsData = {...allCommentsData, [id]: commentData };
           });
-          // console.log('to jest info: ', this.commentsArray);
         return this.mainStore.dispatch( new fromMainStore.GetCommentsSuccess(this.eventId, allCommentsData));
       }
     );
@@ -67,7 +66,6 @@ selectedEvent: number;
       (gameData: GameEvent) => {
         this.gameEvent = gameData;
         if (gameData && gameData.comments !== undefined) {
-         // console.log('test commentów ', !!gameData.comments, '  ', gameData.comments );
          this.commentsArray = Object.keys(gameData.comments)
           .map( key => gameData.comments[key])
           .sort( (a, b) => {
@@ -77,11 +75,9 @@ selectedEvent: number;
               return -1000000;
             }
           });
-         console.log('test commentów 2222222 ', this.commentsArray);
         } else {
           this.mainService.events$.subscribe(
             ( events: DocumentChangeAction<GameEvent>[]) =>  {
-               // console.log('event ', events);
                const eventDataChange = events.map( (event: DocumentChangeAction<GameEvent>) => {
                  return {...event.payload.doc.data(), eventId: event.payload.doc.id};
                });
@@ -94,7 +90,6 @@ selectedEvent: number;
   }
 
   addComment(comment: NgForm, event: GameEvent) {
-    // console.log('data add comments: ', event);
     const commentObject: UserComment = {
       comment: comment.value.comment,
       eventId: event.eventId,

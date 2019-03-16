@@ -40,35 +40,34 @@ export class EventsCalendarComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-
     this.authStore.select( fromAuthStore.getUserRole).subscribe( data => !!data.uid ? this.user = true : this.user = false);
 
     this.eventsArray$ = this.mainStore.select( fromMainStore.getEventsList );
     this.eventsArray$.subscribe(
       events => {
         let test = {};
+        if (events) {
         events.map(
-        (element: GameEvent) => {
-          test = {
-          ...test,
-          [element.date]: element
-          };
-        });
-      this.eventsObject = test;
-      // console.log(this.eventsObject);
-      this.calendar = this.createCalendar();
-    }
+          (element: GameEvent) => {
+            test = {
+            ...test,
+            [element.date]: element
+            };
+          }
+        );
+        this.eventsObject = test;
+        }
+        this.calendar = this.createCalendar();
+      }
     );
-
   }
 
   elemHoveredCatch(d): void {
-    // console.log('odbieram to: ', d);
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      width: '250px'
+      minWidth: '50%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -89,7 +88,6 @@ export class EventsCalendarComponent implements OnInit {
       rows: [1, 2, 3, 4, 5, 6],
     };
     this.createMonth();
-    // console.log('this calendar: ', currentDate, '  2: ',  this.dateRef);
     return this.calendar;
   }
 
@@ -103,8 +101,9 @@ export class EventsCalendarComponent implements OnInit {
           }
         };
       } else if (
-        this.eventsObject[`${i + 1 - this.calendar.firstDayofMonth}-${this.dateRef.format('MM-YY')}`] ||
-        this.eventsObject[`0${i + 1 - this.calendar.firstDayofMonth}-${this.dateRef.format('MM-YY')}`] ) {
+        this.eventsObject &&
+        (this.eventsObject[`${i + 1 - this.calendar.firstDayofMonth}-${this.dateRef.format('MM-YY')}`] ||
+        this.eventsObject[`0${i + 1 - this.calendar.firstDayofMonth}-${this.dateRef.format('MM-YY')}`] )) {
         calendarFrame = {
           ...calendarFrame, [i]: {
             day: i + 1 - this.calendar.firstDayofMonth,
@@ -121,6 +120,5 @@ export class EventsCalendarComponent implements OnInit {
       }
     }
     this.calendarFrameObject = calendarFrame;
-    // console.log('frame ', calendarFrame);
   }
 }

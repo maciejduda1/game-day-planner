@@ -6,6 +6,7 @@ export interface MainState {
   searchRequested: boolean;
   searchRecived: boolean;
   events: {};
+  errorSend: string;
 }
 
 const initialState: MainState = {
@@ -13,6 +14,7 @@ const initialState: MainState = {
   searchRequested: false,
   searchRecived: false,
   events: {},
+  errorSend: '',
 };
 
 export function reducers(state = initialState, action: fromMainActions.MainActions ) {
@@ -29,10 +31,17 @@ export function reducers(state = initialState, action: fromMainActions.MainActio
       return {
         ...state, searchRequested: false, searchRecived: false
       };
-    // case ( fromMainActions.ADD_EVENT_SUCCESS ):
-    //   return {
-    //     ...state, events: [...state.events, action.payload]
-    //   };
+
+    case ( fromMainActions.ADD_EVENT_FAIL ):
+      return {
+        ...state, errorSend: action.payload
+      };
+
+    case ( fromMainActions.ADD_EVENT_SUCCESS ):
+      return {
+        ...state, errorSend: ''
+      };
+
     case ( fromMainActions.GET_EVENTS_SUCCESS):
     let eventsEntities: GameEvent;
     action.payload.map(
@@ -43,14 +52,8 @@ export function reducers(state = initialState, action: fromMainActions.MainActio
         ...state, events: eventsEntities
       };
     case ( fromMainActions.GET_COMMENTS_SUCCESS):
-    // console.log('działam - comments ');
-    const allEvents = state.events;
-    const eventWithComments = {...allEvents, [action.payload]: {...allEvents[action.payload], comments: action.response}};
-
-    // const eventWithComments = allEvents.map(
-    //   (event: GameEvent) => event.eventId === action.payload ? {...event, comments: action.response} : event
-    // );
-
+      const allEvents = state.events;
+      const eventWithComments = {...allEvents, [action.payload]: {...allEvents[action.payload], comments: action.response}};
       return {
         ...state, events: eventWithComments
       };
@@ -61,3 +64,4 @@ export function reducers(state = initialState, action: fromMainActions.MainActio
 
 export const getSearchResults = (state: MainState) => state.searchedData;
 export const getEvents = (state: MainState) => state.events;
+export const getError = (state: MainState) => state.errorSend;
