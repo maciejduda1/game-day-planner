@@ -1,4 +1,4 @@
-import { User } from './../../../models/user.model';
+import { DatabaseAuthUser } from './../../../models/user.model';
 import { Action } from '@ngrx/store';
 
 export const LOGIN = '[auth] try to Login';
@@ -13,49 +13,49 @@ export const LOGOUT = '[auth] logout User';
 export const LOGOUT_SUCCESS = '[auth] logout User Success';
 
 export class Login implements Action {
-  readonly type = LOGIN;
-  constructor( public payload: any) {}
+	readonly type = LOGIN;
+	constructor(public payload: any) {}
 }
 
 export class LoginSuccess implements Action {
-  readonly type = LOGIN_SUCCESS;
-  constructor( public payload: any) {}
+	readonly type = LOGIN_SUCCESS;
+	constructor(public payload: any) {}
 }
 
 export class LoginFail implements Action {
-  readonly type = LOGIN_FAIL;
-  constructor( public payload: any) {}
+	readonly type = LOGIN_FAIL;
+	constructor(public payload: any) {}
 }
 
 export class Register implements Action {
-  readonly type = REGISTER;
-  constructor( public payload: any) {}
+	readonly type = REGISTER;
+	constructor(public payload: any) {}
 }
 
 export class RegisterSuccess implements Action {
-  readonly type = REGISTER_SUCCESS;
-  constructor( public payload: User) {}
+	readonly type = REGISTER_SUCCESS;
+	constructor(public payload: DatabaseAuthUser) {}
 }
 
 export class RegisterFail implements Action {
-  readonly type = REGISTER_FAIL;
-  constructor( public payload: any) {}
+	readonly type = REGISTER_FAIL;
+	constructor(public payload: any) {}
 }
 
 export class Logout implements Action {
-  readonly type = LOGOUT;
+	readonly type = LOGOUT;
 }
 
 export class LogoutSuccess implements Action {
-  readonly type = LOGOUT_SUCCESS;
+	readonly type = LOGOUT_SUCCESS;
 }
 
 export type AuthActions =
-  Login |
-  LoginFail |
-  LoginSuccess  |
-  Register  |
-  RegisterFail  |
-  RegisterSuccess |
-  Logout  |
-  LogoutSuccess;
+	| Login
+	| LoginFail
+	| LoginSuccess
+	| Register
+	| RegisterFail
+	| RegisterSuccess
+	| Logout
+	| LogoutSuccess;

@@ -1,0 +1,19 @@
+<div class="container mt-5">
+	<div class="row">
+		<ng-container *ngIf="topGames">
+			<div
+				class="col-12 mb-3"
+				*ngFor="let game of topGames; let i = index"
+			>
+				<app-list-position
+					[class]="getClass(i)"
+					[game]="game"
+					[position]="i + 1"
+				></app-list-position>
+			</div>
+		</ng-container>
+	</div>
+	<div class="row">
+		<div class="col-12"></div>
+	</div>
+</div>

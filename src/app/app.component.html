@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<div id="site-frame">
+	<div class="header">
+		<div class="page-title-container">
+			<h1 class="page-title">GameDay Planner</h1>
+		</div>
+	</div>
+	<ng-template class="loading" #awaitS>
+		<p>Loading...</p>
+		<div class="lds-hourglass text-center w-100"></div>
+	</ng-template>
+	<div class="router-outlet mb-auto" *ngIf="gotUser; else awaitS">
+		<router-outlet></router-outlet>
+	</div>
+	<div>
+		<app-footer></app-footer>
+	</div>
+</div>

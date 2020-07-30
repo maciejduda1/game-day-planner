@@ -1,70 +1,139 @@
-<ng-container *ngIf="!editMode; else editTemp">
-  NEW EVENT
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate class="d-flex flex-column justify-content-center align-items-center" >
-    <mat-form-field>
-      <input ngModel matInput type="text" name="name" placeholder="Nazwa Eventu" maxlength="25" required>
-    </mat-form-field>
-    <mat-form-field>
-        <input
-        matInput
-        ngModel
-        [matDatepicker]="picker"
-        name="date"
-        placeholder="Wybierz datę"
-        [min]="minDate"
-        readonly
-        >
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-    </mat-form-field>
-    <h5>Proponowane Gry (Do 3 tytułów): </h5>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game1" placeholder="Propozycja Gry:" maxlength="20">
-    </mat-form-field>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game2" placeholder="Propozycja Gry:" maxlength="20">
-    </mat-form-field>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game3" placeholder="Propozycja Gry:" maxlength="20">
-    </mat-form-field>
-    <div class="d-flex">
-      <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
-      <button class="btn btn-primary" type="submit"> Submit </button>
-    </div>
-  </form>
-  <ng-container *ngIf="dataSendingError">
-    <p class="text-danger">{{dataSendingError}}</p>
-  </ng-container>
+<app-modal [title]="editMode ? 'Edit Event' : 'Add New Event'">
+	<div>
+		<form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<mat-form-field class="w-100">
+							<input
+								[(ngModel)]="model.name"
+								matInput
+								type="text"
+								name="name"
+								placeholder="Event name"
+								maxlength="25"
+								required
+							/>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<mat-form-field class="w-100">
+							<input
+								matInput
+								[(ngModel)]="model.date"
+								[matDatepicker]="picker"
+								name="date"
+								placeholder="Wybierz datę"
+								[min]="minDate"
+								readonly
+							/>
+							<mat-datepicker-toggle
+								matSuffix
+								[for]="picker"
+							></mat-datepicker-toggle>
+							<mat-datepicker
+								#picker
+								[disabled]="false"
+							></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-6">
+						<mat-form-field class="w-100">
+							<input
+								[ngxTimepicker]="time"
+								[format]="24"
+								matInput
+								[(ngModel)]="model.time"
+								name="time"
+								[disableClick]="true"
+								readonly
+							/>
+							<ngx-material-timepicker-toggle
+								matSuffix
+								[for]="time"
+							></ngx-material-timepicker-toggle>
+							<ngx-material-timepicker
+								[format]="24"
+								#time
+							></ngx-material-timepicker>
+						</mat-form-field>
+					</div>
+				</div>
+				<ng-container *ngIf="gamesProposed.length">
+					<h5>Proposed Games:</h5>
+					<ul>
+						<li *ngFor="let game of gamesProposed">
+							{{ game.name }}
+						</li>
+					</ul>
+				</ng-container>
+				<div class="d-inline-flex align-items-center">
+					<h4>
+						Do you want to propose any games?
+					</h4>
+					<mat-slide-toggle
+						[(ngModel)]="addGamesSwitch"
+						[ngModelOptions]="{ standalone: true }"
+						>{{ addGamesSwitch ? 'Yes' : 'No' }}</mat-slide-toggle
+					>
+				</div>
+				<ng-container *ngIf="addGamesSwitch">
+					<div class="row">
+						<div class="col-12">
+							<app-search-bar
+								(newSearch)="Search($event)"
+							></app-search-bar>
+							<ng-container
+								*ngIf="searchResults$ | async as games"
+							>
+								<div
+									class="results-container d-flex flex-column"
+								>
+									<app-search-result
+										*ngFor="let game of games"
+										[game]="game"
+										(selectedGame)="adGame($event)"
+									></app-search-result>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+				</ng-container>
+			</div>
 
-</ng-container>
-<ng-template #editTemp>
-  EDIT EVENT
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate class="d-flex flex-column justify-content-center align-items-center">
-    <mat-form-field>
-      <input ngModel matInput type="text" name="name" [placeholder]="data.name" maxlength="25">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput ngModel [matDatepicker]="picker" name="date" [placeholder]="data.date" readonly>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <h5>Proposed Games: </h5>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game1" [placeholder]="data?.games[0] || 'Propozycja Gry:'" maxlength="20">
-    </mat-form-field>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game2" [placeholder]="data?.games[1] || 'Propozycja Gry:'" maxlength="20">
-    </mat-form-field>
-    <mat-form-field>
-      <input ngModel  matInput type="text" name="game3" [placeholder]="data?.games[2] || 'Propozycja Gry:'" maxlength="20">
-    </mat-form-field>
-    <div class="d-flex ">
-      <button class="btn btn-danger mr-3" (click)="onNoClick()"> Cancel </button>
-      <button class="btn btn-primary" type="submit"> Submit </button>
-    </div>
-  </form>
-  <ng-container *ngIf="dataSendingError">
-    <p class="text-danger">{{dataSendingError}}</p>
-  </ng-container>
-</ng-template>
-
+			<div
+				class="mt-auto d-inline-flex align-tems-center justify-content-center w-100 buttons-section"
+			>
+				<button
+					mat-raised-button
+					color="warn"
+					class="mr-5"
+					(click)="onNoClick()"
+				>
+					Cancel
+				</button>
+				<button
+					mat-raised-button
+					[disabled]="isLoading$ | async"
+					type="submit"
+					color="primary"
+				>
+					<div class="d-inline-flex align-items-center">
+						<ng-container *ngIf="isLoading$ | async">
+							<mat-spinner
+								[diameter]="15"
+								color="primary"
+							></mat-spinner>
+						</ng-container>
+						Submit
+					</div>
+				</button>
+			</div>
+		</form>
+		<ng-container *ngIf="dataSendingError">
+			<p class="text-danger">{{ dataSendingError }}</p>
+		</ng-container>
+	</div>
+</app-modal>

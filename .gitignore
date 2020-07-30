@@ -27,6 +27,7 @@ src/environments/environment.prod.ts
 !.vscode/extensions.json
 
 # misc
+.prettierrc
 /.sass-cache
 /connect.lock
 /coverage

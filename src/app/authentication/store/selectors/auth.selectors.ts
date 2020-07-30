@@ -4,21 +4,25 @@ import * as fromFeature from '../reducer';
 import * as fromAuthReducer from '../reducer/auth.reducer';
 
 export const getAuthModuleState = createSelector(
-  fromFeature.getAuthState,
-  (state: fromFeature.AuthState) => state.auth
+	fromFeature.getAuthState,
+	(state: fromFeature.AuthState) => state.auth,
 );
 
 export const getUserRole = createSelector(
-  getAuthModuleState,
-  fromAuthReducer.getUserRole
+	getAuthModuleState,
+	fromAuthReducer.getUserRole,
 );
 
 export const getServerError = createSelector(
-  getAuthModuleState,
-  fromAuthReducer.getServerError
+	getAuthModuleState,
+	fromAuthReducer.getServerError,
 );
 
 export const getLoginState = createSelector(
-  getAuthModuleState,
-  fromAuthReducer.getLoginState
+	getAuthModuleState,
+	fromAuthReducer.getLoginState,
+);
+export const getUserUidSelector = createSelector(
+	getAuthModuleState,
+	fromAuthReducer.getUserUid,
 );

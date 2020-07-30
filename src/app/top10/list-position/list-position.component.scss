@@ -1,0 +1,65 @@
+@mixin score($color) {
+	border: 2px solid $color;
+	color: $color;
+}
+.position {
+	font-weight: 700;
+	font-size: 20px;
+	color: #251f25;
+}
+
+.list-position {
+	position: relative;
+	max-width: 150px;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.list-container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.score {
+	position: absolute;
+	border-radius: 50%;
+	background-color: #6c6355;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.top {
+	@include score(goldenrod);
+	width: 50px;
+	height: 50px;
+	top: -25px;
+	right: -25px;
+	font-size: 25px;
+}
+
+.second {
+	@include score(silver);
+	width: 30px;
+	height: 30px;
+	top: -15px;
+	right: -15px;
+	font-size: 22px;
+}
+
+.game {
+	@include score(#251f25);
+	width: 20px;
+	height: 20px;
+	top: -10px;
+	right: -10px;
+}
+
+.image {
+	img {
+		width: 150px;
+		height: 150px;
+	}
+}

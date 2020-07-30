@@ -5,41 +5,48 @@ import * as fromMainReducers from '../reducers/main.reducers';
 import * as fromRoot from '../../../store';
 
 export const getMainModuleState = createSelector(
-  fromFeature.getMainState,
-  (state: fromFeature.MainState) => state.main
+	fromFeature.getMainState,
+	(state: fromFeature.MainState) => state.main,
 );
 
 export const getSearchResults = createSelector(
-  getMainModuleState,
-  fromMainReducers.getSearchResults
+	getMainModuleState,
+	fromMainReducers.getSearchResults,
 );
 
 export const getGameDaysObject = createSelector(
-  getMainModuleState,
-  fromMainReducers.getEvents
+	getMainModuleState,
+	fromMainReducers.getEvents,
 );
 
 export const getSendError = createSelector(
-  getMainModuleState,
-  fromMainReducers.getError
+	getMainModuleState,
+	fromMainReducers.getError,
 );
 
 export const getEventsList = createSelector(
-  getMainModuleState,
-  fromMainReducers.getEvents,
-  (gameDays) => {
-    if (gameDays && gameDays.events) {
-      return Object.keys(gameDays.events).map(
-        id => {
-          return gameDays.events && gameDays.events[id];
-        }
-      );
-    }
-  }
+	getMainModuleState,
+	fromMainReducers.getEvents,
+	(gameDays) => {
+		if (gameDays && gameDays.events) {
+			return Object.keys(gameDays.events).map((id) => {
+				return gameDays.events && gameDays.events[id];
+			});
+		}
+	},
 );
 
 export const getSelectedGameDayData = createSelector(
-  getGameDaysObject,
-  fromRoot.getRouterState,
-  ( events, router): GameEvent => events[router.state.params.gameDayId]
+	getGameDaysObject,
+	fromRoot.getRouterState,
+	(events, router): GameEvent => events[router.state.params.gameDayId],
+);
+
+export const getIsLoadingSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getIsLoading,
+);
+export const getIsLoadedSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getIsLoaded,
 );

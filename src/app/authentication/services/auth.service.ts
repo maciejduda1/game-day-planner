@@ -1,42 +1,79 @@
-import { User } from './../../models/user.model';
+import { DatabaseAuthUser } from './../../models/user.model';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { auth } from 'firebase/app';
-import { Observable } from 'rxjs';
+import {
+	AngularFirestore,
+	AngularFirestoreCollection,
+	AngularFirestoreDocument,
+} from '@angular/fire/firestore';
+import { Observable, Subject } from 'rxjs';
+import { UserInfo } from 'firebase';
+import { startWith } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-  private userCollection: AngularFirestoreCollection<User>;
-  userDocument: AngularFirestoreDocument<User>;
-  users: Observable<User[]>;
+	private userCollection: AngularFirestoreCollection<DatabaseAuthUser>;
+	userDocument: AngularFirestoreDocument<DatabaseAuthUser>;
 
-  constructor(
-    public angFireAuth: AngularFireAuth,
-    public angFireStore: AngularFirestore) {
-      this.userCollection = angFireStore.collection<User>('users');
-      this.users = this.userCollection.valueChanges();
-    }
+	private user: DatabaseAuthUser;
+	private loginState = new Subject<DatabaseAuthUser>();
 
-  registerUser(email, password) {
-    return this.angFireAuth.auth.createUserWithEmailAndPassword(email, password);
-  }
+	constructor(
+		public angFireAuth: AngularFireAuth,
+		public angFireStore: AngularFirestore,
+	) {
+		this.userCollection = angFireStore.collection<DatabaseAuthUser>(
+			'users',
+		);
+	}
 
-  loginUser(email, password) {
-    return this.angFireAuth.auth.signInWithEmailAndPassword(email, password);
-  }
+	checkLoginState(): void {
+		this.angFireAuth.authState.subscribe((user: UserInfo) => {
+			const authUser: DatabaseAuthUser = {
+				uid: user.uid,
+				userName: user.displayName,
+				photoURL: user.photoURL,
+				email: user.email,
+			};
+			this.user = authUser;
+			this.loginState.next(this.user);
+		});
+	}
 
-  logoutUser() {
-    return this.angFireAuth.auth.signOut();
-  }
+	registerUser(email, password) {
+		return this.angFireAuth.auth.createUserWithEmailAndPassword(
+			email,
+			password,
+		);
+	}
 
-  addUserDataToDatabase(user: User) {
-    this.userCollection.doc(user.uid).set(user);
-  }
+	loginUser(email, password) {
+		return this.angFireAuth.auth.signInWithEmailAndPassword(
+			email,
+			password,
+		);
+	}
 
-  getUserDatabaseData(uid: string) {
-    this.userDocument = this.angFireStore.doc<User | null>(`users/${uid}`);
-    return this.userDocument.valueChanges();
-  }
+	logoutUser() {
+		return this.angFireAuth.auth.signOut();
+	}
 
+	addUserDataToDatabase(user: DatabaseAuthUser) {
+		this.userCollection.doc(user.uid).set(user);
+	}
+
+	getUserDatabaseData(uid: string) {
+		this.userDocument = this.angFireStore.doc<DatabaseAuthUser | null>(
+			`users/${uid}`,
+		);
+		return this.userDocument.valueChanges();
+	}
+
+	getUser(): Observable<DatabaseAuthUser> {
+		return this.loginState;
+	}
+
+	isAuthenticated(): boolean {
+		return !!this.user;
+	}
 }

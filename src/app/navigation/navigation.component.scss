@@ -1,0 +1,27 @@
+ul li a,
+ul li img {
+	font-size: 1rem;
+	padding: 3px 5px;
+	margin: 5px;
+	&:hover {
+		color: white;
+		cursor: pointer;
+	}
+	&:active {
+		margin-bottom: 3px;
+		border-bottom: 2px solid white;
+	}
+}
+
+.navigation-menu {
+	font-family: 'Permanent Marker', cursive;
+	background: #251f25;
+	color: #6c6355;
+}
+
+.image {
+	width: 25px;
+	height: 25px;
+	display: inline-flex;
+	align-items: center;
+}

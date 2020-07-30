@@ -1,0 +1,18 @@
+<div class="search-bar">
+	<form #searchForm="ngForm" (ngSubmit)="onSearch(searchForm)">
+		<mat-form-field appearance="fill">
+			<mat-label>Find title to add</mat-label>
+			<input
+				matInput
+				type="text"
+				minlength="3"
+				ngModel
+				name="searchText"
+			/>
+		</mat-form-field>
+		<button mat-stroked-button color="primary" aria-label="Search Button">
+			<span class="ml-2">Search</span>
+			<mat-icon>search</mat-icon>
+		</button>
+	</form>
+</div>

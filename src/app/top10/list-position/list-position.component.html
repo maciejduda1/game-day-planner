@@ -1,0 +1,11 @@
+<div class="list-container">
+	<div class="position mr-5">No. {{ position }}</div>
+	<div class="list-position">
+		<div class="image">
+			<img src="{{ game.thumb_url }}" />
+		</div>
+		<div [class]="'score' + ' ' + class">
+			{{ game.score }}
+		</div>
+	</div>
+</div>

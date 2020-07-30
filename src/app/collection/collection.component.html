@@ -1,0 +1,60 @@
+<div class="container">
+	<div class="row mt-2 top-games">
+		<ng-template #loading>
+			<app-loading></app-loading>
+		</ng-template>
+		<ng-container
+			*ngIf="
+				(gamesRecived$ | async) && !(gamesRequested$ | async);
+				else loading
+			"
+		>
+			<div class="title-section d-inline-flex align-items-center">
+				<h4>Add Game to my collection</h4>
+				<button
+					(click)="toggleSearch()"
+					class="btn btn-primary rounded-circle rounded-button p-0 ml-3"
+				>
+					{{ !!showSearchBar ? 'x' : 'add' }}
+				</button>
+				<ng-container *ngIf="!!showSearchBar">
+					<form
+						#searchForm="ngForm"
+						(ngSubmit)="onSearch(searchForm)"
+					>
+						<mat-form-field appearance="fill">
+							<mat-label>Find title to add</mat-label>
+							<input
+								matInput
+								type="text"
+								minlength="3"
+								ngModel
+								name="searchText"
+							/>
+						</mat-form-field>
+						<button mat-button type="submit">
+							<mat-icon>search</mat-icon>
+							Find
+						</button>
+					</form>
+				</ng-container>
+			</div>
+
+			<div class="container" *ngIf="showSearchBar">
+				<div class="row">
+					<div
+						class="col-3"
+						*ngFor="let game of gameSearches$ | async"
+					>
+						<app-search-result-in-collection
+							[game]="game"
+						></app-search-result-in-collection>
+					</div>
+				</div>
+			</div>
+			<div class="col-12">
+				<app-user-top-list></app-user-top-list>
+			</div>
+		</ng-container>
+	</div>
+</div>

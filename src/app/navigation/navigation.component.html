@@ -1,0 +1,34 @@
+<div class="navigation-menu">
+	<ul class="nav w-100">
+		<li class="nav-item">
+			<a class="nav-link" (click)="goMain()">Gameday Calendar</a>
+		</li>
+		<!-- <li class="nav-item"> <a class="nav-link">Top 10 list</a></li> -->
+		<ng-container>
+			<li class="nav-item ml-auto d-inline-flex align-items-center">
+				<a class="nav-link" (click)="goTop()">Top 10</a>
+			</li>
+			<li class="nav-item d-inline-flex align-items-center">
+				<a class="nav-link" (click)="goCollection()">Collection</a>
+			</li>
+			<li
+				class="nav-item mr-5 d-inline-flex align-items-center"
+				(click)="goProfile()"
+			>
+				<div class="image">
+					<img
+						[src]="
+							user.photoURL || 'https://via.placeholder.com/50'
+						"
+						alt="image of user"
+						class="img-fluid rounded-circle"
+					/>
+				</div>
+				<a class="nav-link">Profile</a>
+			</li>
+			<li class="nav-item">
+				<a (click)="logoutUser()" class="nav-link">LogOut</a>
+			</li>
+		</ng-container>
+	</ul>
+</div>

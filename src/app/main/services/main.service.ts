@@ -1,66 +1,85 @@
 import { UserComment } from 'src/app/models/comment.model';
 import { GameEvent } from './../../models/game-event.model';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentSnapshot, DocumentChangeAction } from '@angular/fire/firestore';
-import { auth, firestore } from 'firebase/app';
-import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
+import {
+	AngularFirestore,
+	AngularFirestoreCollection,
+	AngularFirestoreDocument,
+	DocumentChangeAction,
+} from '@angular/fire/firestore';
+import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs';
-
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable()
 export class MainService {
-public events$: Observable<DocumentChangeAction<GameEvent>[]>;
-  bggURL = 'https://www.boardgamegeek.com/xmlapi2/';
-  private eventsCollection: AngularFirestoreCollection<GameEvent>;
-  private eventDoc: AngularFirestoreDocument<GameEvent>;
+	public events$: Observable<DocumentChangeAction<GameEvent>[]>;
+	bggURL = 'https://www.boardgamegeek.com/xmlapi2/';
+	private eventsCollection: AngularFirestoreCollection<GameEvent>;
+	private eventDoc: AngularFirestoreDocument<GameEvent>;
 
-  constructor (
-    public http: HttpClient,
-    public afs: AngularFirestore
-    ) {
-    this.eventsCollection = afs.collection<GameEvent>('events');
-    this.events$ = this.eventsCollection.snapshotChanges();
-  }
+	private user: Observable<firebase.UserInfo | null>;
 
-  searchBggDatabase(title: string) {
-    return this.http.get(`${this.bggURL}search`, {
-      params: new HttpParams().set('query', title).set('exact', '5').set('type', 'boardgame')
-    });
-  }
+	constructor(
+		public http: HttpClient,
+		public afs: AngularFirestore,
+		public auth: AngularFireAuth,
+	) {
+		this.eventsCollection = afs.collection<GameEvent>('events');
+		this.events$ = this.eventsCollection.snapshotChanges();
+		this.user = this.auth.user;
+	}
 
-  addEventToDatabase(eventD: GameEvent) {
+	addEventToDatabase(eventD: GameEvent) {
+		return this.eventsCollection.add(eventD);
+	}
 
-    return this.eventsCollection.add(eventD);
-  }
+	editEventInDatabase(eventD: GameEvent) {
+		const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
+		return updateDoc.update(eventD);
+	}
 
-  editEventInDatabase(eventD: GameEvent) {
+	deleteEventInDatabase(eventD: GameEvent) {
+		const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
+		return updateDoc.delete();
+	}
 
-    const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
-    return updateDoc.update(eventD);
-  }
+	addCommentToDatabase(commentD: UserComment) {
+		const creationDate = firestore.FieldValue.serverTimestamp();
+		return this.afs
+			.doc<GameEvent>(`events/${commentD.eventId}`)
+			.collection('comments')
+			.add({ ...commentD, creationDate });
+	}
 
-  deleteEventInDatabase(eventD: GameEvent) {
+	getEventComments(eventId: string) {
+		return this.afs
+			.doc<GameEvent>(`events/${eventId}`)
+			.collection('comments')
+			.snapshotChanges();
+	}
 
-    const updateDoc = this.afs.doc<GameEvent>(`events/${eventD.eventId}`);
-    return updateDoc.delete();
-  }
+	removeCommentFromDatabase(eventId: string, commentId: string) {
+		return this.afs
+			.doc<GameEvent>(`events/${eventId}`)
+			.collection('comments')
+			.doc(commentId)
+			.delete();
+	}
 
-  addCommentToDatabase(commentD: UserComment) {
-    const creationDate = firestore.FieldValue.serverTimestamp();
-    return this.afs.doc<GameEvent>(`events/${commentD.eventId}`).collection('comments').add({...commentD, creationDate });
-  }
+	editCommentInDatabase(eventId: string, comment: UserComment) {
+		return this.afs
+			.doc<GameEvent>(`events/${eventId}`)
+			.collection('comments')
+			.doc(comment.id)
+			.update(comment);
+	}
 
-  getEventComments(eventId: string) {
-    return this.afs.doc<GameEvent>(`events/${eventId}`).collection('comments').snapshotChanges();
-  }
-
-  removeCommentFromDatabase(eventId: string, commentId: string) {
-    return this.afs.doc<GameEvent>(`events/${eventId}`).collection('comments').doc(commentId).delete();
-  }
-
-  editCommentInDatabase(eventId: string, comment: UserComment) {
-    return this.afs.doc<GameEvent>(`events/${eventId}`).collection('comments').doc(comment.id).update(comment);
-  }
-
+	changeUserData(userName?, userAvatar?) {
+		this.auth.auth.currentUser.updateProfile({
+			displayName: userName,
+			photoURL: userAvatar,
+		});
+	}
 }

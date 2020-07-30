@@ -1,0 +1,21 @@
+<div class="card">
+	<div class="card-body text-center">
+		<img
+			src="{{ game.thumb_url }}"
+			class="card-img-top thumb mb-2"
+			alt="Game cover"
+		/>
+		<h5 class="card-title">{{ game.name }}</h5>
+		<h6 class="card-subtitle" *ngFor="let designer of game.designers">
+			<span>
+				{{ designer }}
+			</span>
+		</h6>
+		<button type="button" mat-fab (click)="onClick()">
+			<mat-icon>favorite</mat-icon>
+		</button>
+		<ng-container>
+			<app-score-select [game]="game"></app-score-select>
+		</ng-container>
+	</div>
+</div>
