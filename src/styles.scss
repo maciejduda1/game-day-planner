@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Concert+One|Permanent+Marker');
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Concert+One|Permanent+Marker|Montserrat');
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 * {
@@ -13,22 +13,12 @@ html,
 body {
 	min-height: 100%;
 	color: #000;
+	font-family: 'Montserrat';
 	// height: 100%;
 	// background: linear-gradient(#2f3031, #0a0a0a);
-}
-
-body {
-	// padding: 0 10%;
-	// max-width: 1024px;
 }
 
 app-main,
 mat-grid-list {
 	height: 100%;
-}
-
-.bg-warning {
-	// &:hover {
-	//     background-color: #007bff!important
-	// }
 }

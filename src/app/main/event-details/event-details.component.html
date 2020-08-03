@@ -1,23 +1,4 @@
-<mat-card>
-	<mat-card-header>
-		<mat-card-title>News!</mat-card-title>
-	</mat-card-header>
-	<mat-card-content>
-		<span
-			>Wystartowałem apkę! Na razie w bardzo ograniczonym zakresie. Plan
-			prac:</span
-		>
-		<ul>
-			<li>Profil użytkownika - avatar/zmiana danych</li>
-			<li>Wyszukiwarka gier korzystająca z API Board Game Geek</li>
-			<li>
-				TOP 10 użytkowników i zbiorcze top 10 naszego klubu
-				planszówkowego
-			</li>
-		</ul>
-		<p>Dalsze prace będą planowane na bieżąco.</p>
-	</mat-card-content>
-</mat-card>
+<app-news-panel></app-news-panel>
 <h2 class="w-100 text-center" *ngIf="eventsList">Gameplay gameDays</h2>
 <ng-template #loading>
 	<app-loading></app-loading>
@@ -27,48 +8,6 @@
 </div>
 <ng-container *ngIf="initialGetFinished; else loading">
 	<div class="text-center" *ngFor="let gameDay of eventsList; let i = index">
-		<mat-card class="text-center mb-2">
-			<mat-card-header
-				class="justify-content-center"
-				(mouseenter)="onHoverEnter($event)"
-				(mouseleave)="onHoverLeave($event)"
-				id="{{ gameDay.date }}"
-			>
-				<mat-card-title>
-					<span class="text-primary mr-3 p-2 border-right"
-						>{{ gameDay.date }}
-					</span>
-					<span class="mr-3 p-2 border-right">
-						{{ gameDay.name }}
-					</span>
-				</mat-card-title>
-				<mat-card-subtitle>
-					Added by {{ gameDay.creator }}
-				</mat-card-subtitle>
-			</mat-card-header>
-			<mat-card-actions>
-				<div class="text-center w-100 border-top">
-					<button mat-button (click)="goEvent(gameDay)">
-						View Event
-					</button>
-					<button
-						class="ml-auto"
-						mat-button
-						(click)="editEvent(gameDay)"
-						*ngIf="userId && userId == gameDay.creatorUid"
-					>
-						Edit
-					</button>
-					<button
-						class="ml-auto"
-						mat-button
-						(click)="deleteEvent(gameDay)"
-						*ngIf="userId && userId == gameDay.creatorUid"
-					>
-						Delete
-					</button>
-				</div>
-			</mat-card-actions>
-		</mat-card>
+		<app-single-event [gameDay]="gameDay"></app-single-event>
 	</div>
 </ng-container>

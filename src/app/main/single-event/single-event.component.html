@@ -1,0 +1,36 @@
+<mat-card class="text-center mb-2">
+	<mat-card-header class="justify-content-center" id="{{ gameDay.date }}">
+		<mat-card-title>
+			<span class="text-primary mr-3 p-2 border-right"
+				>{{ gameDay.date }}
+			</span>
+			<span class="mr-3 p-2 border-right">
+				{{ gameDay.name }}
+			</span>
+		</mat-card-title>
+		<mat-card-subtitle> Added by {{ gameDay.creator }} </mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-actions>
+		<div class="text-center w-100 border-top">
+			<button mat-button (click)="goEvent(gameDay)">
+				View Event
+			</button>
+			<button
+				class="ml-auto"
+				mat-button
+				(click)="editEvent(gameDay)"
+				*ngIf="userId && userId == gameDay.creatorUid"
+			>
+				Edit
+			</button>
+			<button
+				class="ml-auto"
+				mat-button
+				(click)="deleteEvent(gameDay)"
+				*ngIf="userId && userId == gameDay.creatorUid"
+			>
+				Delete
+			</button>
+		</div>
+	</mat-card-actions>
+</mat-card>
