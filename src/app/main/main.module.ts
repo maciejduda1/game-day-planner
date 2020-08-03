@@ -45,6 +45,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NewsPanelComponent } from './news-panel/news-panel.component';
 import { SingleEventComponent } from './single-event/single-event.component';
+import { MatIconModule } from '@angular/material/icon';
 
 // import { reducers, effects } from './store';
 
@@ -79,6 +80,7 @@ import { SingleEventComponent } from './single-event/single-event.component';
 		NgxMaterialTimepickerModule,
 		MatSlideToggleModule,
 		MatProgressSpinnerModule,
+		MatIconModule,
 		// MatToolbarModule,
 
 		MatCardModule,

@@ -1,13 +1,27 @@
 <app-news-panel></app-news-panel>
-<h2 class="w-100 text-center" *ngIf="eventsList">Gameplay gameDays</h2>
+<div class="mt-5">
+	<mat-card *ngIf="eventsList">
+		<mat-card-header class="title">
+			<mat-card-title>
+				Upcomming Game Events
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<ng-container *ngIf="initialGetFinished; else loading">
+				<div
+					class="text-center"
+					*ngFor="let gameDay of eventsList; let i = index"
+				>
+					<app-single-event [gameDay]="gameDay"></app-single-event>
+				</div>
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+</div>
+
 <ng-template #loading>
 	<app-loading></app-loading>
 </ng-template>
 <div *ngIf="errorOccured" class="text-center w-100">
 	{{ errorOccured }}
 </div>
-<ng-container *ngIf="initialGetFinished; else loading">
-	<div class="text-center" *ngFor="let gameDay of eventsList; let i = index">
-		<app-single-event [gameDay]="gameDay"></app-single-event>
-	</div>
-</ng-container>

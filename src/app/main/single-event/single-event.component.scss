@@ -1,0 +1,43 @@
+.mat-card {
+	position: relative;
+	border: 2px solid #251f25;
+	background-color: #d0d1c9;
+	color: #6c6355;
+	padding: 0;
+	&:hover {
+		cursor: pointer;
+		background-color: #716c5c;
+		color: white;
+		.mat-card-subtitle {
+			color: white;
+		}
+	}
+	.mat-card-header {
+		font-family: 'Concert One', cursive;
+		flex-direction: column;
+		padding: 16px;
+	}
+}
+
+.delete {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: rgb(241, 11, 11);
+	color: #ffffff;
+	&:hover {
+		color: rgb(241, 11, 11);
+		background-color: rgb(70, 17, 17);
+	}
+}
+
+.edit {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background-color: #d0d1c9;
+	color: #251f25;
+	&:hover {
+		background-color: #646c67;
+	}
+}
