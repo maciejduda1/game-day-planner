@@ -1,21 +1,46 @@
 form {
-  margin-top: 5%;
-  margin-bottom: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
 }
 
 .register {
-  background-color: #212121;
-  opacity: 0.8;
-  max-width: 50%;
-  margin: 0 auto;
-  border-radius: 1%;
-  @media screen and (max-width: 991px) {
-    max-width: 100%;
-  }
-  mat-form-field {
-    min-width: 50%;
-    margin-top: 0.5rem;
-  }
+	opacity: 0.8;
+	max-width: 50%;
+	margin: 30px auto;
+	border-radius: 1%;
+	@media screen and (max-width: 991px) {
+		max-width: 98%;
+		margin: 5px auto;
+	}
+	mat-form-field {
+		min-width: 50%;
+		margin-top: 0.5rem;
+	}
 }
 
+.login {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 22px;
+	span {
+		text-decoration: underline;
+		&:hover {
+			cursor: pointer;
+			color: #251f25;
+		}
+	}
+}
 
+mat-card-header {
+	text-align: center;
+	padding: 24px;
+	font-family: 'Permanent Marker', cursive;
+	background: #251f25;
+	color: #6c6355;
+}
+
+p.req-info {
+	color: red;
+	font-weight: 700;
+	font-size: 18px;
+}

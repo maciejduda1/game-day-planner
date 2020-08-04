@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import { RegisterComponent } from './register/register.component';
@@ -22,6 +23,7 @@ import { reducers, effects } from './store';
 		EffectsModule.forFeature(effects),
 		MatInputModule,
 		MatButtonModule,
+		MatCardModule,
 		ErrorHandlerModule,
 	],
 	declarations: [LoginComponent, RegisterComponent],

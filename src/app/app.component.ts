@@ -12,7 +12,7 @@ import * as fromAuthStore from './authentication/store';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	gotUser = false;
+	isLoading = false;
 
 	constructor(
 		private authService: AuthService,
@@ -20,14 +20,13 @@ export class AppComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
+		this.isLoading = true;
 		this.authService.checkLoginState();
 		this.authService.getUser().subscribe((user: DatabaseAuthUser) => {
 			if (user) {
-				this.gotUser = true;
-				return this.authStore.dispatch(
-					new fromAuthStore.LoginSuccess(user),
-				);
+				this.authStore.dispatch(new fromAuthStore.LoginSuccess(user));
 			}
+			this.isLoading = false;
 		});
 	}
 }
