@@ -43,6 +43,9 @@ import { CommentsSectionComponent } from './comments-section/comments-section.co
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NewsPanelComponent } from './news-panel/news-panel.component';
+import { SingleEventComponent } from './single-event/single-event.component';
+import { MatIconModule } from '@angular/material/icon';
 
 // import { reducers, effects } from './store';
 
@@ -58,6 +61,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 		GamedayPlannerMainComponent,
 		BgCalendarComponent,
 		CommentsSectionComponent,
+		NewsPanelComponent,
+		SingleEventComponent,
 	],
 	imports: [
 		ComponentsModule,
@@ -75,6 +80,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 		NgxMaterialTimepickerModule,
 		MatSlideToggleModule,
 		MatProgressSpinnerModule,
+		MatIconModule,
 		// MatToolbarModule,
 
 		MatCardModule,
