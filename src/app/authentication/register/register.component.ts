@@ -6,13 +6,25 @@ import * as fromRouterStore from '../../store';
 import * as fromAuthStore from '../store';
 import { Observable } from 'rxjs';
 
+interface RegisterForm {
+	email: string;
+	name: string;
+	password: string;
+	avatarUrl: string;
+}
+
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
 	styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-	model: any = {};
+	model: RegisterForm = {
+		email: '',
+		name: '',
+		password: '',
+		avatarUrl: '',
+	};
 	wrongPassword = false;
 	serverError$: Observable<string>;
 	serverError: string;
@@ -36,8 +48,7 @@ export class RegisterComponent implements OnInit {
 			form.value.password === form.value.rePassword &&
 			form.value.email.trim().length >= 4 &&
 			form.value.password.trim().length >= 4 &&
-			form.value.name.trim().length >= 5 &&
-			form.value.secret === 'MaczokPower'
+			form.value.name.trim().length >= 5
 		) {
 			this.wrongPassword = false;
 			this.authStore.dispatch(

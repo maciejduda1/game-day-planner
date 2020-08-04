@@ -1,0 +1,112 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-mcgpalette-prim: (
+	50: #e5e4e5,
+	100: #bebcbe,
+	200: #928f92,
+	300: #666266,
+	400: #464146,
+	500: #251f25,
+	600: #211b21,
+	700: #1b171b,
+	800: #161216,
+	900: #0d0a0d,
+	A100: #ff53ff,
+	A200: #ff20ff,
+	A400: #ec00ec,
+	A700: #d300d3,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #ffffff,
+		A400: #ffffff,
+		A700: #ffffff,
+	),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-mcgpalette-sec: (
+	50: #edeceb,
+	100: #d3d0cc,
+	200: #b6b1aa,
+	300: #989288,
+	400: #827a6f,
+	500: #6c6355,
+	600: #645b4e,
+	700: #595144,
+	800: #4f473b,
+	900: #3d352a,
+	A100: #ffcf8b,
+	A200: #ffba58,
+	A400: #ffa525,
+	A700: #ff9b0b,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #000000,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #000000,
+		A400: #000000,
+		A700: #000000,
+	),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-mcgpalette-warn: (
+	50: #f9e0e0,
+	100: #f0b3b3,
+	200: #e68080,
+	300: #db4d4d,
+	400: #d42626,
+	500: #cc0000,
+	600: #c70000,
+	700: #c00000,
+	800: #b90000,
+	900: #ad0000,
+	A100: #ffd7d7,
+	A200: #ffa4a4,
+	A400: #ff7171,
+	A700: #ff5858,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #000000,
+		A400: #000000,
+		A700: #000000,
+	),
+);
+
+$my-custom-primary: mat-palette($md-mcgpalette-prim);
+$my-custom-secondary: mat-palette($md-mcgpalette-sec, A200, A100, A400);
+$my-custom-warning: mat-palette($md-mcgpalette-warn);
+
+$candy-app-theme: mat-light-theme($my-custom-primary, $my-custom-secondary);
+
+@include angular-material-theme($candy-app-theme);
