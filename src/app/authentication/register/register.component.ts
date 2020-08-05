@@ -30,6 +30,10 @@ export class RegisterComponent implements OnInit {
 	wrongPassword = false;
 	serverError$: Observable<string>;
 	serverError: string;
+
+	$isLoading: Observable<boolean>;
+	isLoading: boolean;
+
 	constructor(
 		private routerStore: Store<fromRouterStore.State>,
 		private authStore: Store<fromAuthStore.AuthState>,
@@ -40,6 +44,14 @@ export class RegisterComponent implements OnInit {
 
 		this.serverError$ = this.authStore.select(fromAuthStore.getServerError);
 		this.serverError$.subscribe((value) => (this.serverError = value));
+
+		this.$isLoading = this.authStore.select(
+			fromAuthStore.getIsLoadingSelector,
+		);
+
+		this.$isLoading.subscribe((loading: boolean) => {
+			this.isLoading = loading;
+		});
 	}
 
 	onSubmit() {

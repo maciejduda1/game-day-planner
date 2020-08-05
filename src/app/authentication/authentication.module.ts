@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import { RegisterComponent } from './register/register.component';
 import { reducers, effects } from './store';
+import { MatchPasswordDirective } from './directives/match-password.directive';
 
 @NgModule({
 	imports: [
@@ -28,7 +29,7 @@ import { reducers, effects } from './store';
 		ErrorHandlerModule,
 		MatProgressSpinnerModule,
 	],
-	declarations: [LoginComponent, RegisterComponent],
+	declarations: [LoginComponent, RegisterComponent, MatchPasswordDirective],
 	providers: [],
 })
 export class AuthenticationModule {}
