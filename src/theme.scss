@@ -107,6 +107,10 @@ $my-custom-primary: mat-palette($md-mcgpalette-prim);
 $my-custom-secondary: mat-palette($md-mcgpalette-sec, A200, A100, A400);
 $my-custom-warning: mat-palette($md-mcgpalette-warn);
 
-$candy-app-theme: mat-light-theme($my-custom-primary, $my-custom-secondary);
+$candy-app-theme: mat-light-theme(
+	$my-custom-primary,
+	$my-custom-secondary,
+	$my-custom-warning
+);
 
 @include angular-material-theme($candy-app-theme);

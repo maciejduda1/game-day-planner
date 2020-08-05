@@ -5,12 +5,14 @@ export interface AuthState {
 	signedIn: boolean;
 	user: DatabaseAuthUser;
 	serverError: string;
+	isLoading: boolean;
 }
 
 const initialState: AuthState = {
 	signedIn: false,
 	user: new DatabaseAuthUser(),
 	serverError: '',
+	isLoading: false,
 };
 
 export function reducers(
@@ -23,6 +25,7 @@ export function reducers(
 			return {
 				...state,
 				serverError: '',
+				isLoading: true,
 			};
 
 		case fromAuthActions.REGISTER_SUCCESS:
@@ -30,6 +33,7 @@ export function reducers(
 			return {
 				...state,
 				user: action.payload,
+				isLoading: false,
 				signedIn: true,
 			};
 
@@ -37,6 +41,7 @@ export function reducers(
 		case fromAuthActions.LOGIN_FAIL:
 			return {
 				...state,
+				isLoading: false,
 				signedIn: false,
 				serverError: action.payload,
 			};
@@ -53,3 +58,4 @@ export const getUserRole = (state: AuthState) => state.user;
 export const getLoginState = (state: AuthState) => state.signedIn;
 export const getServerError = (state: AuthState) => state.serverError;
 export const getUserUid = (state: AuthState) => state.user.uid;
+export const getIsLoading = (state: AuthState) => state.isLoading;

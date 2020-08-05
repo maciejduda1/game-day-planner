@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import { RegisterComponent } from './register/register.component';
@@ -25,6 +26,7 @@ import { reducers, effects } from './store';
 		MatButtonModule,
 		MatCardModule,
 		ErrorHandlerModule,
+		MatProgressSpinnerModule,
 	],
 	declarations: [LoginComponent, RegisterComponent],
 	providers: [],

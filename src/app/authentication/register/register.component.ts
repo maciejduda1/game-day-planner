@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 
 interface RegisterForm {
 	email: string;
-	name: string;
+	username: string;
 	password: string;
+	rePassword: string;
 	avatarUrl: string;
 }
 
@@ -21,8 +22,9 @@ interface RegisterForm {
 export class RegisterComponent implements OnInit {
 	model: RegisterForm = {
 		email: '',
-		name: '',
+		username: '',
 		password: '',
+		rePassword: '',
 		avatarUrl: '',
 	};
 	wrongPassword = false;
@@ -40,26 +42,15 @@ export class RegisterComponent implements OnInit {
 		this.serverError$.subscribe((value) => (this.serverError = value));
 	}
 
-	onSubmit(form: NgForm) {
-		if (form.value.password !== form.value.rePassword) {
-			this.wrongPassword = true;
-		} else if (
-			form.valid &&
-			form.value.password === form.value.rePassword &&
-			form.value.email.trim().length >= 4 &&
-			form.value.password.trim().length >= 4 &&
-			form.value.name.trim().length >= 5
-		) {
-			this.wrongPassword = false;
-			this.authStore.dispatch(
-				new fromAuthStore.Register({
-					name: form.value.name,
-					email: form.value.email,
-					password: form.value.password,
-					avatarUrl: form.value.avatarUrl || '',
-				}),
-			);
-		}
+	onSubmit() {
+		this.authStore.dispatch(
+			new fromAuthStore.Register({
+				name: this.model.username,
+				email: this.model.email,
+				password: this.model.password,
+				avatarUrl: this.model.avatarUrl || '',
+			}),
+		);
 	}
 
 	goLogin() {

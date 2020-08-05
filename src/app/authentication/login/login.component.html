@@ -10,7 +10,7 @@
 		</ng-container>
 		<form
 			class="w-100 text-center"
-			(ngSubmit)="onSubmit(form)"
+			(ngSubmit)="onSubmit()"
 			#form="ngForm"
 			novalidate
 		>
@@ -34,9 +34,6 @@
 					<p *ngIf="!!Email.errors.required">Email is required.</p>
 				</mat-error>
 			</mat-form-field>
-			<p class="text-danger" *ngIf="emailError">
-				Email must be a valid email address.
-			</p>
 			<br />
 			<mat-form-field>
 				<input
@@ -61,17 +58,30 @@
 					</p>
 				</mat-error>
 			</mat-form-field>
-			<p class="text-danger" *ngIf="passwordError">
-				Password must be min 4 chars long.
-			</p>
 			<div class="text-center">
-				<button mat-raised-button type="submit">Login</button>
+				<button
+					mat-raised-button
+					color="primary"
+					[disabled]="isLoading || form.invalid"
+					type="submit"
+				>
+					<div class="d-inline-flex align-items-center">
+						<ng-container *ngIf="isLoading">
+							<mat-spinner
+								[diameter]="15"
+								color="primary"
+							></mat-spinner>
+						</ng-container>
+						Submit
+					</div>
+				</button>
 			</div>
 		</form>
 		<p class="text-center mt-3 register mb-3">
 			No account ? register
-			<span (click)="goRegister()">HERE</span>
+			<span (click)="!isLoading && goRegister()">HERE</span>
 		</p>
+		<p class="text-center req-info">* - field is required</p>
 	</mat-card-content>
 </mat-card>
 <div class="demo">
