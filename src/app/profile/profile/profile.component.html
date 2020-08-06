@@ -12,49 +12,92 @@
 				</h5>
 			</ng-container>
 			<ng-template #editTemplate>
-				<form (ngSubmit)="onSubmit()" #form="ngForm" novalidate>
+				<form
+					(ngSubmit)="onSubmit()"
+					#form="ngForm"
+					class="w-100"
+					novalidate
+				>
 					<mat-form-field class="w-100">
 						<input
 							matInput
 							[(ngModel)]="model.userName"
 							name="name"
 							type="text"
+							#Username="ngModel"
 							required
+							pattern="^\S+$"
+							minlength="3"
 						/>
+						<mat-error
+							*ngIf="
+								Username.invalid &&
+								(Username.dirty || Username.touched)
+							"
+						>
+							<p *ngIf="!!Username.errors.required">
+								Username is required.
+							</p>
+							<p *ngIf="!!Username.errors.minlength">
+								Username must be min 3 chars long.
+							</p>
+							<p *ngIf="Username.errors.pattern">
+								No spaces allowed! Use one word.
+							</p>
+						</mat-error>
 					</mat-form-field>
 					<mat-form-field class="w-100">
 						<input
 							matInput
-							type="text"
-							ngModel
-							name="photoURL"
 							[(ngModel)]="model.avatarUrl"
+							placeholder="Avatar URL"
+							name="avatarUrl"
+							appAcceptedLinkFormat
+							#avatarUrl="ngModel"
 						/>
+						<mat-error
+							*ngIf="
+								avatarUrl.touched &&
+								avatarUrl.dirty &&
+								avatarUrl.errors?.invalidFormat
+							"
+						>
+							<p>
+								Accepting links with formats: jpg, jpeg, gif,
+								png, apng, svg, bmp. Delete wrong link to
+								Submit.
+							</p>
+						</mat-error>
 					</mat-form-field>
-					<button
-						mat-raised-button
-						color="warn"
-						type="button"
-						(click)="editPersonalDataToggle()"
+					<div
+						class="w-100 d-inline-flex align-items-center justify-content-center mt-4"
 					>
-						Cancel
-					</button>
-					<button
-						mat-raised-button
-						color="primary"
-						[disabled]="isLoading || form.invalid"
-						type="submit"
-					>
-						<div class="d-inline-flex align-items-center">
-							<ng-container *ngIf="isLoading">
-								<mat-spinner
-									[diameter]="15"
-									color="primary"
-								></mat-spinner>
-							</ng-container>
-							Submit
-						</div>
-					</button>
+						<button
+							mat-raised-button
+							color="warn"
+							class="mr-5"
+							type="button"
+							(click)="editPersonalDataToggle()"
+						>
+							Cancel
+						</button>
+						<button
+							mat-raised-button
+							color="primary"
+							[disabled]="isLoading || form.invalid"
+							type="submit"
+						>
+							<div class="d-inline-flex align-items-center">
+								<ng-container *ngIf="isLoading">
+									<mat-spinner
+										[diameter]="15"
+										color="primary"
+									></mat-spinner>
+								</ng-container>
+								Submit
+							</div>
+						</button>
+					</div>
 				</form>
 			</ng-template>
 		</div>

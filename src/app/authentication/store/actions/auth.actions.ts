@@ -12,6 +12,8 @@ export const REGISTER_FAIL = '[auth] register failed';
 export const LOGOUT = '[auth] logout User';
 export const LOGOUT_SUCCESS = '[auth] logout User Success';
 
+export const UPDATE_PROFILE_SUCCESS = '[auth] update profile success';
+
 export class Login implements Action {
 	readonly type = LOGIN;
 	constructor(public payload: any) {}
@@ -50,7 +52,13 @@ export class LogoutSuccess implements Action {
 	readonly type = LOGOUT_SUCCESS;
 }
 
+export class ProfileUpdateSuccess implements Action {
+	readonly type = UPDATE_PROFILE_SUCCESS;
+	constructor(public payload: Partial<DatabaseAuthUser>) {}
+}
+
 export type AuthActions =
+	| ProfileUpdateSuccess
 	| Login
 	| LoginFail
 	| LoginSuccess

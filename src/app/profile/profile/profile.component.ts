@@ -57,7 +57,12 @@ export class ProfileComponent implements OnInit {
 			.changeUserData(this.model.userName, this.model.avatarUrl)
 			.then((res) => {
 				this.isLoading = false;
-				this.authService.checkLoginState();
+				this.authStore.dispatch(
+					new fromAuthStore.ProfileUpdateSuccess({
+						userName: this.model.userName,
+						photoURL: this.model.avatarUrl,
+					}),
+				);
 				this.editPersonalDataToggle();
 			})
 			.catch((er) => (this.isLoading = false));
