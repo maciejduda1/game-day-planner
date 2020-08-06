@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { MatCardModule } from '@angular/material/card';
+import { AcceptedLinkFormatDirective } from './directives/accepted-link-format.directive';
 
 @NgModule({
 	declarations: [
@@ -18,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 		ModalComponent,
 		SearchBarComponent,
 		SearchResultComponent,
+		AcceptedLinkFormatDirective,
 	],
 	imports: [
 		CommonModule,
@@ -33,6 +35,7 @@ import { MatCardModule } from '@angular/material/card';
 		ModalComponent,
 		SearchBarComponent,
 		SearchResultComponent,
+		AcceptedLinkFormatDirective,
 	],
 })
 export class ComponentsModule {}

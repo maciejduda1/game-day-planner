@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { ErrorHandlerModule } from './../error-handler/error-handler.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -28,6 +29,7 @@ import { MatchPasswordDirective } from './directives/match-password.directive';
 		MatCardModule,
 		ErrorHandlerModule,
 		MatProgressSpinnerModule,
+		ComponentsModule,
 	],
 	declarations: [LoginComponent, RegisterComponent, MatchPasswordDirective],
 	providers: [],

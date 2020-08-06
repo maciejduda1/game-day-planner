@@ -17,6 +17,7 @@
 					placeholder="Email"
 					name="email"
 					type="email"
+					autocomplete="email"
 					email
 					required
 					#Email="ngModel"
@@ -37,6 +38,7 @@
 					[(ngModel)]="model.username"
 					placeholder="Username"
 					name="name"
+					autocomplete="username"
 					required
 					#Username="ngModel"
 					minlength="3"
@@ -62,6 +64,7 @@
 					placeholder="Password"
 					name="password"
 					type="password"
+					autocomplete="new-password"
 					required
 					#password="ngModel"
 					minlength="4"
@@ -87,6 +90,7 @@
 					placeholder="Confirm Password"
 					type="password"
 					name="rePassword"
+					autocomplete="new-password"
 					required
 					#rePassword="ngModel"
 				/>
@@ -116,10 +120,24 @@
 					[(ngModel)]="model.avatarUrl"
 					placeholder="Avatar URL"
 					name="avatarUrl"
+					appAcceptedLinkFormat
+					#avatarUrl="ngModel"
 				/>
+				<mat-error
+					*ngIf="
+						avatarUrl.touched &&
+						avatarUrl.dirty &&
+						avatarUrl.errors?.invalidFormat
+					"
+				>
+					<p>
+						Accepting links with formats: jpeg, gif, png, apng, svg,
+						bmp. Delete wrong link to Submit.
+					</p>
+				</mat-error>
 			</mat-form-field>
 			<br />
-			<div class="text-center">
+			<div class="text-center mt-4">
 				<button
 					mat-raised-button
 					color="primary"

@@ -19,6 +19,7 @@
 					[(ngModel)]="model.email"
 					matInput
 					placeholder="Email"
+					autocomplete="email"
 					email
 					type="email"
 					name="email"
@@ -41,6 +42,7 @@
 					[(ngModel)]="model.password"
 					placeholder="Password"
 					name="password"
+					autocomplete="new-password"
 					required
 					#Password="ngModel"
 					minlength="4"

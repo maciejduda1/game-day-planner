@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgForm, NgModel } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import * as fromRouterStore from '../../store';
@@ -20,6 +20,8 @@ interface RegisterForm {
 	styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+	@ViewChild('avatarUrl') avatarUrl: NgModel;
+
 	model: RegisterForm = {
 		email: '',
 		username: '',
@@ -60,7 +62,7 @@ export class RegisterComponent implements OnInit {
 				name: this.model.username,
 				email: this.model.email,
 				password: this.model.password,
-				avatarUrl: this.model.avatarUrl || '',
+				avatarUrl: this.avatarUrl.errors ? '' : this.model.avatarUrl,
 			}),
 		);
 	}
