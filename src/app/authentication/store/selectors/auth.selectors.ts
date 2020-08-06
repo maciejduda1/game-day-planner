@@ -26,3 +26,8 @@ export const getUserUidSelector = createSelector(
 	getAuthModuleState,
 	fromAuthReducer.getUserUid,
 );
+
+export const getIsLoadingSelector = createSelector(
+	getAuthModuleState,
+	fromAuthReducer.getIsLoading,
+);

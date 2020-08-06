@@ -6,15 +6,24 @@ import * as fromRouterStore from '../../store';
 import * as fromAuthStore from '../store';
 import { Observable } from 'rxjs';
 
+interface LoginForm {
+	email: string;
+	password: string;
+}
+
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-	model: any = {};
-	passwordError = false;
-	emailError = false;
+	model: LoginForm = {
+		email: '',
+		password: '',
+	};
+
+	$isLoading: Observable<boolean>;
+	isLoading: boolean;
 
 	serverError$: Observable<string>;
 	serverError: string;
@@ -28,6 +37,14 @@ export class LoginComponent implements OnInit {
 		this.serverError$ = this.authStore.select(fromAuthStore.getServerError);
 		this.serverError$.subscribe((value) => (this.serverError = value));
 		console.log(this.serverError);
+
+		this.$isLoading = this.authStore.select(
+			fromAuthStore.getIsLoadingSelector,
+		);
+
+		this.$isLoading.subscribe((loading: boolean) => {
+			this.isLoading = loading;
+		});
 	}
 
 	goRegister() {
@@ -36,23 +53,12 @@ export class LoginComponent implements OnInit {
 		);
 	}
 
-	onSubmit(form: NgForm) {
-		if (
-			form.value.email.trim().length >= 4 &&
-			form.value.password.trim().length >= 4
-		) {
-			this.emailError = false;
-			this.passwordError = false;
-			this.routerStore.dispatch(
-				new fromAuthStore.Login({
-					email: form.value.email,
-					password: form.value.password,
-				}),
-			);
-		} else if (form.value.email.trim().length < 3) {
-			this.emailError = true;
-		} else if (form.value.password.trim().length < 4) {
-			this.passwordError = true;
-		}
+	onSubmit() {
+		this.routerStore.dispatch(
+			new fromAuthStore.Login({
+				email: this.model.email,
+				password: this.model.password,
+			}),
+		);
 	}
 }

@@ -1,121 +1,168 @@
-<div class="register p-3">
-	<form
-		class="w-100 text-center"
-		(ngSubmit)="onSubmit(form)"
-		#form="ngForm"
-		novalidate
-	>
-		<mat-form-field>
-			<input
-				matInput
-				[(ngModel)]="model.email"
-				placeholder="Email/Login"
-				name="email"
-				email
-				required
-				#Email="ngModel"
-			/>
-			<mat-error *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-				<p *ngIf="!!Email.errors.email">
-					Email must be a valid email address.
-				</p>
-				<p *ngIf="!!Email.errors.required">Email is required.</p>
-			</mat-error>
-		</mat-form-field>
-		<br />
-		<mat-form-field>
-			<input
-				matInput
-				[(ngModel)]="model.username"
-				placeholder="Username"
-				name="name"
-				required
-				#Username="ngModel"
-				minlength="5"
-			/>
-			<mat-error
-				*ngIf="Username.invalid && (Username.dirty || Username.touched)"
-			>
-				<p *ngIf="!!Username.errors.required">Username is required.</p>
-				<p *ngIf="!!Username.errors.minlength">
-					Username must be min 5 chars long.
-				</p>
-			</mat-error>
-		</mat-form-field>
-		<br />
-		<mat-form-field>
-			<input
-				matInput
-				[(ngModel)]="model.password"
-				placeholder="Password"
-				name="password"
-				required
-				#Password="ngModel"
-				minlength="4"
-			/>
-			<mat-error
-				*ngIf="Password.invalid && (Password.dirty || Password.touched)"
-			>
-				<p *ngIf="!!Password.errors.required">Password is required.</p>
-				<p *ngIf="!!Password.errors.minlength">
-					Password must be min 4 chars long.
-				</p>
-			</mat-error>
-		</mat-form-field>
-		<br />
-		<mat-form-field>
-			<input
-				matInput
-				[(ngModel)]="model.rePassword"
-				placeholder="Confirm Password"
-				name="rePassword"
-				required
-				#rePassword="ngModel"
-			/>
-			<mat-error
-				*ngIf="
-					rePassword.invalid &&
-					(rePassword.dirty || rePassword.touched)
-				"
-			>
-				<p *ngIf="!!rePassword.errors.required">
-					Retyping Password is required.
-				</p>
-			</mat-error>
-		</mat-form-field>
-		<p *ngIf="wrongPassword" class="text-danger">Passwords don't match</p>
-		<br />
-		<mat-form-field>
-			<input
-				matInput
-				[(ngModel)]="model.secret"
-				placeholder="Secret ClubMember Code"
-				name="secret"
-				required
-				#Secret="ngModel"
-			/>
-			<mat-error
-				*ngIf="Secret.invalid && (Secret.dirty || Secret.touched)"
-			>
-				<p *ngIf="!!Secret.errors.required">Secret Code is required.</p>
-			</mat-error>
-		</mat-form-field>
-		<br />
-		<mat-form-field>
-			<input matInput ngModel placeholder="Avatar URL" name="avatarUrl" />
-		</mat-form-field>
-		<br />
-		<div class="text-center">
-			<button mat-raised-button type="submit">Submit</button>
-			<button
-				mat-raised-button
-				class="btn-danger ml-5"
-				(click)="goLogin()"
-			>
-				Go Login
-			</button>
-		</div>
-	</form>
-	<p *ngIf="serverError" class="text-danger text-center">{{ serverError }}</p>
-	<p class="text-center text-info">* - field is required</p>
-</div>
+<mat-card class="register p-0">
+	<mat-card-header>
+		<mat-card-title>Register New User</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<form
+			class="w-100 text-center"
+			(ngSubmit)="onSubmit()"
+			#form="ngForm"
+			[appMatchPassword]="['password', 'rePassword']"
+			novalidate
+		>
+			<mat-form-field>
+				<input
+					matInput
+					[(ngModel)]="model.email"
+					placeholder="Email"
+					name="email"
+					type="email"
+					autocomplete="email"
+					email
+					required
+					#Email="ngModel"
+				/>
+				<mat-error
+					*ngIf="Email.invalid && (Email.dirty || Email.touched)"
+				>
+					<p *ngIf="!!Email.errors.email">
+						Email must be a valid email address.
+					</p>
+					<p *ngIf="!!Email.errors.required">Email is required.</p>
+				</mat-error>
+			</mat-form-field>
+			<br />
+			<mat-form-field>
+				<input
+					matInput
+					[(ngModel)]="model.username"
+					placeholder="Username"
+					name="name"
+					autocomplete="username"
+					required
+					#Username="ngModel"
+					minlength="3"
+				/>
+				<mat-error
+					*ngIf="
+						Username.invalid && (Username.dirty || Username.touched)
+					"
+				>
+					<p *ngIf="!!Username.errors.required">
+						Username is required.
+					</p>
+					<p *ngIf="!!Username.errors.minlength">
+						Username must be min 3 chars long.
+					</p>
+				</mat-error>
+			</mat-form-field>
+			<br />
+			<mat-form-field>
+				<input
+					matInput
+					[(ngModel)]="model.password"
+					placeholder="Password"
+					name="password"
+					type="password"
+					autocomplete="new-password"
+					required
+					#password="ngModel"
+					minlength="4"
+				/>
+				<mat-error
+					*ngIf="
+						password.invalid && (password.dirty || password.touched)
+					"
+				>
+					<p *ngIf="!!password.errors.required">
+						Password is required.
+					</p>
+					<p *ngIf="!!password.errors.minlength">
+						Password must be min 4 chars long.
+					</p>
+				</mat-error>
+			</mat-form-field>
+			<br />
+			<mat-form-field>
+				<input
+					matInput
+					[(ngModel)]="model.rePassword"
+					placeholder="Confirm Password"
+					type="password"
+					name="rePassword"
+					autocomplete="new-password"
+					required
+					#rePassword="ngModel"
+				/>
+				<mat-error
+					*ngIf="
+						rePassword.invalid &&
+						(rePassword.dirty || rePassword.touched)
+					"
+				>
+					<p *ngIf="!!rePassword.errors.required">
+						Retyping Password is required.
+					</p>
+					<p
+						*ngIf="
+							rePassword.touched &&
+							rePassword.errors?.passwordMismatch
+						"
+					>
+						Password doesn't match
+					</p>
+				</mat-error>
+			</mat-form-field>
+			<br />
+			<mat-form-field>
+				<input
+					matInput
+					[(ngModel)]="model.avatarUrl"
+					placeholder="Avatar URL"
+					name="avatarUrl"
+					appAcceptedLinkFormat
+					#avatarUrl="ngModel"
+				/>
+				<mat-error
+					*ngIf="
+						avatarUrl.touched &&
+						avatarUrl.dirty &&
+						avatarUrl.errors?.invalidFormat
+					"
+				>
+					<p>
+						Accepting links with formats: jpeg, gif, png, apng, svg,
+						bmp. Delete wrong link to Submit.
+					</p>
+				</mat-error>
+			</mat-form-field>
+			<br />
+			<div class="text-center mt-4">
+				<button
+					mat-raised-button
+					color="primary"
+					[disabled]="isLoading || form.invalid"
+					type="submit"
+				>
+					<div class="d-inline-flex align-items-center">
+						<ng-container *ngIf="isLoading">
+							<mat-spinner
+								[diameter]="15"
+								color="primary"
+							></mat-spinner>
+						</ng-container>
+						Submit
+					</div>
+				</button>
+			</div>
+			<p class="text-center mt-3 login mb-3">
+				Already have account ? login
+				<span (click)="goLogin()">HERE </span>
+			</p>
+		</form>
+		<p *ngIf="serverError" class="text-danger text-center">
+			{{ serverError }}
+		</p>
+		<p class="text-center req-info">* - field is required</p>
+	</mat-card-content>
+</mat-card>

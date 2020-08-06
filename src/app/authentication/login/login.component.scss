@@ -1,24 +1,57 @@
-
-p {
-  color: azure;
-}
-
 form {
-  margin-top: 5%;
-  margin-bottom: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
 }
 
 .login {
-  background-color: #212121;
-  opacity: 0.8;
-  max-width: 50%;
-  margin: 0 auto;
-  border-radius: 1%;
-  @media screen and (max-width: 991px) {
-    max-width: 100%;
-  }
-  mat-form-field {
-    min-width: 50%;
-    margin-top: 0.5rem;
-  }
+	max-width: 50%;
+	margin: 100px auto;
+	border-radius: 1%;
+	@media screen and (max-width: 991px) {
+		max-width: 98%;
+		margin: 70px auto;
+	}
+	mat-form-field {
+		min-width: 50%;
+		margin-top: 0.5rem;
+	}
+}
+
+mat-card-header {
+	text-align: center;
+	padding: 24px;
+	font-family: 'Permanent Marker', cursive;
+	background: #251f25;
+	color: #6c6355;
+}
+
+.register {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 22px;
+	span {
+		text-decoration: underline;
+		&:hover {
+			cursor: pointer;
+			color: #251f25;
+		}
+	}
+}
+
+.demo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #646c67;
+	color: white;
+	font-size: 20px;
+	font-weight: 600;
+	font-family: 'Montserrat';
+	padding: 25px;
+}
+
+p.req-info {
+	color: #cc0000;
+	font-weight: 700;
+	font-size: 18px;
 }

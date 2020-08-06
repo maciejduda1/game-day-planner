@@ -8,7 +8,6 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { UserInfo } from 'firebase';
-import { startWith } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -29,12 +28,21 @@ export class AuthService {
 
 	checkLoginState(): void {
 		this.angFireAuth.authState.subscribe((user: UserInfo) => {
-			const authUser: DatabaseAuthUser = {
-				uid: user.uid,
-				userName: user.displayName,
-				photoURL: user.photoURL,
-				email: user.email,
+			let authUser: DatabaseAuthUser = {
+				uid: '',
+				userName: '',
+				photoURL: '',
+				email: '',
 			};
+			if (user) {
+				authUser = {
+					uid: user.uid,
+					userName: user.displayName,
+					photoURL: user.photoURL,
+					email: user.email,
+				};
+			}
+
 			this.user = authUser;
 			this.loginState.next(this.user);
 		});

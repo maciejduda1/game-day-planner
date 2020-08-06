@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { ErrorHandlerModule } from './../error-handler/error-handler.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -8,10 +9,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import { RegisterComponent } from './register/register.component';
 import { reducers, effects } from './store';
+import { MatchPasswordDirective } from './directives/match-password.directive';
 
 @NgModule({
 	imports: [
@@ -22,9 +26,12 @@ import { reducers, effects } from './store';
 		EffectsModule.forFeature(effects),
 		MatInputModule,
 		MatButtonModule,
+		MatCardModule,
 		ErrorHandlerModule,
+		MatProgressSpinnerModule,
+		ComponentsModule,
 	],
-	declarations: [LoginComponent, RegisterComponent],
+	declarations: [LoginComponent, RegisterComponent, MatchPasswordDirective],
 	providers: [],
 })
 export class AuthenticationModule {}
