@@ -11,14 +11,13 @@
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
+	max-width: 240px;
+	height: 220px;
 	@include box();
 	img#siteAvatar {
 		object-fit: contain;
 	}
-
 	img {
-		width: 100px;
-		height: 100px;
 		object-fit: scale-down;
 	}
 }
@@ -26,10 +25,6 @@
 .profile-wrapper {
 	font-family: 'Concert One', cursive;
 	margin-top: 30px;
-	// padding: 15px 10px;
-	// max-width: 1200px;
-	// margin-left: auto;
-	// margin-right: auto;
 }
 
 .profile-data {
@@ -39,9 +34,6 @@
 .top-games {
 	@include box();
 	color: black;
-	// display: flex;
-	// flex-direction: column;
-	// justify-content: center;
 	.title-section {
 		height: 85px;
 	}

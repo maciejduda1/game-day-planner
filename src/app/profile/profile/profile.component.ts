@@ -1,3 +1,4 @@
+import { AuthService } from './../../authentication/services/auth.service';
 import { Store } from '@ngrx/store';
 import { BoardGame } from './../../models/game.model';
 import { MainService } from '../../main/services/main.service';
@@ -10,6 +11,11 @@ import { Observable } from 'rxjs';
 
 import * as fromAuthStore from '../../authentication/store';
 
+interface AvatarNameModel {
+	userName: string;
+	avatarUrl: string;
+}
+
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
@@ -17,38 +23,55 @@ import * as fromAuthStore from '../../authentication/store';
 })
 export class ProfileComponent implements OnInit {
 	edit = false;
+	isLoading: boolean;
+
+	model: AvatarNameModel = {
+		userName: '',
+		avatarUrl: '',
+	};
 
 	userId$: Observable<null | string>;
 
 	userData$: Observable<DatabaseAuthUser>;
-	userData: DatabaseAuthUser = {
-		userName: '',
-		uid: '',
-		photoURL: '',
-		email: '',
-	};
+	userData: DatabaseAuthUser;
 
 	constructor(
+		private authService: AuthService,
 		private mainService: MainService,
 		private authStore: Store<fromAuthStore.AuthState>,
 	) {}
 
 	ngOnInit() {
 		this.userData$ = this.authStore.select(fromAuthStore.getUserRole);
-		this.userData$.subscribe((userData) => (this.userData = userData));
+
+		this.userData$.subscribe((userData) => {
+			this.userData = userData;
+			this.model.avatarUrl = userData.photoURL;
+			this.model.userName = userData.userName;
+		});
 	}
 
-	onSubmit(form: NgForm) {
-		const formData = {
-			displayName: form.value.name,
-			photoURL: form.value.photoURL,
-		};
-
-		const { displayName, photoURL } = formData;
-		this.mainService.changeUserData(displayName || '', photoURL || '');
+	onSubmit() {
+		this.isLoading = true;
+		this.mainService
+			.changeUserData(this.model.userName, this.model.avatarUrl)
+			.then((res) => {
+				this.isLoading = false;
+				this.authService.checkLoginState();
+				this.editPersonalDataToggle();
+			})
+			.catch((er) => (this.isLoading = false));
 	}
 
 	editPersonalDataToggle() {
+		if (this.edit) {
+			this.resetForm();
+		}
 		this.edit = !this.edit;
+	}
+
+	resetForm() {
+		this.model.avatarUrl = this.userData.photoURL;
+		this.model.userName = this.userData.userName;
 	}
 }

@@ -12,59 +12,64 @@
 				</h5>
 			</ng-container>
 			<ng-template #editTemplate>
-				<form (ngSubmit)="onSubmit(form)" #form="ngForm" novalidate>
+				<form (ngSubmit)="onSubmit()" #form="ngForm" novalidate>
 					<mat-form-field class="w-100">
-						<h5>
-							Name:
-							<input
-								matInput
-								ngModel
-								name="name"
-								type="text"
-								[value]="userData.userName"
-								class="ml-3 mr-3 mt-3 text-primary"
-							/>
-						</h5>
+						<input
+							matInput
+							[(ngModel)]="model.userName"
+							name="name"
+							type="text"
+							required
+						/>
 					</mat-form-field>
 					<mat-form-field class="w-100">
-						<h5>
-							AvatarURL:
-							<input
-								matInput
-								type="text"
-								ngModel
-								name="photoURL"
-								[value]="userData.photoURL"
-								class="ml-3 mr-3 mt-3 text-primary"
-							/>
-						</h5>
+						<input
+							matInput
+							type="text"
+							ngModel
+							name="photoURL"
+							[(ngModel)]="model.avatarUrl"
+						/>
 					</mat-form-field>
-					<button type="submit" class="btn btn-primary">
-						Submit
-					</button>
 					<button
-						class="btn btn-danger ml-5"
+						mat-raised-button
+						color="warn"
+						type="button"
 						(click)="editPersonalDataToggle()"
 					>
 						Cancel
+					</button>
+					<button
+						mat-raised-button
+						color="primary"
+						[disabled]="isLoading || form.invalid"
+						type="submit"
+					>
+						<div class="d-inline-flex align-items-center">
+							<ng-container *ngIf="isLoading">
+								<mat-spinner
+									[diameter]="15"
+									color="primary"
+								></mat-spinner>
+							</ng-container>
+							Submit
+						</div>
 					</button>
 				</form>
 			</ng-template>
 		</div>
 		<div class="avatar col-3">
-			<img
-				src="{{ userData.photoURL }}"
-				alt="avatar"
-				*ngIf="userData.photoURL; else avatarPic"
-			/>
-			<ng-template #avatarPic>
-				<img src="" alt="avatar" id="siteAvatar" />
-			</ng-template>
+			<img src="{{ this.userData?.photoURL || '' }}" alt="avatar" />
 		</div>
 	</div>
 
 	<div class="text-center mt-5" *ngIf="!edit">
-		<button class="btn btn-primary ml-3" (click)="editPersonalDataToggle()">
+		<button
+			mat-raised-button
+			type="button"
+			color="primary"
+			(click)="editPersonalDataToggle()"
+		>
 			Change Display Data
 		</button>
 	</div>
