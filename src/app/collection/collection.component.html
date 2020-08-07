@@ -9,21 +9,19 @@
 				else loading
 			"
 		>
-			<div class="title-section d-inline-flex align-items-center">
-				<h4>Add Game to my collection</h4>
-				<button
-					(click)="toggleSearch()"
-					class="btn btn-primary rounded-circle rounded-button p-0 ml-3"
-				>
-					{{ !!showSearchBar ? 'x' : 'add' }}
-				</button>
-				<ng-container *ngIf="!!showSearchBar">
+			<mat-card class="mb-5 col-12">
+				<mat-card-header class="title">
+					<mat-card-title>
+						<h4>Add Game to my collection</h4>
+					</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
 					<form
 						#searchForm="ngForm"
 						(ngSubmit)="onSearch(searchForm)"
 					>
-						<mat-form-field appearance="fill">
-							<mat-label>Find title to add</mat-label>
+						<mat-form-field class="col-8">
+							<mat-label>Type title you want to add</mat-label>
 							<input
 								matInput
 								type="text"
@@ -32,29 +30,49 @@
 								name="searchText"
 							/>
 						</mat-form-field>
-						<button mat-button type="submit">
-							<mat-icon>search</mat-icon>
-							Find
-						</button>
+						<div class="col-4 d-inline-flex align-items-center">
+							<button
+								mat-raised-button
+								color="primary"
+								type="submit"
+							>
+								<mat-icon>search</mat-icon>
+								Find
+							</button>
+							<button
+								type="reset"
+								class="ml-2"
+								mat-raised-button
+								color="accent"
+								(click)="resetSearch()"
+							>
+								Reset
+							</button>
+						</div>
 					</form>
-				</ng-container>
-			</div>
-
-			<div class="container" *ngIf="showSearchBar">
-				<div class="row">
 					<div
-						class="col-3"
-						*ngFor="let game of gameSearches$ | async"
+						class="container"
+						*ngIf="gameSearches$ | async as gamesSearchResults"
 					>
-						<app-search-result-in-collection
-							[game]="game"
-						></app-search-result-in-collection>
+						<div class="row">
+							<div
+								class="col-12"
+								*ngFor="let game of gamesSearchResults"
+							>
+								<app-search-result
+									[game]="game"
+								></app-search-result>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-12">
-				<app-user-top-list></app-user-top-list>
-			</div>
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card class="col-12">
+				<mat-card-content>
+					<app-user-top-list></app-user-top-list>
+				</mat-card-content>
+			</mat-card>
 		</ng-container>
 	</div>
 </div>

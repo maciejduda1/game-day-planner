@@ -19,7 +19,6 @@ import * as fromProfileStore from './store';
 })
 export class CollectionComponent implements OnInit {
 	edit = false;
-	showSearchBar = false;
 
 	userId$: Observable<null | string>;
 	gamesRecived$: Observable<boolean>;
@@ -90,6 +89,10 @@ export class CollectionComponent implements OnInit {
 		);
 	}
 
+	resetSearch() {
+		this.profileStore.dispatch(new fromProfileStore.FindGameSuccess([]));
+	}
+
 	onSubmit(form: NgForm) {
 		const formData = {
 			displayName: form.value.name,
@@ -98,13 +101,5 @@ export class CollectionComponent implements OnInit {
 
 		const { displayName, photoURL } = formData;
 		this.mainService.changeUserData(displayName || '', photoURL || '');
-	}
-
-	editPersonalDataToggle() {
-		this.edit = !this.edit;
-	}
-
-	toggleSearch() {
-		this.showSearchBar = !this.showSearchBar;
 	}
 }

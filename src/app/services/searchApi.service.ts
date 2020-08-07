@@ -63,11 +63,10 @@ export interface Images {
 
 @Injectable()
 export class SearchApiService {
-	bggURL = 'https://www.boardgameatlas.com/api/';
+	bggURL = 'https://api.boardgameatlas.com/api/';
 	constructor(public http: HttpClient) {}
 
 	searchBggDatabase(title: string): Observable<BoardGame[]> {
-		console.log('title ', title);
 		return this.http
 			.get<ApiSearchResponse>(`${this.bggURL}search`, {
 				params: new HttpParams()
