@@ -76,8 +76,8 @@ export class MainService {
 			.update(comment);
 	}
 
-	changeUserData(userName?, userAvatar?) {
-		this.auth.auth.currentUser.updateProfile({
+	changeUserData(userName?, userAvatar?): Promise<void> {
+		return this.auth.auth.currentUser.updateProfile({
 			displayName: userName,
 			photoURL: userAvatar,
 		});

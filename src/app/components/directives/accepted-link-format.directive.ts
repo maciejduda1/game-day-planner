@@ -31,6 +31,7 @@ export class AcceptedLinkFormatDirective implements Validator {
 			'apng',
 			'svg',
 			'bmp',
+			'jpg',
 		];
 		return (control: AbstractControl): { [key: string]: any } => {
 			if (!control.value) {

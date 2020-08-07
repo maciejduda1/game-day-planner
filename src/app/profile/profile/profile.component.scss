@@ -1,53 +1,23 @@
-@mixin box {
-	box-shadow: 2px 2px 2px 2px #7c7a7a;
-	border-radius: 2px;
-	background-color: white;
-	color: black;
-	padding: 15px;
-}
-
-.avatar {
-	border: 1px solid antiquewhite;
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	@include box();
-	img#siteAvatar {
-		object-fit: contain;
-	}
-
-	img {
-		width: 100px;
-		height: 100px;
-		object-fit: scale-down;
-	}
-}
-
 .profile-wrapper {
 	font-family: 'Concert One', cursive;
 	margin-top: 30px;
-	// padding: 15px 10px;
-	// max-width: 1200px;
-	// margin-left: auto;
-	// margin-right: auto;
 }
 
-.profile-data {
-	@include box();
+.data-name {
+	font-size: 20px;
+	font-weight: 400;
+	font-family: 'Alfa Slab One', cursive;
 }
 
-.top-games {
-	@include box();
-	color: black;
-	// display: flex;
-	// flex-direction: column;
-	// justify-content: center;
-	.title-section {
-		height: 85px;
-	}
+.data-value {
+	font-size: 18px;
+	font-weight: 500;
+	font-family: 'Concert One', cursive;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-.rounded-button {
-	width: 40px;
-	height: 40px;
+.min-height {
+	min-height: 240px;
 }

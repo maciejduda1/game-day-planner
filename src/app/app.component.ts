@@ -1,3 +1,4 @@
+import { tap } from 'rxjs/operators';
 import { DatabaseAuthUser } from './models/user.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
