@@ -1,119 +1,135 @@
 <div class="container profile-wrapper">
 	<div class="data-section row justify-content-between">
-		<div
-			class="profile-data flex-column d-flex justify-content-center align-items-start col-8"
-		>
-			<ng-container *ngIf="!edit; else editTemplate">
-				<h5>
-					Name: <span class="ml-2">{{ userData.userName }}</span>
-				</h5>
-				<h5>
-					AvatarURL: <span class="ml-2">{{ userData.photoURL }}</span>
-				</h5>
-			</ng-container>
-			<ng-template #editTemplate>
-				<form
-					(ngSubmit)="onSubmit()"
-					#form="ngForm"
-					class="w-100"
-					novalidate
-				>
-					<mat-form-field class="w-100">
-						<input
-							matInput
-							[(ngModel)]="model.userName"
-							name="name"
-							type="text"
-							#Username="ngModel"
-							required
-							pattern="^\S+$"
-							minlength="3"
-						/>
-						<mat-error
-							*ngIf="
-								Username.invalid &&
-								(Username.dirty || Username.touched)
-							"
-						>
-							<p *ngIf="!!Username.errors.required">
-								Username is required.
-							</p>
-							<p *ngIf="!!Username.errors.minlength">
-								Username must be min 3 chars long.
-							</p>
-							<p *ngIf="Username.errors.pattern">
-								No spaces allowed! Use one word.
-							</p>
-						</mat-error>
-					</mat-form-field>
-					<mat-form-field class="w-100">
-						<input
-							matInput
-							[(ngModel)]="model.avatarUrl"
-							placeholder="Avatar URL"
-							name="avatarUrl"
-							appAcceptedLinkFormat
-							#avatarUrl="ngModel"
-						/>
-						<mat-error
-							*ngIf="
-								avatarUrl.touched &&
-								avatarUrl.dirty &&
-								avatarUrl.errors?.invalidFormat
-							"
-						>
-							<p>
-								Accepting links with formats: jpg, jpeg, gif,
-								png, apng, svg, bmp. Delete wrong link to
-								Submit.
-							</p>
-						</mat-error>
-					</mat-form-field>
-					<div
-						class="w-100 d-inline-flex align-items-center justify-content-center mt-4"
-					>
+		<mat-card class="col-12 col-lg-8">
+			<mat-card-header class="title">
+				<mat-card-title>Personal Data</mat-card-title>
+			</mat-card-header>
+			<mat-card-content class="mt-5 min-height">
+				<ng-container *ngIf="!edit; else editTemplate">
+					<div class="row data-name">
+						<div class="col-12 col-sm-4">
+							Name
+						</div>
+						<div class="offset-sm-1 col-12 col-sm-7 data-value">
+							{{ userData.userName }}
+						</div>
+					</div>
+					<div class="row data-name mt-5">
+						<div class="col-12 col-sm-4">
+							AvatarURL:
+						</div>
+						<div class="offset-sm-1 col-12 col-sm-7 data-value">
+							{{ userData.photoURL }}
+						</div>
+					</div>
+					<div class="text-center mt-5" *ngIf="!edit">
 						<button
 							mat-raised-button
-							color="warn"
-							class="mr-5"
 							type="button"
+							color="primary"
 							(click)="editPersonalDataToggle()"
 						>
-							Cancel
-						</button>
-						<button
-							mat-raised-button
-							color="primary"
-							[disabled]="isLoading || form.invalid"
-							type="submit"
-						>
-							<div class="d-inline-flex align-items-center">
-								<ng-container *ngIf="isLoading">
-									<mat-spinner
-										[diameter]="15"
-										color="primary"
-									></mat-spinner>
-								</ng-container>
-								Submit
-							</div>
+							Change Display Data
 						</button>
 					</div>
-				</form>
-			</ng-template>
-		</div>
-		<div class="avatar col-3">
-			<img src="{{ this.userData?.photoURL || '' }}" alt="avatar" />
-		</div>
-	</div>
-
-	<div class="text-center mt-5" *ngIf="!edit">
-		<button
-			mat-raised-button
-			type="button"
-			color="primary"
-			(click)="editPersonalDataToggle()"
+				</ng-container>
+				<ng-template #editTemplate>
+					<form
+						(ngSubmit)="onSubmit()"
+						#form="ngForm"
+						class="w-100"
+						novalidate
+					>
+						<mat-form-field class="w-100">
+							<input
+								matInput
+								[(ngModel)]="model.userName"
+								name="name"
+								type="text"
+								#Username="ngModel"
+								required
+								pattern="^\S+$"
+								minlength="3"
+							/>
+							<mat-error
+								*ngIf="
+									Username.invalid &&
+									(Username.dirty || Username.touched)
+								"
+							>
+								<p *ngIf="!!Username.errors.required">
+									Username is required.
+								</p>
+								<p *ngIf="!!Username.errors.minlength">
+									Username must be min 3 chars long.
+								</p>
+								<p *ngIf="Username.errors.pattern">
+									No spaces allowed! Use one word.
+								</p>
+							</mat-error>
+						</mat-form-field>
+						<mat-form-field class="w-100">
+							<input
+								matInput
+								[(ngModel)]="model.avatarUrl"
+								placeholder="Avatar URL"
+								name="avatarUrl"
+								appAcceptedLinkFormat
+								#avatarUrl="ngModel"
+							/>
+							<mat-error
+								*ngIf="
+									avatarUrl.touched &&
+									avatarUrl.dirty &&
+									avatarUrl.errors?.invalidFormat
+								"
+							>
+								<p>
+									Accepting links with formats: jpg, jpeg,
+									gif, png, apng, svg, bmp. Delete wrong link
+									to Submit.
+								</p>
+							</mat-error>
+						</mat-form-field>
+						<div
+							class="w-100 d-inline-flex align-items-center justify-content-center mt-4"
+						>
+							<button
+								mat-raised-button
+								color="warn"
+								class="mr-5"
+								type="button"
+								(click)="editPersonalDataToggle()"
+							>
+								Cancel
+							</button>
+							<button
+								mat-raised-button
+								color="primary"
+								[disabled]="isLoading || form.invalid"
+								type="submit"
+							>
+								<div class="d-inline-flex align-items-center">
+									<ng-container *ngIf="isLoading">
+										<mat-spinner
+											[diameter]="15"
+											color="primary"
+										></mat-spinner>
+									</ng-container>
+									Submit
+								</div>
+							</button>
+						</div>
+					</form>
+				</ng-template>
+			</mat-card-content>
+		</mat-card>
+		<mat-card
+			class="col-12 col-lg-3 d-inline-flex align-items-center justify-content-center"
 		>
-			Change Display Data
-		</button>
+			<mat-card-content>
+				<img src="{{ this.userData?.photoURL || '' }}" alt="avatar" />
+			</mat-card-content>
+		</mat-card>
 	</div>
 </div>
