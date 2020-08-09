@@ -60,6 +60,7 @@
 								*ngFor="let game of gamesSearchResults"
 							>
 								<app-search-result
+									(selectedGame)="addGame($event)"
 									[game]="game"
 								></app-search-result>
 							</div>

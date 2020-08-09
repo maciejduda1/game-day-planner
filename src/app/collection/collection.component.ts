@@ -93,6 +93,12 @@ export class CollectionComponent implements OnInit {
 		this.profileStore.dispatch(new fromProfileStore.FindGameSuccess([]));
 	}
 
+	addGame(game: BoardGame) {
+		this.profileStore.dispatch(
+			new fromProfileStore.AddGameToTop(game, this.userData.uid),
+		);
+	}
+
 	onSubmit(form: NgForm) {
 		const formData = {
 			displayName: form.value.name,

@@ -1,6 +1,6 @@
 import { BoardGame } from './../../models/game.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,7 +40,6 @@ export class UserTopListComponent implements OnInit {
 		'image',
 		'authors',
 		'score',
-		'favorite',
 	];
 	dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -53,8 +52,8 @@ export class UserTopListComponent implements OnInit {
 	ngOnInit() {
 		this.dataSource.sort = this.sort;
 
-		this.favorites$ = this.profileStore.select(
-			fromProfileStore.getFavoritesSelector,
+		this.favorites$ = this.profileStore.pipe(
+			select(fromProfileStore.getFavoritesSelector),
 		);
 	}
 }
