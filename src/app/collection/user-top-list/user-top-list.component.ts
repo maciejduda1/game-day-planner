@@ -34,12 +34,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
 	styleUrls: ['./user-top-list.component.scss'],
 })
 export class UserTopListComponent implements OnInit {
+	editGameId: string;
+	oldScore: any;
+	editdisabled: boolean;
+
 	displayedColumns: string[] = [
 		'position',
 		'name',
 		'image',
 		'authors',
 		'score',
+		'actions',
 	];
 	dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -55,5 +60,14 @@ export class UserTopListComponent implements OnInit {
 		this.favorites$ = this.profileStore.pipe(
 			select(fromProfileStore.getFavoritesSelector),
 		);
+	}
+
+	toggleEditMode(gameId: string) {
+		if (this.editGameId === gameId) {
+			this.editdisabled = false;
+			return (this.editGameId = '');
+		}
+		this.editdisabled = true;
+		return (this.editGameId = gameId);
 	}
 }
