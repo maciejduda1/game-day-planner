@@ -48,7 +48,10 @@
 					{{ game.score }}
 				</ng-container>
 				<ng-template #editScore>
-					<app-score-select [game]="game"></app-score-select>
+					<app-score-select
+						(selectedScore)="scoreSelected($event)"
+						[game]="game"
+					></app-score-select>
 				</ng-template>
 			</td>
 		</ng-container>
@@ -69,6 +72,16 @@
 					</button>
 				</ng-container>
 				<ng-template #cancel>
+					<button
+						class="mr-2"
+						mat-mini-fab
+						color="primary"
+						type="button"
+						[disabled]="checkNaN()"
+						(click)="submitScore(game)"
+					>
+						<mat-icon>done</mat-icon>
+					</button>
 					<button
 						mat-mini-fab
 						color="warn"

@@ -1,6 +1,6 @@
 import { BoardGame } from 'src/app/models/game.model';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSelect } from '@angular/material';
 
 import * as fromProfileStore from '../store';
@@ -12,6 +12,7 @@ import * as fromAuthStore from '../../authentication/store';
 	styleUrls: ['./score-select.component.scss'],
 })
 export class ScoreSelectComponent implements OnInit {
+	@Output() selectedScore = new EventEmitter<number>();
 	@Input() game: BoardGame;
 	score = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	uid: string;
@@ -29,13 +30,14 @@ export class ScoreSelectComponent implements OnInit {
 
 	onSelect(e: MatSelect): void {
 		const selectedValue: number = e.value;
+		this.selectedScore.emit(selectedValue);
 
-		this.profileStore.dispatch(
-			new fromProfileStore.AddGameScore(
-				this.game,
-				selectedValue,
-				this.uid,
-			),
-		);
+		// this.profileStore.dispatch(
+		// 	new fromProfileStore.AddGameScore(
+		// 		this.game,
+		// 		selectedValue,
+		// 		this.uid,
+		// 	),
+		// );
 	}
 }

@@ -1,12 +1,14 @@
-import { BoardGame } from './../../models/game.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { BoardGame } from './../../models/game.model';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import * as fromProfileStore from '../store';
-import { Observable } from 'rxjs';
+import * as fromAuthStore from '../../authentication/store';
 
 export interface PeriodicElement {
 	name: string;
@@ -38,6 +40,10 @@ export class UserTopListComponent implements OnInit {
 	oldScore: any;
 	editdisabled: boolean;
 
+	uid: string;
+
+	selectedScore: number;
+
 	displayedColumns: string[] = [
 		'position',
 		'name',
@@ -52,7 +58,10 @@ export class UserTopListComponent implements OnInit {
 
 	favorites$: Observable<BoardGame[]>;
 
-	constructor(private profileStore: Store<fromProfileStore.ProfileSt>) {}
+	constructor(
+		private profileStore: Store<fromProfileStore.ProfileSt>,
+		private authStore: Store<fromAuthStore.AuthState>,
+	) {}
 
 	ngOnInit() {
 		this.dataSource.sort = this.sort;
@@ -60,11 +69,33 @@ export class UserTopListComponent implements OnInit {
 		this.favorites$ = this.profileStore.pipe(
 			select(fromProfileStore.getFavoritesSelector),
 		);
+
+		this.authStore
+			.select(fromAuthStore.getUserUidSelector)
+			.subscribe((uid: string) => (this.uid = uid));
+	}
+
+	scoreSelected(score: number) {
+		this.selectedScore = score;
+	}
+
+	checkNaN(): boolean {
+		return isNaN(this.selectedScore);
+	}
+	submitScore(game: BoardGame) {
+		this.profileStore.dispatch(
+			new fromProfileStore.AddGameScore(
+				game,
+				this.selectedScore,
+				this.uid,
+			),
+		);
 	}
 
 	toggleEditMode(gameId: string) {
 		if (this.editGameId === gameId) {
 			this.editdisabled = false;
+			this.selectedScore = NaN;
 			return (this.editGameId = '');
 		}
 		this.editdisabled = true;
