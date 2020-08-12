@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { reducers, effects } from './store';
 import { UserTopListComponent } from './user-top-list/user-top-list.component';
@@ -40,6 +41,7 @@ import { TopGamesService } from './services/top-games.service';
 		MatIconModule,
 		MatSelectModule,
 		CollectionRoutingModule,
+		MatProgressSpinnerModule,
 		StoreModule.forFeature('collection', reducers),
 		EffectsModule.forFeature(effects),
 	],

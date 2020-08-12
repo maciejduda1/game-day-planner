@@ -40,6 +40,9 @@ export class UserTopListComponent implements OnInit {
 	oldScore: any;
 	editdisabled: boolean;
 
+	scoreAdding$: Observable<boolean>;
+	scoreAdding: boolean;
+
 	uid: string;
 
 	selectedScore: number;
@@ -73,6 +76,13 @@ export class UserTopListComponent implements OnInit {
 		this.authStore
 			.select(fromAuthStore.getUserUidSelector)
 			.subscribe((uid: string) => (this.uid = uid));
+
+		this.scoreAdding$ = this.profileStore.select(
+			fromProfileStore.getScoreAddingRequestedSelector,
+		);
+		this.scoreAdding$.subscribe(
+			(isLoading: boolean) => (this.scoreAdding = isLoading),
+		);
 	}
 
 	scoreSelected(score: number) {

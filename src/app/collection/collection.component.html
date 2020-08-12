@@ -20,7 +20,7 @@
 						#searchForm="ngForm"
 						(ngSubmit)="onSearch(searchForm)"
 					>
-						<mat-form-field class="col-8">
+						<mat-form-field class="col-12 col-sm-7 col-lg-8">
 							<mat-label>Type title you want to add</mat-label>
 							<input
 								matInput
@@ -30,20 +30,37 @@
 								name="searchText"
 							/>
 						</mat-form-field>
-						<div class="col-4 d-inline-flex align-items-center">
-							<button
-								mat-raised-button
-								color="primary"
-								type="submit"
-							>
-								<mat-icon>search</mat-icon>
-								Find
-							</button>
+						<div
+							class="col-12 col-sm-5 col-lg-4 d-inline-flex align-items-center justify-content-center justify-content-sm-start"
+						>
+							<div class="search-button-container">
+								<button
+									mat-raised-button
+									color="primary"
+									type="submit"
+									[disabled]="searchRequested"
+								>
+									<mat-icon>search</mat-icon>
+									Find
+								</button>
+
+								<div
+									class="spinner-container"
+									*ngIf="searchRequested"
+								>
+									<mat-spinner
+										mode="indeterminate"
+										[diameter]="24"
+										color="warn"
+									></mat-spinner>
+								</div>
+							</div>
 							<button
 								type="reset"
 								class="ml-2"
 								mat-raised-button
 								color="accent"
+								[disabled]="searchRequested"
 								(click)="resetSearch()"
 							>
 								Reset

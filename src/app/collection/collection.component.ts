@@ -1,6 +1,6 @@
 import { TopGamesService } from './services/top-games.service';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { DatabaseAuthUser } from '../models/user.model';
 import { BoardGame } from '../models/game.model';
 import { Store } from '@ngrx/store';
@@ -17,10 +17,18 @@ import * as fromProfileStore from './store';
 	templateUrl: './collection.component.html',
 	styleUrls: ['./collection.component.scss'],
 })
-export class CollectionComponent implements OnInit {
+export class CollectionComponent implements OnInit, OnDestroy {
 	edit = false;
 
+	allSubs: Subscription[] = [];
+	searchSub: Subscription;
+	uidSub: Subscription;
+
+	searchRequested$: Observable<boolean>;
+	searchRequested: boolean;
+
 	userId$: Observable<null | string>;
+
 	gamesRecived$: Observable<boolean>;
 	gamesRequested$: Observable<boolean>;
 
@@ -42,6 +50,15 @@ export class CollectionComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
+		this.searchRequested$ = this.profileStore.select(
+			fromProfileStore.getSearchRequestedSelector,
+		);
+		this.searchSub = this.searchRequested$.subscribe(
+			(loading: boolean) => (this.searchRequested = loading),
+		);
+
+		this.allSubs.push(this.searchSub);
+
 		this.userId$ = this.authStore.select(fromAuthStore.getUserRole).pipe(
 			map((data: DatabaseAuthUser) => {
 				if (data) {
@@ -52,7 +69,7 @@ export class CollectionComponent implements OnInit {
 			}),
 		);
 
-		this.userId$.subscribe((id: null | string) => {
+		this.uidSub = this.userId$.subscribe((id: null | string) => {
 			if (id) {
 				this.profileStore.dispatch(
 					new fromProfileStore.GetUserGamesCollectionInfo(id),
@@ -62,6 +79,8 @@ export class CollectionComponent implements OnInit {
 				);
 			}
 		});
+
+		this.allSubs.push(this.uidSub);
 
 		this.gamesRequested$ = this.profileStore.select(
 			fromProfileStore.getGamesRequestedSelector,
@@ -107,5 +126,9 @@ export class CollectionComponent implements OnInit {
 
 		const { displayName, photoURL } = formData;
 		this.mainService.changeUserData(displayName || '', photoURL || '');
+	}
+
+	ngOnDestroy() {
+		this.allSubs.forEach((sub: Subscription) => sub.unsubscribe);
 	}
 }
