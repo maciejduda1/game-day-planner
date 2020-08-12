@@ -4,8 +4,24 @@
 
 table {
 	width: 100%;
+	@media screen and (max-width: 768px) {
+		min-width: 768px;
+	}
 	img {
 		width: 80px;
 		height: 100px;
 	}
+
+	th:last-child,
+	td:last-child {
+		width: 120px;
+	}
+	td.score-select,
+	th.score-select {
+		width: 220px;
+	}
+}
+
+.table-wrapper {
+	overflow: auto;
 }
