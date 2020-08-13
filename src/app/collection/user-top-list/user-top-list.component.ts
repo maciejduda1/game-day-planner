@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { BoardGame } from './../../models/game.model';
 
@@ -35,13 +35,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
 	templateUrl: './user-top-list.component.html',
 	styleUrls: ['./user-top-list.component.scss'],
 })
-export class UserTopListComponent implements OnInit {
+export class UserTopListComponent implements OnInit, OnDestroy {
+	allSubs: Subscription[] = [];
+	scoreAddSub: Subscription;
+	uidSub: Subscription;
+	scoreAddSuccessSub: Subscription;
+
 	editGameId: string;
 	oldScore: any;
 	editdisabled: boolean;
 
 	scoreAdding$: Observable<boolean>;
 	scoreAdding: boolean;
+
+	scoreAddingSuccess$: Observable<boolean>;
+	scoreAddingSuccess: boolean;
 
 	uid: string;
 
@@ -73,15 +81,34 @@ export class UserTopListComponent implements OnInit {
 			select(fromProfileStore.getFavoritesSelector),
 		);
 
-		this.authStore
-			.select(fromAuthStore.getUserUidSelector)
+		this.uidSub = this.authStore
+			.pipe(select(fromAuthStore.getUserUidSelector))
 			.subscribe((uid: string) => (this.uid = uid));
 
-		this.scoreAdding$ = this.profileStore.select(
-			fromProfileStore.getScoreAddingRequestedSelector,
+		this.scoreAdding$ = this.profileStore.pipe(
+			select(fromProfileStore.getScoreAddingRequestedSelector),
 		);
-		this.scoreAdding$.subscribe(
+		this.scoreAddSub = this.scoreAdding$.subscribe(
 			(isLoading: boolean) => (this.scoreAdding = isLoading),
+		);
+
+		this.scoreAddingSuccess$ = this.profileStore.pipe(
+			select(fromProfileStore.getScoreAddingSuccessSelector),
+		);
+
+		this.scoreAddSuccessSub = this.scoreAddingSuccess$.subscribe(
+			(successIndicator: boolean) => {
+				if (successIndicator) {
+					this.scoreAddingSuccess = true;
+					this.toggleEditMode(this.editGameId);
+				}
+			},
+		);
+
+		this.allSubs.push(
+			this.scoreAddSub,
+			this.uidSub,
+			this.scoreAddSuccessSub,
 		);
 	}
 
@@ -92,7 +119,9 @@ export class UserTopListComponent implements OnInit {
 	checkNaN(): boolean {
 		return isNaN(this.selectedScore);
 	}
+
 	submitScore(game: BoardGame) {
+		this.scoreAddingSuccess = false;
 		this.profileStore.dispatch(
 			new fromProfileStore.AddGameScore(
 				game,
@@ -110,5 +139,9 @@ export class UserTopListComponent implements OnInit {
 		}
 		this.editdisabled = true;
 		return (this.editGameId = gameId);
+	}
+
+	ngOnDestroy() {
+		this.allSubs.forEach((sub: Subscription) => sub.unsubscribe());
 	}
 }

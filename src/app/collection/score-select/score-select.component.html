@@ -1,5 +1,5 @@
 <mat-form-field>
-	<mat-label>Current score: {{ game.user_scores[uid] }}</mat-label>
+	<mat-label>Current score: {{ game?.user_scores?.uid || '' }}</mat-label>
 	<mat-select (valueChange)="onSelect(s)" [disabled]="disabled" #s>
 		<mat-option *ngFor="let rate of score" [value]="rate">
 			{{ rate }}

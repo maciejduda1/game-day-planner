@@ -1,3 +1,4 @@
+import { MyErrorStateMatcher } from '../utils/ErrorState.Matcher';
 import { TopGamesService } from './services/top-games.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
@@ -19,6 +20,7 @@ import * as fromProfileStore from './store';
 })
 export class CollectionComponent implements OnInit, OnDestroy {
 	edit = false;
+	matcher = new MyErrorStateMatcher();
 
 	allSubs: Subscription[] = [];
 	searchSub: Subscription;

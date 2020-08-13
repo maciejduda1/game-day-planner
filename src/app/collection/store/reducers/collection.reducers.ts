@@ -11,6 +11,7 @@ export interface ProfileState {
 	gamesRequested: boolean;
 	gamesRecived: boolean;
 	scoreAddingRequested: boolean;
+	scoreAddingSuccess: boolean;
 }
 
 const initialState: ProfileState = {
@@ -27,6 +28,7 @@ const initialState: ProfileState = {
 	gamesRequested: false,
 	gamesRecived: false,
 	scoreAddingRequested: false,
+	scoreAddingSuccess: false,
 };
 
 export function reducer(
@@ -81,13 +83,20 @@ export function reducer(
 			return {
 				...state,
 				scoreAddingRequested: true,
+				scoreAddingSuccess: false,
 			};
 
 		case fromProfileActions.ADD_GAME_SCORE_SUCCESS:
+			return {
+				...state,
+				scoreAddingRequested: false,
+				scoreAddingSuccess: true,
+			};
 		case fromProfileActions.ADD_GAME_SCORE_FAIL:
 			return {
 				...state,
 				scoreAddingRequested: false,
+				scoreAddingSuccess: false,
 			};
 
 		default:
@@ -117,3 +126,6 @@ export const getSearchRecived = (state: ProfileState): boolean =>
 
 export const getScoreAddingRequested = (state: ProfileState): boolean =>
 	state.scoreAddingRequested;
+
+export const getScoreAddingSuccess = (state: ProfileState): boolean =>
+	state.scoreAddingSuccess;

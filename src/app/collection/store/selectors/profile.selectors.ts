@@ -77,3 +77,8 @@ export const getScoreAddingRequestedSelector = createSelector(
 	getProfileModuleState,
 	fromProfileReducers.getScoreAddingRequested,
 );
+
+export const getScoreAddingSuccessSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getScoreAddingSuccess,
+);

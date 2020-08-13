@@ -66,14 +66,14 @@
 			</td>
 		</ng-container>
 
-		<!-- Symbol Column -->
+		<!-- Actions Column -->
 		<ng-container matColumnDef="actions">
 			<th mat-header-cell *matHeaderCellDef>Actions</th>
 			<td mat-cell *matCellDef="let game">
 				<ng-container *ngIf="game.id !== editGameId; else cancel">
 					<button
 						color="primary"
-						mat-mini-fab
+						mat-icon-button
 						[disabled]="game.id !== editGameId && editdisabled"
 						type="button"
 						(click)="toggleEditMode(game.id)"
@@ -84,7 +84,7 @@
 				<ng-template #cancel>
 					<button
 						class="mr-2"
-						mat-mini-fab
+						mat-icon-button
 						color="primary"
 						type="button"
 						[disabled]="checkNaN() || scoreAdding"
@@ -93,7 +93,7 @@
 						<mat-icon>done</mat-icon>
 					</button>
 					<button
-						mat-mini-fab
+						mat-icon-button
 						color="warn"
 						type="button"
 						[disabled]="scoreAdding"
