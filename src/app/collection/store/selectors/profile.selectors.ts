@@ -62,3 +62,23 @@ export const getGamesRequestedSelector = createSelector(
 	getProfileModuleState,
 	fromProfileReducers.getGamesRequested,
 );
+
+export const getSearchRequestedSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getSearchRequsted,
+);
+
+export const getSearchRecivedSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getSearchRecived,
+);
+
+export const getScoreAddingRequestedSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getScoreAddingRequested,
+);
+
+export const getScoreAddingSuccessSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getScoreAddingSuccess,
+);

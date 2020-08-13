@@ -10,6 +10,8 @@ export interface ProfileState {
 	games: { [game_id: string]: BoardGame };
 	gamesRequested: boolean;
 	gamesRecived: boolean;
+	scoreAddingRequested: boolean;
+	scoreAddingSuccess: boolean;
 }
 
 const initialState: ProfileState = {
@@ -25,6 +27,8 @@ const initialState: ProfileState = {
 	games: {},
 	gamesRequested: false,
 	gamesRecived: false,
+	scoreAddingRequested: false,
+	scoreAddingSuccess: false,
 };
 
 export function reducer(
@@ -75,6 +79,25 @@ export function reducer(
 				gamesRecived: false,
 				gamesRequested: false,
 			};
+		case fromProfileActions.ADD_GAME_SCORE:
+			return {
+				...state,
+				scoreAddingRequested: true,
+				scoreAddingSuccess: false,
+			};
+
+		case fromProfileActions.ADD_GAME_SCORE_SUCCESS:
+			return {
+				...state,
+				scoreAddingRequested: false,
+				scoreAddingSuccess: true,
+			};
+		case fromProfileActions.ADD_GAME_SCORE_FAIL:
+			return {
+				...state,
+				scoreAddingRequested: false,
+				scoreAddingSuccess: false,
+			};
 
 		default:
 			return state;
@@ -96,3 +119,13 @@ export const getGamesRecived = (state: ProfileState): boolean =>
 	state.gamesRecived;
 export const getGamesRequested = (state: ProfileState): boolean =>
 	state.gamesRequested;
+export const getSearchRequsted = (state: ProfileState): boolean =>
+	state.searchRequested;
+export const getSearchRecived = (state: ProfileState): boolean =>
+	state.searchRecived;
+
+export const getScoreAddingRequested = (state: ProfileState): boolean =>
+	state.scoreAddingRequested;
+
+export const getScoreAddingSuccess = (state: ProfileState): boolean =>
+	state.scoreAddingSuccess;

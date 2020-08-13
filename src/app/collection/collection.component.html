@@ -9,52 +9,116 @@
 				else loading
 			"
 		>
-			<div class="title-section d-inline-flex align-items-center">
-				<h4>Add Game to my collection</h4>
-				<button
-					(click)="toggleSearch()"
-					class="btn btn-primary rounded-circle rounded-button p-0 ml-3"
-				>
-					{{ !!showSearchBar ? 'x' : 'add' }}
-				</button>
-				<ng-container *ngIf="!!showSearchBar">
+			<mat-card class="mb-5 col-12">
+				<mat-card-header class="title">
+					<mat-card-title>
+						<h4>Add Game to my collection</h4>
+					</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
 					<form
 						#searchForm="ngForm"
 						(ngSubmit)="onSearch(searchForm)"
 					>
-						<mat-form-field appearance="fill">
-							<mat-label>Find title to add</mat-label>
+						<mat-form-field class="col-12 col-sm-7 col-lg-8">
+							<mat-label>Type title you want to add</mat-label>
 							<input
+								required
 								matInput
 								type="text"
 								minlength="3"
 								ngModel
 								name="searchText"
+								class="search-input"
+								#searchInput="ngModel"
+								pattern="^[^-\s][\w\s-]+$"
+								[errorStateMatcher]="matcher"
 							/>
+							<mat-error
+								*ngIf="
+									searchInput.invalid &&
+									(searchInput.dirty || searchInput.touched)
+								"
+							>
+								<p *ngIf="!!searchInput.errors.required">
+									Search frase is required.
+								</p>
+								<p *ngIf="searchInput.errors.pattern">
+									Don't start searched frase with spaces!
+								</p>
+								<p
+									*ngIf="
+										!!searchInput.errors.minlength &&
+										!searchInput.errors?.pattern
+									"
+								>
+									Searched frase must be min 3 chars long.
+								</p>
+							</mat-error>
 						</mat-form-field>
-						<button mat-button type="submit">
-							<mat-icon>search</mat-icon>
-							Find
-						</button>
-					</form>
-				</ng-container>
-			</div>
+						<div
+							class="col-12 col-sm-5 col-lg-4 d-inline-flex align-items-center justify-content-center justify-content-sm-start"
+						>
+							<div class="search-button-container">
+								<button
+									mat-raised-button
+									color="primary"
+									type="submit"
+									[disabled]="
+										searchRequested || searchInput.errors
+									"
+								>
+									<mat-icon>search</mat-icon>
+									Find
+								</button>
 
-			<div class="container" *ngIf="showSearchBar">
-				<div class="row">
+								<div
+									class="spinner-container"
+									*ngIf="searchRequested"
+								>
+									<mat-spinner
+										mode="indeterminate"
+										[diameter]="24"
+										color="warn"
+									></mat-spinner>
+								</div>
+							</div>
+							<button
+								type="reset"
+								class="ml-2"
+								mat-raised-button
+								color="accent"
+								[disabled]="searchRequested"
+								(click)="resetSearch()"
+							>
+								Reset
+							</button>
+						</div>
+					</form>
 					<div
-						class="col-3"
-						*ngFor="let game of gameSearches$ | async"
+						class="container"
+						*ngIf="gameSearches$ | async as gamesSearchResults"
 					>
-						<app-search-result-in-collection
-							[game]="game"
-						></app-search-result-in-collection>
+						<div class="row">
+							<div
+								class="col-12"
+								*ngFor="let game of gamesSearchResults"
+							>
+								<app-search-result
+									(selectedGame)="addGame($event)"
+									[game]="game"
+								></app-search-result>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-12">
-				<app-user-top-list></app-user-top-list>
-			</div>
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card class="col-12">
+				<mat-card-content>
+					<app-user-top-list></app-user-top-list>
+				</mat-card-content>
+			</mat-card>
 		</ng-container>
 	</div>
 </div>
