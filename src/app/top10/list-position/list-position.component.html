@@ -1,11 +1,25 @@
-<div class="list-container">
-	<div class="position mr-5">No. {{ position }}</div>
-	<div class="list-position">
-		<div class="image">
-			<img src="{{ game.thumb_url }}" />
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>
+			{{ game.name }}
+		</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="list-container">
+			<div class="position mr-5">{{ position }}</div>
+			<div class="image mr-5">
+				<img src="{{ game.thumb_url }}" />
+			</div>
+			<div>
+				<div *ngFor="let designer of game.designers">
+					<p>
+						{{ designer }}
+					</p>
+				</div>
+			</div>
+			<div [class]="'score' + ' ' + class + ' ml-auto'">
+				{{ game.score }}
+			</div>
 		</div>
-		<div [class]="'score' + ' ' + class">
-			{{ game.score }}
-		</div>
-	</div>
-</div>
+	</mat-card-content>
+</mat-card>

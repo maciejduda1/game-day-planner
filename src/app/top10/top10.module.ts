@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Top10Component } from './top10.component';
 import { ListPositionComponent } from './list-position/list-position.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
 	declarations: [Top10Component, ListPositionComponent],
-	imports: [CommonModule, Top10RoutingModule],
+	imports: [CommonModule, Top10RoutingModule, MatCardModule],
 	providers: [Top10Service],
 })
 export class Top10Module {}

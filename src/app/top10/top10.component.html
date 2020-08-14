@@ -1,6 +1,11 @@
 <div class="container mt-5">
 	<div class="row">
-		<ng-container *ngIf="topGames">
+		<div class="col-12">
+			<h1>CLUB TOP 10 LIST</h1>
+		</div>
+	</div>
+	<div class="row">
+		<ng-container *ngIf="topGames; else NoGames">
 			<div
 				class="col-12 mb-3"
 				*ngFor="let game of topGames; let i = index"
@@ -12,8 +17,8 @@
 				></app-list-position>
 			</div>
 		</ng-container>
-	</div>
-	<div class="row">
-		<div class="col-12"></div>
+		<ng-template #NoGames>
+			<p>Add some games to your collection to see them</p>
+		</ng-template>
 	</div>
 </div>
