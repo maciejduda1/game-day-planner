@@ -82,3 +82,13 @@ export const getScoreAddingSuccessSelector = createSelector(
 	getProfileModuleState,
 	fromProfileReducers.getScoreAddingSuccess,
 );
+
+export const getAddingGameToTopRequestedSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getAddingGameToTopRequested,
+);
+
+export const getAddingGameToTopSuccessSelector = createSelector(
+	getProfileModuleState,
+	fromProfileReducers.getAddingGameToTopSuccess,
+);

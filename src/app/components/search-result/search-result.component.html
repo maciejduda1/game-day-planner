@@ -1,6 +1,19 @@
 <div class="result-container">
 	<h5>{{ game.name }}</h5>
-	<button type="button" mat-mini-fab (click)="onClick(game)">
+
+	<button
+		type="button"
+		mat-mini-fab
+		(click)="onClick(game)"
+		[disabled]="disableGameAdd"
+	>
 		<mat-icon>add_circle</mat-icon>
 	</button>
+	<div class="spinner-container" *ngIf="displayLoading">
+		<mat-spinner
+			mode="indeterminate"
+			[diameter]="24"
+			color="warn"
+		></mat-spinner>
+	</div>
 </div>

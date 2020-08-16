@@ -107,6 +107,14 @@
 								<app-search-result
 									(selectedGame)="addGame($event)"
 									[game]="game"
+									[disableGameAdd]="
+										(addGameToTopRequested$ | async) ||
+										successAddedGameIds.indexOf(game.id) !==
+											-1
+									"
+									[displayLoading]="
+										addingGameId === game.id ? true : false
+									"
 								></app-search-result>
 							</div>
 						</div>

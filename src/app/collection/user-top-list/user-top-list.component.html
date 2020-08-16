@@ -54,7 +54,7 @@
 				[ngClass]="'score-select'"
 			>
 				<ng-container *ngIf="game.id !== editGameId; else editScore">
-					{{ game.score }}
+					{{ (game?.user_scores && (game?.user_scores)[uid]) || '' }}
 				</ng-container>
 				<ng-template #editScore>
 					<app-score-select

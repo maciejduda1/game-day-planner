@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { MatCardModule } from '@angular/material/card';
 import { AcceptedLinkFormatDirective } from './directives/accepted-link-format.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import { AcceptedLinkFormatDirective } from './directives/accepted-link-format.d
 		MatFormFieldModule,
 		FormsModule,
 		MatCardModule,
+		MatProgressSpinnerModule,
 	],
 	exports: [
 		LoadingIndicatorComponent,

@@ -10,6 +10,9 @@ export class SearchResultComponent implements OnInit {
 	@Output() selectedGame = new EventEmitter<BoardGame>();
 
 	@Input() game: BoardGame;
+	@Input() disableGameAdd: boolean;
+	@Input() displayLoading: boolean;
+
 	constructor() {}
 
 	ngOnInit() {}

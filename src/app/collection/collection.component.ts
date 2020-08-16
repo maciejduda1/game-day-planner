@@ -29,6 +29,15 @@ export class CollectionComponent implements OnInit, OnDestroy {
 	searchRequested$: Observable<boolean>;
 	searchRequested: boolean;
 
+	addGameToTopRequested$: Observable<boolean>;
+	addGameToTopRequested: boolean;
+
+	addGameToTopSuccess$: Observable<boolean>;
+	addGameToTopSuccess: boolean;
+
+	addingGameId = '';
+	successAddedGameIds: string[] = [];
+
 	userId$: Observable<null | string>;
 
 	gamesRecived$: Observable<boolean>;
@@ -48,7 +57,6 @@ export class CollectionComponent implements OnInit, OnDestroy {
 		private authStore: Store<fromAuthStore.AuthState>,
 		private profileStore: Store<fromProfileStore.ProfileSt>,
 		private mainService: MainService,
-		private profileService: TopGamesService,
 	) {}
 
 	ngOnInit() {
@@ -91,43 +99,47 @@ export class CollectionComponent implements OnInit, OnDestroy {
 			fromProfileStore.getGamesRecivedSelector,
 		);
 
-		// this.Favorites$.subscribe((games) => {
-		// 	if (!!games) {
-		// 		this.profileStore.dispatch(
-		// 			new fromProfileStore.GetFavoriteGamesSuccess(games),
-		// 		);
-		// 	}
-		// });
-
 		this.gameSearches$ = this.profileStore.select(
 			fromProfileStore.getSearchResultsSelector,
 		);
+
+		this.addGameToTopRequested$ = this.profileStore.select(
+			fromProfileStore.getAddingGameToTopRequestedSelector,
+		);
+
+		this.addGameToTopSuccess$ = this.profileStore.select(
+			fromProfileStore.getAddingGameToTopSuccessSelector,
+		);
+		this.addGameToTopSuccess$.subscribe((addSuccess: boolean) => {
+			if (addSuccess) {
+				this.successAddedGameIds.push(this.addingGameId);
+				this.addingGameId = '';
+			}
+		});
 	}
 
 	onSearch(form: NgForm) {
 		this.profileStore.dispatch(
 			new fromProfileStore.FindGame(form.value.searchText),
 		);
+		this.resetAddGameIds();
+	}
+
+	resetAddGameIds() {
+		this.successAddedGameIds = [];
+		this.addingGameId = '';
 	}
 
 	resetSearch() {
+		this.resetAddGameIds();
 		this.profileStore.dispatch(new fromProfileStore.FindGameSuccess([]));
 	}
 
 	addGame(game: BoardGame) {
+		this.addingGameId = game.id;
 		this.profileStore.dispatch(
 			new fromProfileStore.AddGameToTop(game, this.userData.uid),
 		);
-	}
-
-	onSubmit(form: NgForm) {
-		const formData = {
-			displayName: form.value.name,
-			photoURL: form.value.photoURL,
-		};
-
-		const { displayName, photoURL } = formData;
-		this.mainService.changeUserData(displayName || '', photoURL || '');
 	}
 
 	ngOnDestroy() {
