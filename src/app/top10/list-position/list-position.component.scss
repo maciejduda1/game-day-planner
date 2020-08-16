@@ -1,7 +1,11 @@
 @mixin score($color) {
 	border: 3px solid $color;
-	color: $color;
+	color: white;
+	background-color: $color;
+	font-weight: 700;
+	letter-spacing: 2px;
 }
+
 .mat-card {
 	position: relative;
 	background-color: white;
@@ -9,6 +13,12 @@
 		color: black;
 		display: flex;
 		justify-content: center;
+		z-index: 2;
+		white-space: nowrap;
+		.mat-card-title {
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
 	}
 }
 
@@ -21,7 +31,7 @@
 
 .list-container {
 	width: 100%;
-	font-size: 22px;
+	font-size: 18px;
 	font-family: 'Montserrat';
 	font-weight: 500;
 	position: relative;
@@ -41,15 +51,15 @@
 	height: 75px;
 }
 
-.top {
+.top:not(.position) {
 	@include score(goldenrod);
 }
 
-.second {
+.second:not(.position) {
 	@include score(silver);
 }
 
-.game {
+.game:not(.position) {
 	@include score(#251f25);
 }
 
@@ -57,5 +67,33 @@
 	img {
 		width: 150px;
 		height: 150px;
+	}
+}
+
+.designers-container {
+	max-height: 147px;
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 667px) {
+	.list-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		.position {
+			position: absolute;
+			top: -46px;
+			left: -36px;
+			width: 40px;
+			height: 40px;
+			text-align: center;
+			padding-right: 10px;
+			border-bottom-right-radius: 80%;
+			border-top-left-radius: 3px;
+			font-size: 20px;
+			background-color: #646c67;
+			color: white;
+			opacity: 0.8;
+		}
 	}
 }

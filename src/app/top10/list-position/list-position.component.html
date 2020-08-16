@@ -1,18 +1,18 @@
 <mat-card>
 	<mat-card-header>
-		<mat-card-title>
+		<mat-card-title class="mt-2 mt-sm-0">
 			{{ game.name }}
 		</mat-card-title>
 	</mat-card-header>
 	<mat-card-content>
 		<div class="list-container">
-			<div class="position mr-5">{{ position }}</div>
-			<div class="image mr-5">
+			<div [class]="'position ' + ' mr-5 ' + class">{{ position }}</div>
+			<div class="image mr-sm-5 mt-2 mt-sm-0">
 				<img src="{{ game.thumb_url }}" />
 			</div>
-			<div>
+			<div class="designers-container">
 				<div *ngFor="let designer of game.designers">
-					<p>
+					<p class="mt-2 mt-sm-0">
 						{{ designer }}
 					</p>
 				</div>
