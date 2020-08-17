@@ -41,12 +41,14 @@ mat-grid-list {
 }
 
 .title {
+	font-family: 'Permanent Marker', cursive;
 	justify-content: center;
 	background: #251f25;
 	color: #6c6355;
 	padding: 24px;
 	margin: -16px !important;
 	margin-bottom: 16px !important;
+	text-align: center;
 }
 
 .mat-form-field {
@@ -67,4 +69,16 @@ mat-grid-list {
 		-webkit-box-shadow: 0 0 0px 1000px #646c67 inset;
 		transition: background-color 5000s ease-in-out 0s;
 	}
+}
+
+.spinner-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

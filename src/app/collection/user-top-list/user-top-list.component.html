@@ -54,7 +54,7 @@
 				[ngClass]="'score-select'"
 			>
 				<ng-container *ngIf="game.id !== editGameId; else editScore">
-					{{ game.score }}
+					{{ (game?.user_scores && (game?.user_scores)[uid]) || '' }}
 				</ng-container>
 				<ng-template #editScore>
 					<app-score-select
@@ -107,19 +107,4 @@
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
-
-	<!-- <div class="col-3" *ngFor="let game of favorites$ | async">
-		<img
-			src="{{ game.thumb_url }}"
-			class="card-img-top thumb mb-2 game-pic"
-			alt="Game cover"
-		/>
-		<h5 class="card-title">{{ game.name }}</h5>
-		<h6 class="card-subtitle" *ngFor="let designer of game.designers">
-			<span>
-				{{ designer }}
-			</span>
-		</h6>
-		<app-score-select [game]="game"></app-score-select>
-	</div> -->
 </div>

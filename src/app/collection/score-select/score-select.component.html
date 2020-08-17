@@ -1,8 +1,18 @@
 <mat-form-field>
-	<mat-label>Current score: {{ game?.user_scores?.uid || '' }}</mat-label>
+	<mat-label
+		>Current score:
+		{{ (game?.user_scores && (game?.user_scores)[uid]) || '' }}</mat-label
+	>
 	<mat-select (valueChange)="onSelect(s)" [disabled]="disabled" #s>
 		<mat-option *ngFor="let rate of score" [value]="rate">
 			{{ rate }}
 		</mat-option>
 	</mat-select>
+	<div class="spinner-container" *ngIf="disabled">
+		<mat-spinner
+			mode="indeterminate"
+			[diameter]="24"
+			color="warn"
+		></mat-spinner>
+	</div>
 </mat-form-field>

@@ -15,6 +15,7 @@ export class ScoreSelectComponent implements OnInit {
 	@Output() selectedScore = new EventEmitter<number>();
 	@Input() game: BoardGame;
 	@Input() disabled = false;
+
 	score = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	uid: string;
 

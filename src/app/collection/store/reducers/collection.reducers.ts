@@ -12,6 +12,8 @@ export interface ProfileState {
 	gamesRecived: boolean;
 	scoreAddingRequested: boolean;
 	scoreAddingSuccess: boolean;
+	addingGameToTopRequested: boolean;
+	addingGameToTopSuccess: boolean;
 }
 
 const initialState: ProfileState = {
@@ -29,6 +31,8 @@ const initialState: ProfileState = {
 	gamesRecived: false,
 	scoreAddingRequested: false,
 	scoreAddingSuccess: false,
+	addingGameToTopRequested: false,
+	addingGameToTopSuccess: false,
 };
 
 export function reducer(
@@ -55,6 +59,25 @@ export function reducer(
 				searchRequested: false,
 				searchRecived: false,
 			};
+		case fromProfileActions.ADD_GAME_TO_TOP:
+			return {
+				...state,
+				addingGameToTopRequested: true,
+				addingGameToTopSuccess: false,
+			};
+		case fromProfileActions.ADD_GAME_TO_TOP_SUCCESS:
+			return {
+				...state,
+				addingGameToTopRequested: false,
+				addingGameToTopSuccess: true,
+			};
+		case fromProfileActions.ADD_GAME_TO_TOP_FAIL:
+			return {
+				...state,
+				addingGameToTopRequested: false,
+				addingGameToTopSuccess: false,
+			};
+
 		case fromProfileActions.GET_USER_GAMES_COLLECTION_INFO_SUCCESS:
 			return {
 				...state,
@@ -129,3 +152,8 @@ export const getScoreAddingRequested = (state: ProfileState): boolean =>
 
 export const getScoreAddingSuccess = (state: ProfileState): boolean =>
 	state.scoreAddingSuccess;
+
+export const getAddingGameToTopRequested = (state: ProfileState): boolean =>
+	state.addingGameToTopRequested;
+export const getAddingGameToTopSuccess = (state: ProfileState): boolean =>
+	state.addingGameToTopSuccess;
