@@ -8,4 +8,11 @@
 			{{ rate }}
 		</mat-option>
 	</mat-select>
+	<div class="spinner-container" *ngIf="disabled">
+		<mat-spinner
+			mode="indeterminate"
+			[diameter]="24"
+			color="warn"
+		></mat-spinner>
+	</div>
 </mat-form-field>
