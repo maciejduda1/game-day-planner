@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 	styleUrls: ['./comments-section.component.scss'],
 })
 export class CommentsSectionComponent implements OnInit {
-	gameEvent: GameEvent;
+	gameEvent: GameEvent = new GameEvent();
 	commentsList: object;
 	commentsArray: UserComment[];
 	eventList: object;
@@ -63,58 +63,42 @@ export class CommentsSectionComponent implements OnInit {
 		this.user$ = this.authStore.select(fromAuthStore.getUserRole);
 		this.user$.subscribe((userData) => (this.user = userData));
 
-		this.mainStore
-			.select(fromMainStore.getSelectedGameDayData)
-			.subscribe((gameData: GameEvent) => {
-				this.gameEvent = gameData;
-				if (gameData && gameData.comments !== undefined) {
-					this.commentsArray = Object.keys(gameData.comments)
-						.map((key) => gameData.comments[key])
-						.sort((a, b) => {
-							if (!!a.creationDate && !!b.creationDate) {
-								return (
-									a.creationDate.seconds -
-									b.creationDate.seconds
-								);
-							} else {
-								return -1000000;
-							}
-						});
-				} else {
-					this.mainService.events$.subscribe(
-						(events: DocumentChangeAction<GameEvent>[]) => {
-							const eventDataChange = events.map(
-								(event: DocumentChangeAction<GameEvent>) => {
-									return {
-										...event.payload.doc.data(),
-										eventId: event.payload.doc.id,
-									};
-								},
-							);
-							this.mainStore.dispatch(
-								new fromMainStore.GetEventsSuccess(
-									eventDataChange,
-								),
-							);
-						},
-					);
-				}
-			});
-	}
-
-	addComment(comment: NgForm, event: GameEvent) {
-		const commentObject: UserComment = {
-			comment: comment.value.comment,
-			eventId: event.eventId,
-			creatorId: this.user.uid,
-			creatorName: this.user.userName,
-			creatorAvatar: this.user.photoURL,
-		};
-		this.toggleComment();
-		this.mainStore.dispatch(new fromMainStore.AddComment(commentObject));
-	}
-
-	toggleComment() {
-		this.commentMode = !this.commentMode;
+		// this.mainStore
+		// 	.select(fromMainStore.getSelectedGameDayData)
+		// 	.subscribe((gameData: GameEvent) => {
+		// 		this.gameEvent = gameData;
+		// 		if (gameData && gameData.comments !== undefined) {
+		// 			this.commentsArray = Object.keys(gameData.comments)
+		// 				.map((key) => gameData.comments[key])
+		// 				.sort((a, b) => {
+		// 					if (!!a.creationDate && !!b.creationDate) {
+		// 						return (
+		// 							a.creationDate.seconds -
+		// 							b.creationDate.seconds
+		// 						);
+		// 					} else {
+		// 						return -1000000;
+		// 					}
+		// 				});
+		// 		} else {
+		// 			this.mainService.events$.subscribe(
+		// 				(events: DocumentChangeAction<GameEvent>[]) => {
+		// 					const eventDataChange = events.map(
+		// 						(event: DocumentChangeAction<GameEvent>) => {
+		// 							return {
+		// 								...event.payload.doc.data(),
+		// 								eventId: event.payload.doc.id,
+		// 							};
+		// 						},
+		// 					);
+		// 					this.mainStore.dispatch(
+		// 						new fromMainStore.GetEventsSuccess(
+		// 							eventDataChange,
+		// 						),
+		// 					);
+		// 				},
+		// 			);
+		// 		}
+		// 	});
 	}
 }

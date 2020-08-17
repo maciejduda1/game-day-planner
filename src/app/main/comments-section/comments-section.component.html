@@ -1,44 +1,26 @@
-<ng-container *ngIf="gameEvent">
-  <div class="event-info text-center mx-auto p-3">
-    <h4>Event Name: {{gameEvent.name}}</h4>
-    <p>Date: {{gameEvent.date }}</p>
-    <h6>Proponowane gry:</h6>
-    <ul *ngFor="let item of gameEvent.games">
-      <li *ngIf="item">{{item}}</li>
-    </ul>
-  </div>
-  <hr>
-  <div class="text-right">
-    <button class="ml-auto" mat-button (click)="toggleComment()" *ngIf="user && user.uid">Add Comment</button>
-    <ng-container *ngIf="commentMode">
-      <form (ngSubmit)="addComment(form, gameEvent)" #form="ngForm" novalidate class="d-flex flex-column comments-container text-center mx-auto">
-        <textarea ngModel name="comment" id="" cols="30" rows="10" class="flex-2"></textarea>
-        <div class="text-center">
-          <button mat-button type="submit" class="mr-3 bg-dark">Add Comment</button>
-          <button mat-button type="button" (click)="toggleComment()" class="bg-dark">Cancel</button>
-        </div>
-      </form>
-    </ng-container>
-  </div>
-</ng-container>
-
-<hr>
-
-<ng-container *ngIf="!!commentsArray">
-  <div class="comments-container pl-3 pr-3 mx-auto">
-    <div *ngFor="let item of commentsArray" class="comment d-flex m-1">
-      <div class="p-3 ">
-        <p class="text-center w-100 comment-author">{{item.creatorName}}</p>
-        <div class="avatar">
-          <img src=`${item.creatorAvatar}` alt="avatar" *ngIf="item.creatorAvatar; else avatarPic">
-          <ng-template #avatarPic>
-            <img src="../../../assets/150631-OUD927-864.jpg" alt="avatar" id="siteAvatar">
-          </ng-template>
-        </div>
-      </div>
-      <p class="text-center mt-5 ml-auto mr-auto">{{item.comment}}</p>
-    </div>
-  </div>
-</ng-container>
-
-
+<div class="container mt-5">
+	<div class="row">
+		<div class="col-12">
+			<mat-card>
+				<mat-card-header class="title">
+					<mat-card-title>{{ gameEvent.name }}</mat-card-title>
+					<mat-card-subtitle
+						>Date: {{ gameEvent.date }} Hour:
+						{{ gameEvent.time }}</mat-card-subtitle
+					>
+				</mat-card-header>
+				<mat-card-content>
+					<div class="col-12">
+						<app-games-proposed></app-games-proposed>
+					</div>
+					<div class="col-12">
+						<app-comments></app-comments>
+					</div>
+				</mat-card-content>
+				<mat-card-actions>
+					<app-add-comment></app-add-comment>
+				</mat-card-actions>
+			</mat-card>
+		</div>
+	</div>
+</div>

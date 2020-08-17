@@ -36,6 +36,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NewsPanelComponent } from './news-panel/news-panel.component';
 import { SingleEventComponent } from './single-event/single-event.component';
 import { MatIconModule } from '@angular/material/icon';
+import { GamesProposedComponent } from './comments-section/games-proposed/games-proposed.component';
+import { SingleGamePropositionComponent } from './comments-section/games-proposed/single-game-proposition/single-game-proposition.component';
+import { CommentsComponent } from './comments-section/comments/comments.component';
+import { AddCommentComponent } from './comments-section/add-comment/add-comment.component';
 
 // import { reducers, effects } from './store';
 
@@ -53,6 +57,10 @@ import { MatIconModule } from '@angular/material/icon';
 		CommentsSectionComponent,
 		NewsPanelComponent,
 		SingleEventComponent,
+		GamesProposedComponent,
+		SingleGamePropositionComponent,
+		CommentsComponent,
+		AddCommentComponent,
 	],
 	imports: [
 		ComponentsModule,

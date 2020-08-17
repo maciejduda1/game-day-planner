@@ -34,11 +34,11 @@ export class SingleEventComponent implements OnInit {
 	errorOccured = '';
 
 	ngOnInit() {
-		this.authStore
-			.select(fromAuthStore.getUserRole)
-			.subscribe((data: DatabaseAuthUser) => {
-				this.userId = data.uid;
-			});
+		// this.authStore
+		// 	.select(fromAuthStore.getUserRole)
+		// 	.subscribe((data: DatabaseAuthUser) => {
+		// 		this.userId = data.uid;
+		// 	});
 	}
 
 	deleteEvent(event: GameEvent) {

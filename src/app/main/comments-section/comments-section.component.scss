@@ -1,66 +1,71 @@
-.comments-container {
-  width: 80%;
-  color: white;
-  @media screen and (max-width: 992px) {
-    width: 100%
-  }
-  p {
-    max-width: 70%;
-    text-align: center;
-  }
-  p.comment-author {
-    max-width: 100%;
-  }
-  div {
-    &:nth-child(even) {
-      flex-direction: row;
-      div {
-        border-right: 1px white solid;
-      }
-    }
-    &:nth-child(odd) {
-      flex-direction: row-reverse;
-      div {
-        border-left: 1px white solid;
-      }
-    }
-  }
-  .comment {
-    background-color: #212121;
-    opacity: 0.8;
-  }
+.mat-card-subtitle {
+	color: white;
+	letter-spacing: 1px;
 }
 
-.event-info {
-  max-width: 800px;
-  margin: 5px auto;
-  background: #212121;
-  opacity: 0.8;
-  color: white;
-  border-radius: 50%;
-  ul {
-    list-style-type: none;
-  }
-}
+// .comments-container {
+//   width: 80%;
+//   color: white;
+//   @media screen and (max-width: 992px) {
+//     width: 100%
+//   }
+//   p {
+//     max-width: 70%;
+//     text-align: center;
+//   }
+//   p.comment-author {
+//     max-width: 100%;
+//   }
+//   div {
+//     &:nth-child(even) {
+//       flex-direction: row;
+//       div {
+//         border-right: 1px white solid;
+//       }
+//     }
+//     &:nth-child(odd) {
+//       flex-direction: row-reverse;
+//       div {
+//         border-left: 1px white solid;
+//       }
+//     }
+//   }
+//   .comment {
+//     background-color: #212121;
+//     opacity: 0.8;
+//   }
+// }
 
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 25deg;
-  border: 1px solid antiquewhite;
-  overflow: hidden;
+// .event-info {
+//   max-width: 800px;
+//   margin: 5px auto;
+//   background: #212121;
+//   opacity: 0.8;
+//   color: white;
+//   border-radius: 50%;
+//   ul {
+//     list-style-type: none;
+//   }
+// }
 
-  img#siteAvatar {
-    width: 500px;
-    height: 500px;
-    position: relative;
-    right: 50px;
-    top: -30px;
-  }
+// .avatar {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 25deg;
+//   border: 1px solid antiquewhite;
+//   overflow: hidden;
 
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: scale-down;
-  }
-}
+//   img#siteAvatar {
+//     width: 500px;
+//     height: 500px;
+//     position: relative;
+//     right: 50px;
+//     top: -30px;
+//   }
+
+//   img {
+//     width: 100px;
+//     height: 100px;
+//     object-fit: scale-down;
+//   }
+// }

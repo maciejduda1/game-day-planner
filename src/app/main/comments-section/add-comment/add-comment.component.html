@@ -1,0 +1,56 @@
+<button
+	mat-raised-button
+	color="primary"
+	type="button"
+	(click)="toggleComment()"
+	[disabled]="isLoading"
+	*ngIf="!commentMode"
+>
+	Add Comment
+</button>
+
+<ng-container *ngIf="commentMode">
+	<form
+		(ngSubmit)="addComment(form)"
+		#form="ngForm"
+		novalidate
+		class="d-flex flex-column comments-container text-center mx-auto"
+	>
+		<textarea
+			ngModel
+			name="comment"
+			id=""
+			cols="30"
+			rows="10"
+			class="flex-2"
+		></textarea>
+		<div class="text-center mt-2">
+			<div class="wrapper">
+				<button
+					mat-raised-button
+					color="primary"
+					type="submit"
+					class="mr-3 bg-dark"
+				>
+					Add Comment
+				</button>
+				<button
+					mat-raised-button
+					color="warn"
+					type="reset"
+					(click)="toggleComment()"
+					class="bg-dark"
+				>
+					Cancel
+				</button>
+				<div class="spinner-container" *ngIf="isLoading">
+					<mat-spinner
+						mode="indeterminate"
+						[diameter]="24"
+						color="warn"
+					></mat-spinner>
+				</div>
+			</div>
+		</div>
+	</form>
+</ng-container>
