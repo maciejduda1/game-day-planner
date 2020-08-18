@@ -1,0 +1,11 @@
+<img
+	class="comment-image"
+	src="`${comment.creatorAvatar}`"
+	alt="avatar"
+	*ngIf="avatarURL; else avatarPic"
+/>
+<ng-template #avatarPic>
+	<button mat-mini-fab disabled aria-label="username first letter">
+		{{ userName || 'A B' }}
+	</button>
+</ng-template>

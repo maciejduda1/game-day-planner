@@ -40,6 +40,8 @@ import { GamesProposedComponent } from './comments-section/games-proposed/games-
 import { SingleGamePropositionComponent } from './comments-section/games-proposed/single-game-proposition/single-game-proposition.component';
 import { CommentsComponent } from './comments-section/comments/comments.component';
 import { AddCommentComponent } from './comments-section/add-comment/add-comment.component';
+import { CommentComponent } from './comments-section/comments/comment/comment.component';
+import { CommentAvatarComponent } from './comments-section/comment-avatar/comment-avatar.component';
 
 // import { reducers, effects } from './store';
 
@@ -61,6 +63,8 @@ import { AddCommentComponent } from './comments-section/add-comment/add-comment.
 		SingleGamePropositionComponent,
 		CommentsComponent,
 		AddCommentComponent,
+		CommentComponent,
+		CommentAvatarComponent,
 	],
 	imports: [
 		ComponentsModule,
@@ -79,8 +83,7 @@ import { AddCommentComponent } from './comments-section/add-comment/add-comment.
 		MatSlideToggleModule,
 		MatProgressSpinnerModule,
 		MatIconModule,
-		// MatToolbarModule,
-
+		MatButtonModule,
 		MatCardModule,
 		StoreModule.forFeature('main', reducers),
 		EffectsModule.forFeature(effects),
@@ -88,7 +91,6 @@ import { AddCommentComponent } from './comments-section/add-comment/add-comment.
 		// FormsModule,
 		// MatFormFieldModule,
 		// MatInputModule,
-		MatButtonModule,
 		// MatRadioModule,
 		// MatProgressBarModule,
 		// MatSelectModule,

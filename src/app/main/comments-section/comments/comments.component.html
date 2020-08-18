@@ -1,24 +1,10 @@
 <div class="comments-container pl-3 pr-3 mx-auto">
-	<div *ngFor="let item of commentsArray" class="comment d-flex m-1">
-		<div class="p-3">
-			<p class="text-center w-100 comment-author">
-				{{ item.creatorName }}
-			</p>
-			<div class="avatar">
-				<img
-					src="`${item.creatorAvatar}`"
-					alt="avatar"
-					*ngIf="item.creatorAvatar; else avatarPic"
-				/>
-				<ng-template #avatarPic>
-					<img
-						src="../../../assets/150631-OUD927-864.jpg"
-						alt="avatar"
-						id="siteAvatar"
-					/>
-				</ng-template>
-			</div>
+	<div class="comment d-flex m">
+		<div *ngFor="let item of commentsArray" class="col-12">
+			<app-comment [comment]="item"></app-comment>
 		</div>
-		<p class="text-center mt-5 ml-auto mr-auto">{{ item.comment }}</p>
+		<div class="col-12">
+			<app-comment></app-comment>
+		</div>
 	</div>
 </div>

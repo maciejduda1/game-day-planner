@@ -16,6 +16,9 @@ import * as fromMainStore from '../../store';
 export class AddCommentComponent implements OnInit {
 	@Input() user: DatabaseAuthUser;
 	@Input() eventId: string;
+
+	commentText = '';
+
 	isLoading = false;
 
 	commentMode = false;
@@ -26,19 +29,20 @@ export class AddCommentComponent implements OnInit {
 
 	ngOnInit() {}
 
-	addComment(comment: NgForm) {
+	addComment() {
 		const commentObject: UserComment = {
-			comment: comment.value.comment,
+			comment: this.commentText,
 			eventId: this.eventId,
 			creatorId: this.user.uid,
 			creatorName: this.user.userName,
 			creatorAvatar: this.user.photoURL,
 		};
-		this.toggleComment();
 		this.mainStore.dispatch(new fromMainStore.AddComment(commentObject));
+		this.disableCommentMode();
 	}
 
-	toggleComment() {
-		this.commentMode = !this.commentMode;
+	disableCommentMode() {
+		this.commentMode = false;
+		this.commentText = '';
 	}
 }

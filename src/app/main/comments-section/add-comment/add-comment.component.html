@@ -1,56 +1,40 @@
-<button
-	mat-raised-button
-	color="primary"
-	type="button"
-	(click)="toggleComment()"
-	[disabled]="isLoading"
-	*ngIf="!commentMode"
+<form
+	(ngSubmit)="addComment()"
+	#form="ngForm"
+	novalidate
+	class="d-flex flex-column comments-container text-center mx-auto"
 >
-	Add Comment
-</button>
-
-<ng-container *ngIf="commentMode">
-	<form
-		(ngSubmit)="addComment(form)"
-		#form="ngForm"
-		novalidate
-		class="d-flex flex-column comments-container text-center mx-auto"
-	>
+	<div class="d-inline-flex w-100">
+		<app-comment-avatar></app-comment-avatar>
 		<textarea
-			ngModel
+			[(ngModel)]="commentText"
 			name="comment"
-			id=""
 			cols="30"
-			rows="10"
-			class="flex-2"
+			rows="1"
+			class="w-100 ml-2"
+			(focus)="commentMode = true"
 		></textarea>
-		<div class="text-center mt-2">
-			<div class="wrapper">
-				<button
-					mat-raised-button
-					color="primary"
-					type="submit"
-					class="mr-3 bg-dark"
-				>
-					Add Comment
-				</button>
-				<button
-					mat-raised-button
+	</div>
+	<div class="text-center mt-2" *ngIf="commentMode">
+		<div class="wrapper">
+			<button
+				mat-raised-button
+				color="warn"
+				type="reset"
+				(click)="disableCommentMode()"
+			>
+				Cancel
+			</button>
+			<button mat-raised-button color="primary" type="submit">
+				Add Comment
+			</button>
+			<div class="spinner-container" *ngIf="isLoading">
+				<mat-spinner
+					mode="indeterminate"
+					[diameter]="24"
 					color="warn"
-					type="reset"
-					(click)="toggleComment()"
-					class="bg-dark"
-				>
-					Cancel
-				</button>
-				<div class="spinner-container" *ngIf="isLoading">
-					<mat-spinner
-						mode="indeterminate"
-						[diameter]="24"
-						color="warn"
-					></mat-spinner>
-				</div>
+				></mat-spinner>
 			</div>
 		</div>
-	</form>
-</ng-container>
+	</div>
+</form>
