@@ -7,6 +7,8 @@ export interface MainState {
 	isLoaded: boolean;
 	events: {};
 	errorSend: string;
+	isLoadingEvents: boolean;
+	eventsRecived: boolean;
 }
 
 const initialState: MainState = {
@@ -15,6 +17,8 @@ const initialState: MainState = {
 	isLoaded: false,
 	events: {},
 	errorSend: '',
+	isLoadingEvents: false,
+	eventsRecived: false,
 };
 
 export function reducers(
@@ -22,19 +26,25 @@ export function reducers(
 	action: fromMainActions.MainActions,
 ) {
 	switch (action.type) {
+		case fromMainActions.GET_EVENTS:
+			return {
+				...state,
+				isLoadingEvents: true,
+				eventsRecived: false,
+			};
+		case fromMainActions.GET_EVENTS_FAIL:
+			return {
+				...state,
+				isLoadingEvents: false,
+				eventsRecived: false,
+			};
+
 		case fromMainActions.ADD_EVENT_FAIL:
 			return {
 				...state,
 				errorSend: action.payload,
 				isLoading: false,
 				isLoaded: false,
-			};
-
-		case fromMainActions.ADD_EVENT_SUCCESS:
-			return {
-				...state,
-				isLoading: false,
-				isLoaded: true,
 			};
 
 		case fromMainActions.GET_EVENTS_SUCCESS:
@@ -48,8 +58,18 @@ export function reducers(
 			);
 			return {
 				...state,
+				isLoadingEvents: false,
+				eventsRecived: true,
 				events: eventsEntities,
 			};
+
+		case fromMainActions.ADD_EVENT_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				isLoaded: true,
+			};
+
 		case fromMainActions.GET_COMMENTS_SUCCESS:
 			const allEvents = state.events;
 			const eventWithComments = {
@@ -81,3 +101,6 @@ export const getEvents = (state: MainState) => state.events;
 export const getError = (state: MainState) => state.errorSend;
 export const getIsLoading = (state: MainState) => state.isLoading;
 export const getIsLoaded = (state: MainState) => state.isLoaded;
+
+export const getIsLoadingEvents = (state: MainState) => state.isLoadingEvents;
+export const getEventsRecived = (state: MainState) => state.eventsRecived;

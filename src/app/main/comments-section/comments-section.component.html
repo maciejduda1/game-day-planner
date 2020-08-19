@@ -11,7 +11,9 @@
 				</mat-card-header>
 				<mat-card-content>
 					<div class="col-12">
-						<app-games-proposed></app-games-proposed>
+						<app-games-proposed
+							[games]="gameEvent.games"
+						></app-games-proposed>
 					</div>
 					<div class="col-12">
 						<app-comments></app-comments>

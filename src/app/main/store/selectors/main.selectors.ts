@@ -50,3 +50,13 @@ export const getIsLoadedSelector = createSelector(
 	getMainModuleState,
 	fromMainReducers.getIsLoaded,
 );
+
+export const getIsLoadingEventsSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getIsLoadingEvents,
+);
+
+export const getIsEventsRecivedSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getEventsRecived,
+);

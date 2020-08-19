@@ -50,7 +50,10 @@ export class CommentsSectionComponent implements OnInit {
 			res.map((comment) => {
 				const commentData = comment.payload.doc.data();
 				const id = comment.payload.doc.id;
-				allCommentsData = { ...allCommentsData, [id]: commentData };
+				allCommentsData = {
+					...allCommentsData,
+					[id]: commentData,
+				};
 			});
 			return this.mainStore.dispatch(
 				new fromMainStore.GetCommentsSuccess(
@@ -62,6 +65,12 @@ export class CommentsSectionComponent implements OnInit {
 
 		this.user$ = this.authStore.select(fromAuthStore.getUserRole);
 		this.user$.subscribe((userData) => (this.user = userData));
+
+		this.mainStore
+			.select(fromMainStore.getSelectedGameDayData)
+			.subscribe((gameData: GameEvent) => {
+				this.gameEvent = gameData;
+			});
 
 		// this.mainStore
 		// 	.select(fromMainStore.getSelectedGameDayData)

@@ -89,4 +89,25 @@ export class SearchApiService {
 				}),
 			);
 	}
+
+	getSelectedGames(ids: string[]): Observable<BoardGame[]> {
+		return this.http
+			.get<ApiSearchResponse>(`${this.bggURL}search`, {
+				params: new HttpParams()
+					.set('ids', ids.toString())
+					.set('client_id', 'J1O6XoWmj8'),
+			})
+			.pipe(
+				map((res: ApiSearchResponse) => {
+					const resComb: BoardGame[] = res.games.map((game) => ({
+						id: game.id,
+						name: game.name,
+						thumb_url: game.thumb_url,
+						designers: game.designers,
+					}));
+					console.log('resss ', res);
+					return resComb;
+				}),
+			);
+	}
 }

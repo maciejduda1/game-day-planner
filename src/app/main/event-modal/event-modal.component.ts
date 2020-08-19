@@ -1,9 +1,5 @@
-import { map, catchError } from 'rxjs/operators';
 import { BoardGame } from './../../models/game.model';
-import {
-	SearchApiService,
-	ApiSearchResponse,
-} from './../../services/searchApi.service';
+import { SearchApiService } from './../../services/searchApi.service';
 import { DatabaseAuthUser } from './../../models/user.model';
 import { GameEvent } from './../../models/game-event.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';

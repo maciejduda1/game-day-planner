@@ -14,12 +14,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable()
 export class MainService {
-	public events$: Observable<DocumentChangeAction<GameEvent>[]>;
 	bggURL = 'https://www.boardgamegeek.com/xmlapi2/';
 	private eventsCollection: AngularFirestoreCollection<GameEvent>;
-	private eventDoc: AngularFirestoreDocument<GameEvent>;
-
-	private user: Observable<firebase.UserInfo | null>;
 
 	constructor(
 		public http: HttpClient,
@@ -27,8 +23,10 @@ export class MainService {
 		public auth: AngularFireAuth,
 	) {
 		this.eventsCollection = afs.collection<GameEvent>('events');
-		this.events$ = this.eventsCollection.snapshotChanges();
-		this.user = this.auth.user;
+	}
+
+	getAllEvents(): Observable<DocumentChangeAction<GameEvent>[]> {
+		return this.eventsCollection.snapshotChanges();
 	}
 
 	addEventToDatabase(eventD: GameEvent) {

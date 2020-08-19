@@ -48,7 +48,7 @@ export class AddEventFail implements Action {
 
 export class GetEvents implements Action {
 	readonly type = GET_EVENTS;
-	constructor(public payload: any) {}
+	constructor() {}
 }
 
 export class GetEventsSuccess implements Action {

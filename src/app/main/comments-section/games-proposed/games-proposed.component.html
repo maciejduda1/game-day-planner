@@ -1,1 +1,13 @@
-<div class="section-wrapper"></div>
+<div class="section-wrapper">
+	<ng-container *ngIf="GamesResults$ | async as games; else noGames">
+		<div *ngFor="let game of games">
+			<div class="image mr-sm-5 mt-2 mt-sm-0">
+				<img src="{{ game.thumb_url }}" />
+			</div>
+			<h5>{{ game.name }}</h5>
+		</div>
+	</ng-container>
+	<ng-template #noGames>
+		<p>No games were proposed!</p>
+	</ng-template>
+</div>
