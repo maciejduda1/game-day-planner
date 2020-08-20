@@ -1,13 +1,20 @@
-<div class="section-wrapper">
-	<ng-container *ngIf="GamesResults$ | async as games; else noGames">
-		<div *ngFor="let game of games">
-			<div class="image mr-sm-5 mt-2 mt-sm-0">
-				<img src="{{ game.thumb_url }}" />
+<div class="wrapper">
+	<ng-container *ngIf="!searchingGames; else loader">
+		<ng-container *ngIf="GamesResults$ | async as games; else noGames">
+			<div *ngFor="let game of games" class="game-wrapper">
+				<img class="game-image" src="{{ game.thumb_url }}" />
+				<p class="mt-2 game-title">{{ game.name }}</p>
 			</div>
-			<h5>{{ game.name }}</h5>
-		</div>
+		</ng-container>
+		<ng-template #noGames>
+			<p>No games were proposed!</p>
+		</ng-template>
 	</ng-container>
-	<ng-template #noGames>
-		<p>No games were proposed!</p>
+	<ng-template #loader>
+		<mat-spinner
+			mode="indeterminate"
+			[diameter]="24"
+			color="warn"
+		></mat-spinner>
 	</ng-template>
 </div>

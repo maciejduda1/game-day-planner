@@ -69,6 +69,7 @@ export class CommentsSectionComponent implements OnInit {
 		this.mainStore
 			.select(fromMainStore.getSelectedGameDayData)
 			.subscribe((gameData: GameEvent) => {
+				console.log('gameData ', gameData);
 				this.gameEvent = gameData;
 			});
 

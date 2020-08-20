@@ -11,18 +11,32 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 export class GamesProposedComponent implements OnInit, OnChanges {
 	@Input() games: string[] = [];
 
-	GamesResults$: Observable<BoardGame[]>;
+	searchingGames = false;
+
+	GamesResults$: Promise<BoardGame[] | void>;
 
 	constructor(private apiService: SearchApiService) {}
 
-	ngOnInit() {
-		console.log('GAMES ', this.games);
-	}
+	ngOnInit() {}
 
 	ngOnChanges() {
-		console.log('GAMES On Change', this.games);
 		if (this.games) {
-			this.GamesResults$ = this.apiService.getSelectedGames(this.games);
+			this.findGamesInAPI();
 		}
+	}
+
+	findGamesInAPI() {
+		this.searchingGames = true;
+		this.GamesResults$ = this.apiService
+			.getSelectedGames(this.games)
+			.toPromise()
+			.then((res) => {
+				this.searchingGames = false;
+				return res;
+			})
+			.catch((er) => {
+				this.searchingGames = false;
+				console.log('er ', er);
+			});
 	}
 }
