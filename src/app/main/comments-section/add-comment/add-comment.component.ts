@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { DatabaseAuthUser } from 'src/app/models/user.model';
 
 import * as fromMainStore from '../../store';
+import * as fromAuthStore from '../../../authentication/store';
 
 @Component({
 	selector: 'app-add-comment',
@@ -14,7 +15,8 @@ import * as fromMainStore from '../../store';
 	styleUrls: ['./add-comment.component.scss'],
 })
 export class AddCommentComponent implements OnInit {
-	@Input() user: DatabaseAuthUser;
+	user$: Observable<DatabaseAuthUser>;
+	user: DatabaseAuthUser;
 	@Input() eventId: string;
 
 	commentText = '';
@@ -25,19 +27,26 @@ export class AddCommentComponent implements OnInit {
 
 	eventSelectedforComment = -1;
 	selectedEvent: number;
-	constructor(private mainStore: Store<fromMainStore.MainState>) {}
+	constructor(
+		private mainStore: Store<fromMainStore.MainState>,
+		private authStore: Store<fromAuthStore.AuthState>,
+	) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.user$ = this.authStore.select(fromAuthStore.getUserRole);
+		this.user$.subscribe((userData) => {
+			this.user = userData;
+		});
+	}
 
 	addComment() {
-		const commentObject: UserComment = {
+		const commentObject: Partial<UserComment> = {
 			comment: this.commentText,
-			eventId: this.eventId,
 			creatorId: this.user.uid,
-			creatorName: this.user.userName,
-			creatorAvatar: this.user.photoURL,
 		};
-		this.mainStore.dispatch(new fromMainStore.AddComment(commentObject));
+		this.mainStore.dispatch(
+			new fromMainStore.AddComment(commentObject, this.eventId),
+		);
 		this.disableCommentMode();
 	}
 

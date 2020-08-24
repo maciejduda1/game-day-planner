@@ -20,7 +20,7 @@ export class GamesProposedComponent implements OnInit, OnChanges {
 	ngOnInit() {}
 
 	ngOnChanges() {
-		if (this.games) {
+		if (this.games.length > 0) {
 			this.findGamesInAPI();
 		}
 	}

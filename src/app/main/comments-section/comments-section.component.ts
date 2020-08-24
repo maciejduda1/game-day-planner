@@ -1,4 +1,3 @@
-import { DocumentChangeAction } from '@angular/fire/firestore';
 import { DatabaseAuthUser } from './../../models/user.model';
 import { UserComment } from 'src/app/models/comment.model';
 import { MainService } from './../services/main.service';
@@ -10,7 +9,6 @@ import * as fromMainStore from '../store';
 import * as fromRoot from '../../store';
 import * as fromAuthStore from '../../authentication/store';
 
-import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -23,8 +21,6 @@ export class CommentsSectionComponent implements OnInit {
 	commentsList: object;
 	commentsArray: UserComment[];
 	eventList: object;
-	user$: Observable<DatabaseAuthUser>;
-	user: DatabaseAuthUser;
 	// eventSelected: GameEvent;
 	eventId: string;
 	commentMode = false;
@@ -33,9 +29,7 @@ export class CommentsSectionComponent implements OnInit {
 
 	constructor(
 		private mainStore: Store<fromMainStore.MainState>,
-		private mainService: MainService,
 		private rootStore: Store<fromRoot.State>,
-		private authStore: Store<fromAuthStore.AuthState>,
 	) {}
 
 	ngOnInit() {
@@ -45,31 +39,9 @@ export class CommentsSectionComponent implements OnInit {
 				(router) => (this.eventId = router.state.params.gameDayId),
 			);
 
-		this.mainService.getEventComments(this.eventId).subscribe((res) => {
-			let allCommentsData = {};
-			res.map((comment) => {
-				const commentData = comment.payload.doc.data();
-				const id = comment.payload.doc.id;
-				allCommentsData = {
-					...allCommentsData,
-					[id]: commentData,
-				};
-			});
-			return this.mainStore.dispatch(
-				new fromMainStore.GetCommentsSuccess(
-					this.eventId,
-					allCommentsData,
-				),
-			);
-		});
-
-		this.user$ = this.authStore.select(fromAuthStore.getUserRole);
-		this.user$.subscribe((userData) => (this.user = userData));
-
 		this.mainStore
 			.select(fromMainStore.getSelectedGameDayData)
 			.subscribe((gameData: GameEvent) => {
-				console.log('gameData ', gameData);
 				this.gameEvent = gameData;
 			});
 

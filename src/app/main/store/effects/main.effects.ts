@@ -78,7 +78,7 @@ export class MainEffects {
 	addComment$ = this.actions$.ofType(mainActions.ADD_COMMENT).pipe(
 		switchMap((action: mainActions.AddComment) => {
 			return this.getMainService
-				.addCommentToDatabase(action.payload)
+				.addCommentToDatabase(action.payload, action.eventId)
 				.then((res) => new mainActions.AddCommentSuccess())
 				.catch((error) => of(new mainActions.AddCommentFail(error)));
 		}),

@@ -1,3 +1,4 @@
+import { UserComment } from 'src/app/models/comment.model';
 import { GameEvent } from './../../../models/game-event.model';
 import { Action } from '@ngrx/store';
 
@@ -63,7 +64,7 @@ export class GetEventsFail implements Action {
 
 export class AddComment implements Action {
 	readonly type = ADD_COMMENT;
-	constructor(public payload: any) {}
+	constructor(public payload: Partial<UserComment>, public eventId: string) {}
 }
 export class AddCommentSuccess implements Action {
 	readonly type = ADD_COMMENT_SUCCESS;

@@ -1,8 +1,7 @@
 // import { AuthGuard } from './login/guards/auth.guard';
 // import { LoginFormComponent } from './login/login-form/login-form.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
-import { AuthGuard } from './authentication/guards/auth.guard';
+import { Routes, RouterModule } from '@angular/router';
 
 import * as fromRouterStore from './store';
 

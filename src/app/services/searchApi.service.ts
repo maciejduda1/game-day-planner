@@ -84,7 +84,6 @@ export class SearchApiService {
 						thumb_url: game.thumb_url,
 						designers: game.designers,
 					}));
-					console.log('resss ', res);
 					return resComb;
 				}),
 			);
@@ -105,7 +104,6 @@ export class SearchApiService {
 						thumb_url: game.thumb_url,
 						designers: game.designers,
 					}));
-					console.log('resss ', res);
 					return resComb;
 				}),
 			);

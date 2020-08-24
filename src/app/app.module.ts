@@ -32,6 +32,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { reducers as authReducers } from './authentication/store';
+
 // const environment = {
 //   development: true,
 //   production: false,
@@ -51,7 +53,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
 		AppRoutingModule,
 		HttpClientModule,
 		MatSnackBarModule,
-		StoreModule.forRoot(reducers, { metaReducers }),
+		StoreModule.forRoot({ ...reducers, ...authReducers }, { metaReducers }),
 		EffectsModule.forRoot(effects),
 		StoreRouterConnectingModule,
 		!environment.production ? StoreDevtoolsModule.instrument() : [],

@@ -43,10 +43,10 @@ export class MainService {
 		return updateDoc.delete();
 	}
 
-	addCommentToDatabase(commentD: UserComment) {
+	addCommentToDatabase(commentD: Partial<UserComment>, eventId: string) {
 		const creationDate = firestore.FieldValue.serverTimestamp();
 		return this.afs
-			.doc<GameEvent>(`events/${commentD.eventId}`)
+			.doc<GameEvent>(`events/${eventId}`)
 			.collection('comments')
 			.add({ ...commentD, creationDate });
 	}
@@ -54,7 +54,7 @@ export class MainService {
 	getEventComments(eventId: string) {
 		return this.afs
 			.doc<GameEvent>(`events/${eventId}`)
-			.collection('comments')
+			.collection<UserComment>('comments')
 			.snapshotChanges();
 	}
 
@@ -70,8 +70,9 @@ export class MainService {
 		return this.afs
 			.doc<GameEvent>(`events/${eventId}`)
 			.collection('comments')
-			.doc(comment.id)
+			.doc('s')
 			.update(comment);
+		// doc id!
 	}
 
 	changeUserData(userName?, userAvatar?): Promise<void> {

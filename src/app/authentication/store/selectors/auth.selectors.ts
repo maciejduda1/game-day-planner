@@ -5,7 +5,7 @@ import * as fromAuthReducer from '../reducer/auth.reducer';
 
 export const getAuthModuleState = createSelector(
 	fromFeature.getAuthState,
-	(state: fromFeature.AuthState) => state.auth,
+	(state) => state,
 );
 
 export const getUserRole = createSelector(

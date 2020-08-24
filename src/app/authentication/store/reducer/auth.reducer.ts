@@ -1,6 +1,5 @@
 import { DatabaseAuthUser } from './../../../models/user.model';
 import * as fromAuthActions from '../actions/auth.actions';
-import { from } from 'rxjs';
 
 export interface AuthState {
 	signedIn: boolean;
@@ -37,6 +36,7 @@ export function reducers(
 				isLoading: false,
 				signedIn: true,
 			};
+
 		case fromAuthActions.UPDATE_PROFILE_SUCCESS:
 			const newUserData = {
 				...state.user,
