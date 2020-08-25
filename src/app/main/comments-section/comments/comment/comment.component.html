@@ -19,4 +19,7 @@
 		<span class="text-uppercase">Reply</span>
 	</p>
 </div>
-<app-add-comment *ngIf="replyIndicator"></app-add-comment>
+<app-add-comment
+	*ngIf="replyIndicator"
+	[answerTo]="comment.creatorId"
+></app-add-comment>

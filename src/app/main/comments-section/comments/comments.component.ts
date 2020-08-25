@@ -30,39 +30,29 @@ export class CommentsComponent implements OnInit {
 				(router) => (this.eventId = router.state.params.gameDayId),
 			);
 
-		this.mainService
-			.getEventComments(this.eventId)
-			// .pipe(
-			// 	map((val) => {
-			// 		return val;
-			// 	}),
-			// 	catchError((error) => {
-			// 		throw error;
-			// 	}),
-			// )
-			.subscribe(
-				(res) => {
-					if (!this.establishedCommentsConnection) {
-						this.establishedCommentsConnection = true;
-					}
-					let allCommentsData = {};
-					res.map((comment) => {
-						const commentData = comment.payload.doc.data();
-						this.commentsArray.push(commentData);
-						const id = comment.payload.doc.id;
-						allCommentsData = {
-							...allCommentsData,
-							[id]: commentData,
-						};
-					});
-					return this.mainStore.dispatch(
-						new fromMainStore.GetCommentsSuccess(
-							this.eventId,
-							allCommentsData,
-						),
-					);
-				},
-				(er) => console.log('err ', er),
-			);
+		this.mainService.getEventComments(this.eventId).subscribe(
+			(res) => {
+				if (!this.establishedCommentsConnection) {
+					this.establishedCommentsConnection = true;
+				}
+				let allCommentsData = {};
+				res.map((comment) => {
+					const commentData = comment.payload.doc.data();
+					this.commentsArray.push(commentData);
+					const id = comment.payload.doc.id;
+					allCommentsData = {
+						...allCommentsData,
+						[id]: commentData,
+					};
+				});
+				return this.mainStore.dispatch(
+					new fromMainStore.GetCommentsSuccess(
+						this.eventId,
+						allCommentsData,
+					),
+				);
+			},
+			(er) => console.log('err ', er),
+		);
 	}
 }

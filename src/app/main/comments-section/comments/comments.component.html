@@ -4,9 +4,6 @@
 			<div *ngFor="let item of commentsArray" class="col-12">
 				<app-comment [comment]="item"></app-comment>
 			</div>
-			<div class="col-12">
-				<app-comment></app-comment>
-			</div>
 		</ng-container>
 		<ng-template #loading>
 			<mat-spinner

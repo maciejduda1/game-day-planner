@@ -1,4 +1,4 @@
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GameEvent } from 'src/app/models/game-event.model';
@@ -6,6 +6,7 @@ import { UserComment } from 'src/app/models/comment.model';
 import { Observable } from 'rxjs';
 import { DatabaseAuthUser } from 'src/app/models/user.model';
 
+import * as fromRootStore from '../../../store';
 import * as fromMainStore from '../../store';
 import * as fromAuthStore from '../../../authentication/store';
 
@@ -17,7 +18,8 @@ import * as fromAuthStore from '../../../authentication/store';
 export class AddCommentComponent implements OnInit {
 	user$: Observable<DatabaseAuthUser>;
 	user: DatabaseAuthUser;
-	@Input() eventId: string;
+	eventId: string;
+	@Input() answerTo = '';
 
 	commentText = '';
 
@@ -30,9 +32,16 @@ export class AddCommentComponent implements OnInit {
 	constructor(
 		private mainStore: Store<fromMainStore.MainState>,
 		private authStore: Store<fromAuthStore.AuthState>,
+		private rootStore: Store<fromRootStore.RouterStateUrl>,
 	) {}
 
 	ngOnInit() {
+		this.rootStore
+			.pipe(select(fromRootStore.getRouterState))
+			.subscribe(
+				(router) => (this.eventId = router.state.params.gameDayId),
+			);
+
 		this.user$ = this.authStore.select(fromAuthStore.getUserRole);
 		this.user$.subscribe((userData) => {
 			this.user = userData;
