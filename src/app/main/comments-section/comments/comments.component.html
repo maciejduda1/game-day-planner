@@ -1,10 +1,20 @@
 <div class="comments-container pl-3 pr-3 mx-auto">
-	<div class="comment d-flex m">
-		<div *ngFor="let item of commentsArray" class="col-12">
-			<app-comment [comment]="item"></app-comment>
-		</div>
-		<div class="col-12">
-			<app-comment></app-comment>
-		</div>
+	<div class="comment d-flex">
+		<ng-container *ngIf="establishedCommentsConnection; else loading">
+			<div *ngFor="let item of commentsArray" class="col-12">
+				<app-comment [comment]="item"></app-comment>
+			</div>
+			<div class="col-12">
+				<app-comment></app-comment>
+			</div>
+		</ng-container>
+		<ng-template #loading>
+			<mat-spinner
+				class="mr-auto ml-auto"
+				mode="indeterminate"
+				[diameter]="50"
+				color="warn"
+			></mat-spinner>
+		</ng-template>
 	</div>
 </div>

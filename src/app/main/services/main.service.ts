@@ -51,11 +51,13 @@ export class MainService {
 			.add({ ...commentD, creationDate });
 	}
 
-	getEventComments(eventId: string) {
+	getEventComments(
+		eventId: string,
+	): Observable<DocumentChangeAction<UserComment>[]> {
 		return this.afs
 			.doc<GameEvent>(`events/${eventId}`)
 			.collection<UserComment>('comments')
-			.snapshotChanges();
+			.stateChanges();
 	}
 
 	removeCommentFromDatabase(eventId: string, commentId: string) {
