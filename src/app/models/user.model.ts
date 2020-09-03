@@ -4,7 +4,7 @@ export class DatabaseAuthUser {
 	photoURL?: string;
 	email: string;
 }
-export class User {
+export class User extends DatabaseAuthUser {
 	events?: string[];
 	scores?: {
 		[gameId: string]: number;

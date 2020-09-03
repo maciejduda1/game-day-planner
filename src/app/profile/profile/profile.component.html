@@ -7,17 +7,13 @@
 			<mat-card-content class="mt-5 min-height">
 				<ng-container *ngIf="!edit; else editTemplate">
 					<div class="row data-name">
-						<div class="col-12 col-sm-4">
-							Name
-						</div>
+						<div class="col-12 col-sm-4">Name</div>
 						<div class="offset-sm-1 col-12 col-sm-7 data-value">
 							{{ userData.userName }}
 						</div>
 					</div>
 					<div class="row data-name mt-5">
-						<div class="col-12 col-sm-4">
-							AvatarURL:
-						</div>
+						<div class="col-12 col-sm-4">AvatarURL:</div>
 						<div class="offset-sm-1 col-12 col-sm-7 data-value">
 							{{ userData.photoURL }}
 						</div>

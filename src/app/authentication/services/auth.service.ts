@@ -66,8 +66,10 @@ export class AuthService {
 		return this.angFireAuth.auth.signOut();
 	}
 
-	addUserDataToDatabase(user: DatabaseAuthUser) {
-		this.userCollection.doc(user.uid).set(user);
+	addUserDataToDatabase(user: Partial<DatabaseAuthUser>) {
+		return this.angFireStore
+			.doc(`users/${this.user.uid}`)
+			.set(user, { merge: true });
 	}
 
 	getUserDatabaseData(uid: string) {
@@ -82,7 +84,6 @@ export class AuthService {
 	}
 
 	isAuthenticated(): boolean {
-		console.log('user is auth', this.user);
 		return !!this.user;
 	}
 }

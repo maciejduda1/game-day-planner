@@ -11,6 +11,7 @@ import {
 import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { User } from 'src/app/models/user.model';
 
 @Injectable()
 export class MainService {

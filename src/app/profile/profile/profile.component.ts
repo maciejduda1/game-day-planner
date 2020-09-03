@@ -1,13 +1,9 @@
-import { AuthService } from './../../authentication/services/auth.service';
-import { Store } from '@ngrx/store';
-import { BoardGame } from './../../models/game.model';
-import { MainService } from '../../main/services/main.service';
+import { Store, select } from '@ngrx/store';
 import { DatabaseAuthUser } from '../../models/user.model';
 
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromAuthStore from '../../authentication/store';
 
@@ -21,9 +17,17 @@ interface AvatarNameModel {
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
+	allSubs: Subscription[] = [];
+
 	edit = false;
 	isLoading: boolean;
+	isLoading$: Observable<boolean>;
+	isLoadingSubscription: Subscription;
+
+	updateSuccess: boolean;
+	updateSuccess$: Observable<boolean>;
+	updateSuccessSubscription: Subscription;
 
 	model: AvatarNameModel = {
 		userName: '',
@@ -34,38 +38,52 @@ export class ProfileComponent implements OnInit {
 
 	userData$: Observable<DatabaseAuthUser>;
 	userData: DatabaseAuthUser;
+	userDataSubscription: Subscription;
 
-	constructor(
-		private authService: AuthService,
-		private mainService: MainService,
-		private authStore: Store<fromAuthStore.AuthState>,
-	) {}
+	constructor(private authStore: Store<fromAuthStore.AuthState>) {}
 
 	ngOnInit() {
-		this.userData$ = this.authStore.select(fromAuthStore.getUserRole);
+		this.userData$ = this.authStore.pipe(select(fromAuthStore.getUserRole));
 
 		this.userData$.subscribe((userData) => {
 			this.userData = userData;
 			this.model.avatarUrl = userData.photoURL;
 			this.model.userName = userData.userName;
 		});
+
+		this.isLoading$ = this.authStore.pipe(
+			select(fromAuthStore.getIsLoadingSelector),
+		);
+		this.isLoadingSubscription = this.isLoading$.subscribe(
+			(isLoading: boolean) => (this.isLoading = isLoading),
+		);
+
+		this.updateSuccess$ = this.authStore.pipe(
+			select(fromAuthStore.getUpdatingProfileSuccessSelector),
+		);
+		this.updateSuccessSubscription = this.updateSuccess$.subscribe(
+			(success: boolean) => {
+				this.updateSuccess = success;
+				if (success) {
+					this.model = { userName: '', avatarUrl: '' };
+					this.edit = false;
+				}
+			},
+		);
+
+		this.allSubs = [
+			this.isLoadingSubscription,
+			this.updateSuccessSubscription,
+		];
 	}
 
 	onSubmit() {
-		this.isLoading = true;
-		this.mainService
-			.changeUserData(this.model.userName, this.model.avatarUrl)
-			.then((res) => {
-				this.isLoading = false;
-				this.authStore.dispatch(
-					new fromAuthStore.ProfileUpdateSuccess({
-						userName: this.model.userName,
-						photoURL: this.model.avatarUrl,
-					}),
-				);
-				this.editPersonalDataToggle();
-			})
-			.catch((er) => (this.isLoading = false));
+		const userName = this.model.userName;
+		const avatarUrl = this.model.avatarUrl;
+
+		this.authStore.dispatch(
+			new fromAuthStore.ProfileUpdate(userName, avatarUrl),
+		);
 	}
 
 	editPersonalDataToggle() {
@@ -78,5 +96,9 @@ export class ProfileComponent implements OnInit {
 	resetForm() {
 		this.model.avatarUrl = this.userData.photoURL;
 		this.model.userName = this.userData.userName;
+	}
+
+	ngOnDestroy() {
+		this.allSubs.forEach((sub: Subscription) => sub.unsubscribe());
 	}
 }

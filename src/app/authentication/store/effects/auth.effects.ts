@@ -41,6 +41,7 @@ export class AuthEffects {
 				.catch((error) => new authActions.RegisterFail(error.message));
 		}),
 	);
+	// do zmiany. Rejestracja musi być kilku stopniowa.
 
 	@Effect()
 	login$ = this.action$.ofType(authActions.LOGIN).pipe(
@@ -61,9 +62,32 @@ export class AuthEffects {
 				.catch((error) => new authActions.LoginFail(error.message));
 		}),
 	);
+
+	@Effect()
+	updateProfileInFirebase = this.action$
+		.ofType(authActions.UPDATE_PROFILE)
+		.pipe(
+			switchMap((action: authActions.ProfileUpdate) => {
+				return this.getAuthService
+					.addUserDataToDatabase({
+						userName: action.userName,
+						photoURL: action.avatarUrl,
+					})
+					.then(
+						(res) =>
+							new authActions.ProfileUpdateSuccess({
+								userName: action.userName,
+								photoURL: action.avatarUrl,
+							}),
+					)
+					.catch((e) => console.log(e));
+			}),
+		);
+
 	@Effect()
 	logout$ = this.action$.ofType(authActions.LOGOUT).pipe(
 		switchMap((action: authActions.Logout) => {
+			console.log('wbijam do logout effect');
 			return this.getAuthService
 				.logoutUser()
 				.then(() => new authActions.LogoutSuccess())

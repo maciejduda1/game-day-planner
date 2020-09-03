@@ -31,3 +31,13 @@ export const getIsLoadingSelector = createSelector(
 	getAuthModuleState,
 	fromAuthReducer.getIsLoading,
 );
+
+export const getUpdatingProfileSelector = createSelector(
+	getAuthModuleState,
+	fromAuthReducer.getUpdatingProfile,
+);
+
+export const getUpdatingProfileSuccessSelector = createSelector(
+	getAuthModuleState,
+	fromAuthReducer.getUpdatingProfileSuccess,
+);
