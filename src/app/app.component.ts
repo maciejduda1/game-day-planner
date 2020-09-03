@@ -26,6 +26,11 @@ export class AppComponent implements OnInit {
 		this.authService.getUser().subscribe((user: DatabaseAuthUser) => {
 			if (user) {
 				this.authStore.dispatch(new fromAuthStore.LoginSuccess(user));
+			} else {
+				// this.authStore.dispatch(
+				// 	new fromAuthStore.LoginFail('User Logged Out'),
+				// );
+				// error occured
 			}
 			this.isLoading = false;
 		});

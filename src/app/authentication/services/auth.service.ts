@@ -6,46 +6,45 @@ import {
 	AngularFirestoreCollection,
 	AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { UserInfo } from 'firebase';
+import { mergeMap, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-	private userCollection: AngularFirestoreCollection<DatabaseAuthUser>;
 	userDocument: AngularFirestoreDocument<DatabaseAuthUser>;
 
 	private user: DatabaseAuthUser;
-	private loginState = new Subject<DatabaseAuthUser>();
+	private loginState = new Subject<DatabaseAuthUser | null>();
 
 	constructor(
 		public angFireAuth: AngularFireAuth,
 		public angFireStore: AngularFirestore,
-	) {
-		this.userCollection = angFireStore.collection<DatabaseAuthUser>(
-			'users',
-		);
-	}
+	) {}
 
 	checkLoginState(): void {
-		this.angFireAuth.authState.subscribe((user: UserInfo) => {
-			let authUser: DatabaseAuthUser = {
-				uid: '',
-				userName: '',
-				photoURL: '',
-				email: '',
-			};
-			if (user) {
-				authUser = {
-					uid: user.uid,
-					userName: user.displayName,
-					photoURL: user.photoURL,
-					email: user.email,
-				};
-			}
-
-			this.user = authUser;
-			this.loginState.next(this.user);
-		});
+		this.angFireAuth.authState
+			.pipe(
+				mergeMap((res: UserInfo | null) => {
+					if (res) {
+						return this.getUserDatabaseData(res.uid);
+					}
+					return of(null);
+				}),
+			)
+			.subscribe((user: DatabaseAuthUser) => {
+				let authUser: DatabaseAuthUser | null = null;
+				if (user) {
+					authUser = {
+						uid: user.uid,
+						userName: user.userName || '',
+						photoURL: user.photoURL || '',
+						email: user.email,
+					};
+				}
+				this.user = authUser;
+				this.loginState.next(this.user);
+			});
 	}
 
 	registerUser(email, password) {
