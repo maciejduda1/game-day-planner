@@ -10,5 +10,4 @@ export class User extends DatabaseAuthUser {
 		[gameId: string]: number;
 	};
 	favorites?: string[];
-	userId: string;
 }

@@ -20,7 +20,6 @@ const initialState: ProfileState = {
 	userCollectionInfo: {
 		favorites: [],
 		events: [],
-		userId: '',
 		scores: {},
 		uid: null,
 		userName: null,

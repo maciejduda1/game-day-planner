@@ -31,7 +31,7 @@ export class TopGamesService {
 	}
 
 	addGameToFavorites(game: BoardGame, userId: string) {
-		const batch = this.afs.firestore.batch(); 
+		const batch = this.afs.firestore.batch();
 		const userDocument: DocumentReference = this.usersCollection.doc<any>(
 			`${userId}`,
 		).ref;

@@ -1,12 +1,11 @@
-import { DatabaseAuthUser } from './../../models/user.model';
+import { DatabaseAuthUser, User } from './../../models/user.model';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
 	AngularFirestore,
-	AngularFirestoreCollection,
 	AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { Observable, Subject, combineLatest, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { UserInfo } from 'firebase';
 import { mergeMap, catchError } from 'rxjs/operators';
 
@@ -31,8 +30,11 @@ export class AuthService {
 					}
 					return of(null);
 				}),
+				catchError((er) => {
+					throw er.message;
+				}),
 			)
-			.subscribe((user: DatabaseAuthUser) => {
+			.subscribe((user: User) => {
 				let authUser: DatabaseAuthUser | null = null;
 				if (user) {
 					authUser = {

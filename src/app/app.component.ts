@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 				this.authStore.dispatch(new fromAuthStore.LoginSuccess(user));
 			} else {
 				// this.authStore.dispatch(
-				// 	new fromAuthStore.LoginFail('User Logged Out'),
+				// 	new fromAuthStore.LoginFail('User Log In To see'),
 				// );
 				// error occured
 			}
