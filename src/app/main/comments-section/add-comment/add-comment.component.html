@@ -5,7 +5,10 @@
 	class="d-flex flex-column comments-container text-center mx-auto"
 >
 	<div class="d-inline-flex w-100">
-		<app-comment-avatar></app-comment-avatar>
+		<app-comment-avatar
+			[avatarURL]="user.photoURL"
+			[userName]="user.userName"
+		></app-comment-avatar>
 		<textarea
 			[(ngModel)]="commentText"
 			name="comment"
@@ -25,7 +28,12 @@
 			>
 				Cancel
 			</button>
-			<button mat-raised-button color="primary" type="submit">
+			<button
+				mat-raised-button
+				color="primary"
+				type="submit"
+				class="ml-2"
+			>
 				Add Comment
 			</button>
 			<div class="spinner-container" *ngIf="isLoading">

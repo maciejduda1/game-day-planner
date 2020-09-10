@@ -1,5 +1,5 @@
 import { Store, select } from '@ngrx/store';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GameEvent } from 'src/app/models/game-event.model';
 import { UserComment } from 'src/app/models/comment.model';
@@ -20,6 +20,8 @@ export class AddCommentComponent implements OnInit {
 	user: DatabaseAuthUser;
 	eventId: string;
 	@Input() answerTo = '';
+	@Input() commentThatIsAnsweredId = '';
+	@Output() commentModeDisabled = new EventEmitter<boolean>();
 
 	commentText = '';
 
@@ -50,17 +52,32 @@ export class AddCommentComponent implements OnInit {
 
 	addComment() {
 		const commentObject: Partial<UserComment> = {
-			comment: this.commentText,
+			comment: `${this.commentText}`,
 			creatorId: this.user.uid,
+			creatorName: this.user.userName,
+			creatorAvatar: this.user.photoURL,
 		};
-		this.mainStore.dispatch(
-			new fromMainStore.AddComment(commentObject, this.eventId),
-		);
+		if (this.commentThatIsAnsweredId !== '') {
+			commentObject.comment = `@${this.answerTo} ${this.commentText}`;
+
+			this.mainStore.dispatch(
+				new fromMainStore.AddComment(
+					commentObject,
+					this.eventId,
+					this.commentThatIsAnsweredId,
+				),
+			);
+		} else {
+			this.mainStore.dispatch(
+				new fromMainStore.AddComment(commentObject, this.eventId),
+			);
+		}
 		this.disableCommentMode();
 	}
 
 	disableCommentMode() {
 		this.commentMode = false;
 		this.commentText = '';
+		this.commentModeDisabled.emit(false);
 	}
 }

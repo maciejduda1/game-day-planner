@@ -5,13 +5,11 @@ import { HttpClient } from '@angular/common/http';
 import {
 	AngularFirestore,
 	AngularFirestoreCollection,
-	AngularFirestoreDocument,
 	DocumentChangeAction,
 } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from 'src/app/models/user.model';
 
 @Injectable()
 export class MainService {
@@ -52,6 +50,21 @@ export class MainService {
 			.add({ ...commentD, creationDate });
 	}
 
+	addCommentAnswerToDatabase(
+		commentD: Partial<UserComment>,
+		eventId: string,
+		commentId: string,
+	) {
+		const creationDate = firestore.FieldValue.serverTimestamp();
+		return this.afs
+			.collection('events')
+			.doc<GameEvent>(eventId)
+			.collection('comments')
+			.doc<UserComment>(commentId)
+			.collection('answers')
+			.add({ ...commentD, creationDate });
+	}
+
 	getEventComments(
 		eventId: string,
 	): Observable<DocumentChangeAction<UserComment>[]> {
@@ -83,5 +96,15 @@ export class MainService {
 			displayName: userName,
 			photoURL: userAvatar,
 		});
+	}
+
+	getCommentAnswers(eventId: string, commentId: string) {
+		return this.afs
+			.doc<GameEvent>(`events/${eventId}`)
+			.collection('comments')
+			.doc(commentId)
+			.collection('answers')
+			.ref.orderBy('creationDate', 'desc')
+			.get();
 	}
 }

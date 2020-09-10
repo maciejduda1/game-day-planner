@@ -77,10 +77,25 @@ export class MainEffects {
 	@Effect()
 	addComment$ = this.actions$.ofType(mainActions.ADD_COMMENT).pipe(
 		switchMap((action: mainActions.AddComment) => {
-			return this.getMainService
-				.addCommentToDatabase(action.payload, action.eventId)
-				.then((res) => new mainActions.AddCommentSuccess())
-				.catch((error) => of(new mainActions.AddCommentFail(error)));
+			if (action.answerId) {
+				return this.getMainService
+					.addCommentAnswerToDatabase(
+						action.payload,
+						action.eventId,
+						action.answerId,
+					)
+					.then(() => new mainActions.AddCommentSuccess())
+					.catch((error) =>
+						of(new mainActions.AddCommentFail(error)),
+					);
+			} else {
+				return this.getMainService
+					.addCommentToDatabase(action.payload, action.eventId)
+					.then((res) => new mainActions.AddCommentSuccess())
+					.catch((error) =>
+						of(new mainActions.AddCommentFail(error)),
+					);
+			}
 		}),
 	);
 

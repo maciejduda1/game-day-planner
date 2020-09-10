@@ -1,25 +1,27 @@
-<div class="w-100 d-inline-flex">
-	<!-- <app-comment-avatar
+<div class="w-100 d-flex">
+	<app-comment-avatar
 		[userName]="comment.creatorName"
 		[avatarURL]="comment.creatorAvatar"
-	></app-comment-avatar> -->
-	<div class="w-100">
-		<!-- <p class="text-center w-100 comment-author">
+	></app-comment-avatar>
+	<div class="ml-5 d-flex flex-column w-100">
+		<p class="w-100 comment-author mb-1">
 			{{ comment.creatorName }}
-		</p> -->
-		<p class="text-center mt-5 ml-auto mr-auto">{{ comment.comment }}</p>
+		</p>
+		<p class="mb-1">{{ comment.comment }}</p>
 	</div>
 </div>
-<div class="w-100 d-flex justify-content-center">
-	<p
-		(click)="replyIndicator = !replyIndicator"
-		class="d-inline-flex align-items-center pointer"
-	>
+<div class="w-100">
+	<div class="d-inline-flex align-items-center w-100">
 		<mat-icon>arrow_drop_down</mat-icon>
-		<span class="text-uppercase">Reply</span>
+		<span (click)="showAnswers()">Show Answers</span>
+	</div>
+	<p (click)="handleClick()" class="d-inline-flex align-items-center pointer">
+		<span class="text-uppercase">reply</span>
 	</p>
 </div>
 <app-add-comment
+	(commentModeDisabled)="disableReply($event)"
 	*ngIf="replyIndicator"
-	[answerTo]="comment.creatorId"
+	[answerTo]="comment.creatorName"
+	[commentThatIsAnsweredId]="comment.commentId"
 ></app-add-comment>

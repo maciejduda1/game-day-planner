@@ -32,6 +32,10 @@ export const GET_COMMENTS = '[main] get comments';
 export const GET_COMMENTS_SUCCESS = '[main] get comments success';
 export const GET_COMMENTS_FAIL = '[main] get comments fail';
 
+export const GET_COMMENT_ANSWERS = '[main] get comment answers';
+export const GET_COMMENT_ANSWERS_SUCCESS = '[main] get comment answers success';
+export const GET_COMMENT_ANSWERS_FAIL = '[main] get comment answers fail';
+
 export class AddEvent implements Action {
 	readonly type = ADD_EVENT;
 	constructor(public payload: GameEvent) {}
@@ -64,7 +68,11 @@ export class GetEventsFail implements Action {
 
 export class AddComment implements Action {
 	readonly type = ADD_COMMENT;
-	constructor(public payload: Partial<UserComment>, public eventId: string) {}
+	constructor(
+		public payload: Partial<UserComment>,
+		public eventId: string,
+		public answerId?: string,
+	) {}
 }
 export class AddCommentSuccess implements Action {
 	readonly type = ADD_COMMENT_SUCCESS;
@@ -130,7 +138,23 @@ export class DeleteEventFail implements Action {
 	readonly type = DELETE_EVENT_FAIL;
 }
 
+export class GetCommentAnswers implements Action {
+	readonly type = GET_COMMENT_ANSWERS;
+	constructor(public eventId: string, public commentId: string) {}
+}
+
+export class GetCommentAnswersSuccess implements Action {
+	readonly type = GET_COMMENT_ANSWERS_SUCCESS;
+}
+
+export class GetCommentAnswersFail implements Action {
+	readonly type = GET_COMMENT_ANSWERS_FAIL;
+}
+
 export type MainActions =
+	| GetCommentAnswers
+	| GetCommentAnswersSuccess
+	| GetCommentAnswersFail
 	| AddEvent
 	| AddEventFail
 	| AddEventSuccess
