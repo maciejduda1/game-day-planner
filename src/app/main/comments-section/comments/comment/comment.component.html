@@ -1,27 +1,41 @@
 <div class="w-100 d-flex">
-	<app-comment-avatar
-		[userName]="comment.creatorName"
-		[avatarURL]="comment.creatorAvatar"
-	></app-comment-avatar>
-	<div class="ml-5 d-flex flex-column w-100">
-		<p class="w-100 comment-author mb-1">
-			{{ comment.creatorName }}
-		</p>
-		<p class="mb-1">{{ comment.comment }}</p>
-	</div>
+	<app-comment-text-avatar-section
+		[comment]="comment"
+	></app-comment-text-avatar-section>
 </div>
-<div class="w-100">
-	<div class="d-inline-flex align-items-center w-100">
+<div class="w-100 d-flex flex-column">
+	<div
+		(click)="showAnswers()"
+		class="d-inline-flex align-items-center pointer"
+	>
 		<mat-icon>arrow_drop_down</mat-icon>
-		<span (click)="showAnswers()">Show Answers</span>
+		<span>Show Answers</span>
 	</div>
 	<p (click)="handleClick()" class="d-inline-flex align-items-center pointer">
 		<span class="text-uppercase">reply</span>
 	</p>
 </div>
-<app-add-comment
-	(commentModeDisabled)="disableReply($event)"
-	*ngIf="replyIndicator"
-	[answerTo]="comment.creatorName"
-	[commentThatIsAnsweredId]="comment.commentId"
-></app-add-comment>
+<ng-container *ngIf="answersShow">
+	<div class="d-flex flex-column w-100 ml-5">
+		<div *ngFor="let commentA of commentAnswers$ | async" class="col-12">
+			<app-comment-text-avatar-section
+				[comment]="commentA"
+			></app-comment-text-avatar-section>
+		</div>
+		<div class="spinner-container" *ngIf="loadingAnswers">
+			<mat-spinner
+				mode="indeterminate"
+				[diameter]="24"
+				color="warn"
+			></mat-spinner>
+		</div>
+	</div>
+</ng-container>
+<div class="ml-5">
+	<app-add-comment
+		(commentModeDisabled)="disableReply($event)"
+		*ngIf="replyIndicator"
+		[answerTo]="comment.creatorName"
+		[commentThatIsAnsweredId]="comment.commentId"
+	></app-add-comment>
+</div>

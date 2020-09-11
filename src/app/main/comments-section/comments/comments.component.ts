@@ -39,6 +39,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
 					if (!this.establishedCommentsConnection) {
 						this.establishedCommentsConnection = true;
 					}
+
 					this.commentsArray = [];
 					let allCommentsData = {};
 					res.map((comment) => {

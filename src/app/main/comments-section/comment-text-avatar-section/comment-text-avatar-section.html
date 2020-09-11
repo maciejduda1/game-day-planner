@@ -1,0 +1,8 @@
+<app-comment-avatar
+	[userName]="comment.creatorName"
+	[avatarURL]="comment.creatorAvatar"
+></app-comment-avatar>
+<div class="ml-5 d-flex flex-column w-100">
+	<p class="w-100 comment-author mb-1">{{ comment.creatorName }}</p>
+	<p class="mb-1">{{ comment.comment }}</p>
+</div>

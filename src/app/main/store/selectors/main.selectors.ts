@@ -60,3 +60,16 @@ export const getIsEventsRecivedSelector = createSelector(
 	getMainModuleState,
 	fromMainReducers.getEventsRecived,
 );
+
+export const getCommentsAnswersSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getCommentAnswers,
+);
+export const getCommentAnswersRequestedSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getCommentAnswersRequested,
+);
+export const getCommentAnswersRecivedSelector = createSelector(
+	getMainModuleState,
+	fromMainReducers.getCommentAnswersRecived,
+);

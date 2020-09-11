@@ -145,6 +145,7 @@ export class GetCommentAnswers implements Action {
 
 export class GetCommentAnswersSuccess implements Action {
 	readonly type = GET_COMMENT_ANSWERS_SUCCESS;
+	constructor(public payload: UserComment[], public commentId: string) {}
 }
 
 export class GetCommentAnswersFail implements Action {

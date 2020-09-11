@@ -1,3 +1,4 @@
+import { UserComment } from './../../../models/comment.model';
 import { GameEvent } from './../../../models/game-event.model';
 import * as fromMainActions from '../actions/main.actions';
 
@@ -9,6 +10,9 @@ export interface MainState {
 	errorSend: string;
 	isLoadingEvents: boolean;
 	eventsRecived: boolean;
+	commentAnswers: { [comment_id: string]: UserComment[] };
+	commentAnswersRecived: boolean;
+	commentAnswersRequested: boolean;
 }
 
 const initialState: MainState = {
@@ -19,6 +23,9 @@ const initialState: MainState = {
 	errorSend: '',
 	isLoadingEvents: false,
 	eventsRecived: false,
+	commentAnswers: {},
+	commentAnswersRecived: false,
+	commentAnswersRequested: false,
 };
 
 export function reducers(
@@ -91,6 +98,29 @@ export function reducers(
 				isLoaded: false,
 				errorSend: null,
 			};
+
+		case fromMainActions.GET_COMMENT_ANSWERS:
+			return {
+				...state,
+				commentAnswersRecived: false,
+				commentAnswersRequested: true,
+			};
+		case fromMainActions.GET_COMMENT_ANSWERS_FAIL:
+			return {
+				...state,
+				commentAnswersRecived: false,
+				commentAnswersRequested: false,
+			};
+		case fromMainActions.GET_COMMENT_ANSWERS_SUCCESS:
+			return {
+				...state,
+				commentAnswersRecived: true,
+				commentAnswersRequested: false,
+				commentAnswers: {
+					...state.commentAnswers,
+					[action.commentId]: action.payload,
+				},
+			};
 		default:
 			return state;
 	}
@@ -104,3 +134,9 @@ export const getIsLoaded = (state: MainState) => state.isLoaded;
 
 export const getIsLoadingEvents = (state: MainState) => state.isLoadingEvents;
 export const getEventsRecived = (state: MainState) => state.eventsRecived;
+export const getCommentAnswers = (state: MainState) => state.commentAnswers;
+
+export const getCommentAnswersRecived = (state: MainState) =>
+	state.commentAnswersRecived;
+export const getCommentAnswersRequested = (state: MainState) =>
+	state.commentAnswersRequested;

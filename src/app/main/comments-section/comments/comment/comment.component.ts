@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AddCommentComponent } from './../../add-comment/add-comment.component';
 import { UserComment } from './../../../../models/comment.model';
@@ -5,6 +6,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import * as fromMainStore from '../../../store';
 import * as fromRootStore from '../../../../store';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-comment',
@@ -14,8 +16,15 @@ import * as fromRootStore from '../../../../store';
 export class CommentComponent implements OnInit {
 	@Input() comment: UserComment = new UserComment();
 	@ViewChild(AddCommentComponent) addComment: AddCommentComponent;
+
 	replyIndicator = false;
 	eventId = '';
+	commentAnswers: UserComment[] = [];
+
+	commentAnswers$: Observable<UserComment[]>;
+
+	answersRequested$: Observable<boolean>;
+	answersRecived$: Observable<boolean>;
 
 	answersShow = false;
 
@@ -32,6 +41,26 @@ export class CommentComponent implements OnInit {
 			.subscribe(
 				(router) => (this.eventId = router.state.params.gameDayId),
 			);
+
+		this.commentAnswers$ = this.mainStore.pipe(
+			select(fromMainStore.getCommentsAnswersSelector),
+			map((comments: { [key: string]: UserComment[] }) => {
+				const selectedComments = comments[this.comment.commentId];
+				return selectedComments;
+			}),
+		);
+
+		this.answersRequested$ = this.mainStore.pipe(
+			select(fromMainStore.getCommentAnswersRequestedSelector),
+		);
+
+		this.answersRequested$.subscribe((status) =>
+			!status ? (this.loadingAnswers = false) : null,
+		);
+
+		this.answersRecived$ = this.mainStore.pipe(
+			select(fromMainStore.getCommentAnswersRecivedSelector),
+		);
 	}
 
 	handleClick() {
@@ -43,6 +72,7 @@ export class CommentComponent implements OnInit {
 	}
 
 	showAnswers() {
+		this.answersShow = !this.answersShow;
 		if (this.answersShow) {
 			this.loadingAnswers = true;
 			this.mainStore.dispatch(
@@ -52,6 +82,5 @@ export class CommentComponent implements OnInit {
 				),
 			);
 		}
-		this.answersShow = !this.answersShow;
 	}
 }

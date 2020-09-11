@@ -42,6 +42,7 @@ import { CommentsComponent } from './comments-section/comments/comments.componen
 import { AddCommentComponent } from './comments-section/add-comment/add-comment.component';
 import { CommentComponent } from './comments-section/comments/comment/comment.component';
 import { CommentAvatarComponent } from './comments-section/comment-avatar/comment-avatar.component';
+import { CommentTextAvatarSectionComponent } from './comments-section/comment-text-avatar-section/comment-text-avatar-section.component';
 
 // import { reducers, effects } from './store';
 
@@ -65,6 +66,7 @@ import { CommentAvatarComponent } from './comments-section/comment-avatar/commen
 		AddCommentComponent,
 		CommentComponent,
 		CommentAvatarComponent,
+		CommentTextAvatarSectionComponent,
 	],
 	imports: [
 		ComponentsModule,

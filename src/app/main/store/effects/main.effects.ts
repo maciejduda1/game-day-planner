@@ -1,6 +1,7 @@
+import { UserComment } from './../../../models/comment.model';
 import { Action } from '@ngrx/store';
 import { GameEvent } from './../../../models/game-event.model';
-import { DocumentChangeAction } from '@angular/fire/firestore';
+import { DocumentChangeAction, QuerySnapshot } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MainService } from './../../services/main.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -99,26 +100,47 @@ export class MainEffects {
 		}),
 	);
 
+	// @Effect()
+	// getComments$ = this.actions$.ofType(mainActions.GET_COMMENTS).pipe(
+	// 	switchMap((action: mainActions.GetComments) => {
+	// 		return this.getMainService.getEventComments(action.payload).pipe(
+	// 			map((res) => {
+	// 				let allCommentsData = {};
+	// 				res.map((comment) => {
+	// 					console.log('cc ', comment);
+	// 					const commentData = comment.payload.doc.data();
+	// 					const id = comment.payload.doc.id;
+	// 					allCommentsData = {
+	// 						...allCommentsData,
+	// 						[id]: commentData,
+	// 					};
+	// 				});
+	// 				return new mainActions.GetCommentsSuccess(
+	// 					action.payload,
+	// 					allCommentsData,
+	// 				);
+	// 			}),
+	// 		);
+	// 	}),
+	// );
+
 	@Effect()
-	getComments$ = this.actions$.ofType(mainActions.GET_COMMENTS).pipe(
-		switchMap((action: mainActions.GetComments) => {
-			return this.getMainService.getEventComments(action.payload).pipe(
-				map((res) => {
-					let allCommentsData = {};
-					res.map((comment) => {
-						const commentData = comment.payload.doc.data();
-						const id = comment.payload.doc.id;
-						allCommentsData = {
-							...allCommentsData,
-							[id]: commentData,
-						};
-					});
-					return new mainActions.GetCommentsSuccess(
-						action.payload,
-						allCommentsData,
+	getCommentAnswers$ = this.actions$
+		.ofType(mainActions.GET_COMMENT_ANSWERS)
+		.pipe(
+			switchMap((action: mainActions.GetCommentAnswers) => {
+				return this.getMainService
+					.getCommentAnswers(action.eventId, action.commentId)
+					.then((res: QuerySnapshot<UserComment>) => {
+						const answers = res.docs.map((doc) => doc.data());
+						return new mainActions.GetCommentAnswersSuccess(
+							answers,
+							action.commentId,
+						);
+					})
+					.catch((error) =>
+						of(new mainActions.GetCommentAnswersFail()),
 					);
-				}),
-			);
-		}),
-	);
+			}),
+		);
 }
